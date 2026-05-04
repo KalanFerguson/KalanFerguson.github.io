@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Weld Fatigue Design Audit / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="hero-img"><img src="../img/split.jpg" alt=""></div>
+<div class="inner">
+<div class="tag">EGB316 / Design of Machine Elements</div>
+<h1>Weld Fatigue Design Audit</h1>
+<div class="meta">Kalan Ferguson / Semester 1, 2026 / Individual / In Progress</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Material</div><div class="v">Structural Steel</div></div>
+<div class="spec-item"><div class="k">Reliability</div><div class="v">99.9%</div></div>
+<div class="spec-item"><div class="k">Fatigue FoS</div><div class="v">4.39</div></div>
+<div class="spec-item"><div class="k">Tools</div><div class="v">ANSYS / SolidWorks</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>This project is a design audit and fatigue analysis of a leaf spring hanger bracket welded to the chassis rail of a light-duty box trailer. The objective is to determine whether the existing fillet weld is safe under both extreme static loads and long-term cyclic operation.</p>
+<p>A conservative 750 kg ATM was established, with four critical load cases defined: static (1g), dynamic pothole (3g), braking (0.6g), and cornering (0.3g). Forces were distributed across four hanger brackets using F=ma principles.</p>
+
+<h2>Weld group analysis</h2>
+<p>The 100 x 50mm rectangular fillet weld group was fully characterised, including throat area (A), second moment of area (Iu), and polar moment of area (Ju). During the calculation process, an orientation error was identified where width and depth (b and d) were initially swapped in the Iu calculation. This was caught and corrected before proceeding.</p>
+<p>Von Mises equivalent stress was calculated for every load case to match the multi-axial stress handling used by ANSYS. The critical load case was the 3g dynamic pothole, producing the highest combined bending and shear stresses on the weld.</p>
+
+<div class="img-block"><img src="../img/projects/weld-calcs-1.jpg" alt="Weld fatigue hand calculations page 1"><div class="img-caption">Hand calculations: weld geometry, FBDs, and four load case stress analysis</div></div>
+
+<h2>Fatigue life prediction</h2>
+<p>Operational cycles were defined as fluctuating between static loading (1g) and standard road loading (2g). The endurance limit was modified using a 99.9% reliability factor (Cr = 0.753), an as-welded surface factor (Cs = 0.53), and a fatigue stress concentration factor Kf = 2.7 for end-of-parallel fillet weld geometry.</p>
+<p>Using the Modified Goodman criteria, the fatigue factor of safety was determined at approximately 4.39, confirming infinite life under the defined operational cycle. The yield check under the extreme 3g static event returned a factor of safety of 12.76, well above the failure threshold.</p>
+
+<div class="img-block"><img src="../img/projects/weld-calcs-2.jpg" alt="Weld fatigue hand calculations page 2"><div class="img-caption">Hand calculations: fatigue analysis, Goodman criteria, endurance limit modifiers</div></div>
+
+<h2>Method log</h2>
+<ul>
+<li>Rectangular weld group geometric properties with self-corrected orientation</li>
+<li>Von Mises equivalent stress for all four load cases</li>
+<li>Fatigue stress concentration Kf = 2.7 for end-of-parallel fillet weld</li>
+<li>Modified Goodman infinite life verification with as-welded surface factor</li>
+<li>Hand calculation vs FEA comparison (in progress)</li>
+<li>Professional SolidWorks drawings with weld callouts (in progress)</li>
+</ul>
+
+<div class="note">SolidWorks modelling and ANSYS FEA simulation are currently in progress. The hand-calculated stresses will be compared against FEA results to validate the analytical approach. This page will be updated with contour plots and professional drawings upon completion.</div>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>

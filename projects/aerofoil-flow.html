@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>E387 Aerofoil Flow Control / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="hero-img"><img src="../img/projects/aero-glider.jpg" alt=""></div>
+<div class="inner">
+<div class="tag">EGB243 / Aircraft Systems and Flight</div>
+<h1>E387 Aerofoil Flow Control Analysis</h1>
+<div class="meta">Kalan Ferguson / Semester 1, 2026 / Individual</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Aerofoil</div><div class="v">Eppler 387</div></div>
+<div class="spec-item"><div class="k">Focus</div><div class="v">Low Reynolds</div></div>
+<div class="spec-item"><div class="k">Framework</div><div class="v">Shape factor (H)</div></div>
+<div class="spec-item"><div class="k">Analysis</div><div class="v">XFLR5 / Analytical</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>A technical analysis of flow control methods for improving the aerodynamic performance of the Eppler 387 aerofoil at low Reynolds numbers. The E387 is widely used in UAV, sailplane, and small aircraft applications where Reynolds numbers typically fall between 60,000 and 500,000, a regime where laminar separation bubbles (LSBs) are the primary constraint on lift and drag performance.</p>
+
+<div class="img-block"><img src="../img/projects/aero-profile.jpg" alt="Aerofoil anatomy diagram"><div class="img-caption">Aerofoil geometry: chord line, camber, thickness distribution, and key parameters</div></div>
+
+<h2>Shape factor framework</h2>
+<p>The analysis is grounded in the boundary layer shape factor (H), defined as the ratio of displacement thickness to momentum thickness. Flow control works by reducing H from the laminar separation threshold of approximately 3.5 to the turbulent attached range of 1.3 to 1.5, well below the turbulent separation threshold of approximately 2.4. This framework provides a unified way to evaluate all flow control methods: they succeed to the extent that they manipulate H into the target range without excessive friction penalties.</p>
+
+<div class="img-block"><img src="../img/projects/aero-e387.jpg" alt="E387 aerofoil profile"><div class="img-caption">Eppler 387 profile geometry at low Reynolds number conditions</div></div>
+
+<h2>Passive and active methods</h2>
+<p>Flow control was classified into passive methods (vortex generators, turbulator tape) and active methods (synthetic jets, dielectric barrier discharge plasma actuators). Passive methods are simpler and require no external energy input but offer no adaptability to changing flight conditions. Active methods, particularly synthetic jets, allow precise control of reattachment through Strouhal number optimisation in the St = 0.3 to 1.0 range.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/aero-cl-alpha.jpg" alt="Cl vs alpha plot"><div class="img-caption">Cl vs alpha: Re 100k and Re 64k from XFLR5</div></div>
+<div class="img-block"><img src="../img/projects/aero-cl-cd.jpg" alt="CL vs CD drag polar"><div class="img-caption">CL vs CD drag polar: raw data and averaged curve</div></div>
+</div>
+
+<h2>The design paradox</h2>
+<p>The analysis concluded with a key insight: more aggressive flow control is not always better. The optimal approach for the E387 at low Reynolds numbers is precise manipulation of the laminar separation bubble position rather than complete elimination. Overly aggressive turbulence trips force premature transition across the entire chord, creating skin friction penalties that outweigh the pressure drag savings from eliminating the LSB. The engineering challenge is finding the control intensity that minimises total drag, not just pressure drag.</p>
+
+<h2>Method log</h2>
+<ul>
+<li>Shape factor (H) framework for unified evaluation of flow control methods</li>
+<li>Classification of passive (VGs, turbulator tape) and active (synthetic jets, DBD plasma) approaches</li>
+<li>Strouhal number optimisation for synthetic jet reattachment forcing</li>
+<li>XFLR5 aerodynamic data analysis at Re 64k and 100k</li>
+<li>Design paradox: optimal LSB manipulation vs elimination trade-off</li>
+</ul>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>

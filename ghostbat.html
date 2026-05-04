@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MQ-28A Ghost Bat / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fog:       #f7f7f7;
+  --snow:      #ffffff;
+  --carbon:    #000000;
+  --midnight:  #181825;
+  --graphite:  #484758;
+  --stone:     #636363;
+  --pebble:    #949494;
+  --tangerine: #f69251;
+  --hero-bg:   #080503;
+  --shadow-subtle:   rgba(24,24,37,0.12) 0px 2px 3px -2px;
+  --shadow-subtle-2: rgba(0,0,0,0.04) 0px 1px 2px 0px,
+                     rgba(0,0,0,0.02) 0px 2px 4px 0px,
+                     rgba(0,0,0,0.02) 0px 4px 8px 0px;
+  --r-card:  24px;
+  --r-inner: 12px;
+  --r-btn:   28px;
+  --r-nav:   32px;
+  --r-badge: 100px;
+  --font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--fog); color: var(--carbon); font-family: var(--font-body);
+       -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img  { max-width: 100%; display: block; }
+a    { text-decoration: none; }
+
+/* NAV */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  padding: 12px 24px;
+  pointer-events: none;
+}
+.nav-inner {
+  pointer-events: auto;
+  max-width: 1200px; margin: 0 auto;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: var(--r-nav);
+  box-shadow: var(--shadow-subtle);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 15px; font-weight: 500;
+  color: var(--carbon); letter-spacing: -0.01em;
+}
+.brand img { width: 34px; height: 34px; border-radius: 50%; }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--stone);
+  padding: 6px 12px; border-radius: var(--r-badge);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--carbon); }
+.nav-cta {
+  background: var(--tangerine) !important;
+  color: var(--carbon) !important;
+  border-radius: var(--r-btn) !important;
+  padding: 8px 20px !important;
+  box-shadow: var(--shadow-subtle-2);
+  transition: opacity 0.2s !important;
+}
+.nav-cta:hover { opacity: 0.85 !important; }
+
+/* ARTICLE HERO */
+.article-hero {
+  position: relative;
+  background: var(--hero-bg);
+  margin-top: -80px;
+  padding: 200px 0 80px;
+  text-align: center; overflow: hidden;
+}
+.article-hero .hero-img { position: absolute; inset: 0; z-index: 0; }
+.article-hero .hero-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.28;
+}
+.article-hero .hero-img::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,5,3,0.3) 0%, rgba(8,5,3,0.88) 100%);
+}
+.article-hero .inner {
+  position: relative; z-index: 2;
+  max-width: 800px; margin: 0 auto; padding: 0 32px;
+}
+.article-hero .tag {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(246,146,81,0.75); margin-bottom: 16px;
+}
+.article-hero h1 {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(28px, 5vw, 52px);
+  color: #fff; letter-spacing: -0.02em; line-height: 1.1;
+  margin-bottom: 12px;
+}
+.article-hero .meta {
+  font-size: 13px; color: rgba(255,255,255,0.32);
+  font-family: var(--font-mono); letter-spacing: 0.06em;
+}
+
+/* ARTICLE */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 64px 32px 120px;
+}
+.article h2 {
+  font-family: var(--font-display); font-size: 22px; font-weight: 400;
+  letter-spacing: -0.015em; margin: 52px 0 16px;
+  color: var(--carbon);
+}
+.article h3 {
+  font-family: var(--font-display); font-size: 17px; font-weight: 400;
+  margin: 36px 0 12px; color: var(--carbon);
+}
+.article p {
+  font-size: 16px; line-height: 1.8;
+  color: var(--midnight); margin: 0 0 18px;
+}
+.article ul { list-style: none; padding: 0; margin: 0 0 28px; }
+.article ul li {
+  padding: 6px 0 6px 22px; position: relative;
+  color: var(--stone); font-size: 15px; line-height: 1.65;
+}
+.article ul li::before { content: "→"; position: absolute; left: 0; color: var(--pebble); }
+
+/* IMAGE BLOCKS */
+.img-block {
+  margin: 36px 0; border-radius: var(--r-inner);
+  overflow: hidden; box-shadow: var(--shadow-subtle);
+  background: var(--snow);
+}
+.img-block img { width: 100%; display: block; }
+.img-caption {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--pebble); letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 12px 16px; background: var(--snow);
+}
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 36px 0; }
+.img-grid .img-block { margin: 0; }
+
+/* NOTE */
+.note {
+  background: var(--snow); border-left: 3px solid rgba(0,0,0,0.12);
+  border-radius: 0 var(--r-inner) var(--r-inner) 0;
+  padding: 18px 22px; margin: 32px 0;
+  font-size: 14px; line-height: 1.7; color: var(--stone);
+  box-shadow: var(--shadow-subtle);
+}
+.note a { color: var(--tangerine); }
+
+/* BACK */
+.back {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; margin-top: 40px;
+  font-size: 14px; font-weight: 500; color: var(--carbon);
+  background: var(--snow); border-radius: var(--r-btn);
+  box-shadow: var(--shadow-subtle);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.back:hover { box-shadow: var(--shadow-subtle-2); transform: translateY(-1px); }
+
+@media (max-width: 700px) {
+  .img-grid { grid-template-columns: 1fr; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  .article-hero { padding-top: 160px; }
+}
+::selection { background: var(--tangerine); color: var(--carbon); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a>
+    <nav class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="ghostbat.html">Writing</a>
+      <a href="resume.html">Resume</a>
+      <a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="article-hero">
+  <div class="hero-img"><img src="img/ghostbat-flight.jpg" alt="MQ-28A Ghost Bat in flight"></div>
+  <div class="inner">
+    <div class="tag">Defence Strategy / Autonomous Systems</div>
+    <h1>MQ-28A Ghost Bat: Australia's Autonomous Wingman</h1>
+    <div class="meta">Kalan Ferguson / 2025 to present / Systems-level analysis</div>
+  </div>
+</div>
+
+<div class="article">
+
+<p>The MQ-28A Ghost Bat is Boeing Australia's collaborative combat aircraft (CCA), designed to operate as a loyal wingman alongside crewed platforms like the F/A-18F Super Hornet and F-35A Lightning II. It represents one of the most significant Australian sovereign defence manufacturing programmes in a generation.</p>
+
+<p>This article is an ongoing systems-level analysis covering the platform's autonomous architecture, sensor integration, modular payload design, and the broader strategic implications for Australian defence capability.</p>
+
+<h2>Sovereign manufacturing and AUKUS alignment</h2>
+
+<p>The Ghost Bat is designed and manufactured in Australia by Boeing Defence Australia, with final assembly at the Wellcamp facility in Toowoomba, Queensland. This sovereign manufacturing posture is central to its strategic value. Unlike imported platforms where Australia acts as a customer, the MQ-28A programme builds domestic engineering capability, supply chain depth, and workforce expertise in combat aircraft production.</p>
+
+<p>Under the AUKUS framework, the Ghost Bat positions Australia as a credible contributor to allied autonomous systems development, not merely a consumer of US and UK technology. The platform's modular nose section, designed for rapid payload reconfiguration, creates an architecture that allied nations can adapt to their own sensor and electronic warfare requirements.</p>
+
+<div class="img-block">
+  <img src="img/ghostbat-woomera.jpg" alt="MQ-28A Ghost Bat at Woomera test range">
+  <div class="img-caption">MQ-28A Ghost Bat (PRV-001) at the Woomera test range, South Australia. Source: Boeing Defence Australia</div>
+</div>
+
+<h2>Autonomous architecture and crewed-uncrewed teaming</h2>
+
+<p>The Ghost Bat is not a traditional remotely piloted aircraft. Its autonomous mission management system is designed to enable independent decision-making within mission parameters defined by a human operator in the crewed lead aircraft. This crewed-uncrewed teaming (CUT) concept fundamentally changes the calculus of airpower by allowing a single crewed fighter to coordinate with multiple autonomous wingmen, each carrying different payloads optimised for specific mission roles.</p>
+
+<p>The operational implications are significant. Attritable autonomous platforms extend the sensor and weapons envelope of crewed aircraft without proportionally increasing pilot risk. They can be tasked with higher-risk mission profiles, including suppression of enemy air defences (SEAD), electronic warfare, and forward sensing in contested airspace.</p>
+
+<h2>Cost-per-effect and force structure</h2>
+
+<p>The economic argument for CCA platforms rests on cost-per-effect rather than cost-per-unit. A Ghost Bat is estimated to cost roughly one-third of a crewed fighter, but the relevant comparison is not unit cost. It is the total mission effect achievable per dollar of force structure investment. A mixed fleet of crewed and autonomous platforms can generate greater sortie capacity, wider sensor coverage, and deeper strike options than an equivalent investment in crewed aircraft alone.</p>
+
+<p>This has direct implications for Australia's force structure planning, particularly as the ADF scales its air combat capability under the National Defence Strategy.</p>
+
+<div class="note">This analysis is ongoing and will be expanded with detailed coverage of the platform's sensor fusion architecture, modular payload integration, and the strategic implications of Australia's position in the global CCA development landscape. Commentary published independently at <a href="https://x.com/KalanInvests">@KalanInvests</a>.</div>
+
+<a href="index.html#writing" class="back">&larr; Back to writing</a>
+</div>
+
+</body>
+</html>

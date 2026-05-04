@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Planetary Gearbox / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="inner">
+<div class="tag">EGB210 / Introduction to Mechanical Design</div>
+<h1>3-Stage Planetary Gearbox</h1>
+<div class="meta">Kalan Ferguson (Analysis Lead) / Semester 2, 2025 / Group of 4</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Ratio</div><div class="v">64 : 1</div></div>
+<div class="spec-item"><div class="k">Output torque</div><div class="v">20 Nm</div></div>
+<div class="spec-item"><div class="k">Efficiency</div><div class="v">59 to 80%</div></div>
+<div class="spec-item"><div class="k">Tools</div><div class="v">ANSYS / SolidWorks</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>A team of four designed, built, and tested a 3-stage reduction gearbox achieving a 64:1 ratio (within the 65:1 +/- 3% specification) delivering 20 Nm output torque from a 1500 RPM input. The prototype was fabricated from laser-cut acrylic with steel shafts and bearings.</p>
+<p>My individual concept was a 3-stage planetary architecture using identical 4:1 reduction ratios per stage with 18-tooth sun gears, 18-tooth planet gears, and 54-tooth ring gears. This modular, symmetric design prioritised concentric load distribution and high torque density.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/gbx-assembly.jpg" alt="Assembled gear train on shaft"><div class="img-caption">Assembled gear train showing all three stages on shaft</div></div>
+<div class="img-block"><img src="../img/projects/gbx-components.jpg" alt="Planet gears laid out on cutting mat"><div class="img-caption">Acrylic planet gears with carrier plates during assembly</div></div>
+</div>
+
+<h2>Detailed stress and fatigue analysis</h2>
+<p>I led Section 3 of the report: the complete static and fatigue stress analysis for the equivalent steel design. This included force analysis of the entire gear train, determination of torques and reaction forces on each shaft, and evaluation of gear tooth bending and surface contact stresses across all three stages using Lewis factors, AGMA contact stress criteria, and von Mises equivalent stress.</p>
+<p>Shaft strength and fatigue assessments were performed on both the input shaft (at the sun gear/radius hole critical location, Kf = 1.261) and the output shaft (at the carrier collar/cross-pin connection, Kf = 1.392). Both shafts demonstrated infinite fatigue life under continuous operation, with the static mode identified as the critical failure mechanism in both cases.</p>
+
+<div class="img-block"><img src="../img/projects/gbx-calcs-params.jpg" alt="Gearbox parameters and assumptions"><div class="img-caption">Section 3.1: assumptions, gearbox parameters, and stress analysis framework</div></div>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/gbx-calcs-input.jpg" alt="Input shaft fatigue analysis"><div class="img-caption">Input shaft: FBD, torsion, von Mises, Goodman fatigue (nf = 129)</div></div>
+<div class="img-block"><img src="../img/projects/gbx-calcs-output.jpg" alt="Output shaft fatigue analysis"><div class="img-caption">Output shaft: critical point at collar, Goodman fatigue (nf = 9.3)</div></div>
+</div>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/gbx-carrier.jpg" alt="Planet carrier with three planet gears"><div class="img-caption">Planet carrier showing 120 degree spacing with bearing</div></div>
+<div class="img-block"><img src="../img/projects/gbx-stages.jpg" alt="Three planetary stages held in hand"><div class="img-caption">Stacked planetary stages showing progressive face widths</div></div>
+</div>
+
+<h2>Physical testing and failure analysis</h2>
+<p>The prototype achieved measured efficiency between 59% and 80.1%, with peak efficiency occurring between 500 and 700 RPM at 0.3 to 0.35 Nm input torque. Under incremental loading to the full 20 Nm design target, a sequential failure progression was documented:</p>
+<ul>
+<li>Housing torsional twist under increasing torque load</li>
+<li>Planet gear radial slip due to carrier plate deflection</li>
+<li>Tooth misalignment from combined twist and slip</li>
+<li>Tooth fracture at the final stage ring gear</li>
+</ul>
+<p>Root cause was attributed to housing compliance rather than material strength inadequacy. The acrylic housing lacked sufficient torsional stiffness, and the single-sided carrier plates allowed cantilevered loading on the planet gear shafts. Recommendations included dual-sided carrier plates, increased gear face width, and rigid housing mounting to the test bench.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/gbx-assembled.jpg" alt="Full gearbox in housing"><div class="img-caption">Complete gearbox assembly in acrylic housing</div></div>
+<div class="img-block"><img src="../img/projects/gbx-internal.jpg" alt="Internal gear meshing view"><div class="img-caption">Side view showing internal gear meshing across stages</div></div>
+</div>
+
+<h2>My contribution</h2>
+<ul>
+<li>Individual concept design: 3-stage planetary architecture with identical 4:1 ratios</li>
+<li>Section 3 analysis lead: Lewis bending, AGMA contact, von Mises, fatigue life</li>
+<li>Shaft fatigue analysis using Modified Goodman criteria</li>
+<li>Sequential failure progression documentation and root cause analysis</li>
+<li>Fabrication participation and physical testing</li>
+</ul>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>

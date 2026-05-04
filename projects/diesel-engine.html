@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Diesel Engine Analysis / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="hero-img"><img src="../img/projects/thermo-engine.jpg" alt=""></div>
+<div class="inner">
+<div class="tag">EGB322 / Thermodynamics</div>
+<h1>Diesel Engine Thermodynamic Analysis</h1>
+<div class="meta">Kalan Ferguson / Semester 2, 2025 / Individual</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Engine</div><div class="v">Perkins 404D-22</div></div>
+<div class="spec-item"><div class="k">Peak efficiency</div><div class="v">30.4%</div></div>
+<div class="spec-item"><div class="k">Optimal RPM</div><div class="v">1800</div></div>
+<div class="spec-item"><div class="k">Tool</div><div class="v">MATLAB</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>A comprehensive thermodynamic evaluation of a four-cylinder, naturally aspirated Perkins 404D-22 diesel engine under varying speed (1400, 1800, 2000 RPM) and load (50%, 100%) conditions. The analysis covered engine performance characterisation, energy balance, and PV cycle reconstruction from experimental dynamometer data.</p>
+
+<div class="img-block"><img src="../img/projects/thermo-turbine.jpg" alt="Turbine fan face"><div class="img-caption">Turbine fan geometry: precision engineering in thermodynamic systems</div></div>
+
+<h2>Performance analysis</h2>
+<p>Brake power, torque, BMEP, specific fuel consumption (SFC), air-fuel ratio, volumetric efficiency, and thermal efficiency were calculated and plotted across all six operating points. The analysis identified 1800 RPM as the optimal operating point where SFC was minimised and thermal efficiency peaked at approximately 30.4% at 50% load. Mechanical efficiency decreased from 91.1% at 1400 RPM to 85.0% at 2000 RPM, consistent with increasing friction and pumping losses at higher speeds.</p>
+
+<h2>Energy balance</h2>
+<p>At full load, the distribution of fuel input energy was quantified: approximately 50% rejected to the coolant system, 11% lost through exhaust gases, 29% converted to useful brake power, and 10% unaccounted for (attributed to radiation, convection, mechanical friction, and pumping losses). This energy audit confirmed that coolant rejection is the dominant loss mechanism in naturally aspirated diesel engines at these operating conditions.</p>
+
+<h2>PV cycle analysis</h2>
+<p>Compression and expansion strokes were isolated from experimental cylinder pressure data. Polytropic coefficients were fitted using ln(P) vs ln(V) regression, achieving R squared values exceeding 0.999. Idealised diesel cycles were then constructed and overlaid against the measured PV diagrams.</p>
+<p>The comparison revealed that the idealised cycle significantly underestimates indicated work because it assumes constant-pressure heat addition, whereas real combustion involves rapid premixed burning followed by diffusion-controlled combustion. This produces a larger cutoff ratio and higher peak pressures: approximately 6.1 MPa measured versus 4.1 MPa idealised at 1400 RPM.</p>
+
+<h2>Method log</h2>
+<ul>
+<li>Performance parameter calculations across six speed/load combinations</li>
+<li>Full energy balance at 100% load: coolant, exhaust, brake, and unaccounted</li>
+<li>PV curve construction from raw cylinder pressure data (MATLAB)</li>
+<li>Polytropic coefficient fitting with ln-ln regression (R squared > 0.999)</li>
+<li>Idealised vs real diesel cycle comparison and error analysis</li>
+<li>Diesel vs petrol PV cycle comparison at 1400 RPM</li>
+</ul>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>F-35B Swivel Duct / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="inner">
+<div class="tag">Independent Study / Aerospace</div>
+<h1>F-35B 3-Bearing Swivel Duct</h1>
+<div class="meta">Kalan Ferguson / 2025 / Independent / SolidWorks</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Platform</div><div class="v">F-35B Lightning II</div></div>
+<div class="spec-item"><div class="k">System</div><div class="v">3BSD STOVL nozzle</div></div>
+<div class="spec-item"><div class="k">Tool</div><div class="v">SolidWorks</div></div>
+<div class="spec-item"><div class="k">Type</div><div class="v">Independent study</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>The 3-Bearing Swivel Duct (3BSD) is the vectoring nozzle system that enables Short Takeoff and Vertical Landing (STOVL) capability on the F-35B Lightning II. It redirects engine exhaust thrust downward through a 3-stage rotational duct assembly, allowing the aircraft to transition between conventional forward flight and vertical hover.</p>
+<p>This was an independent study undertaken outside of coursework. Starting from a reference CAD file, the entire assembly was reverse-engineered and rebuilt as a fully constrained parametric model in SolidWorks.</p>
+
+<div class="img-block"><img src="../img/projects/f35b-iso1.jpg" alt="F-35B swivel duct isometric view"><div class="img-caption">Parametric SolidWorks assembly: isometric view showing all three duct stages</div></div>
+
+<h2>Parametric rebuild</h2>
+<p>The original reference geometry was deconstructed into its component duct sections, bearing interfaces, and actuator connection points. Each component was then remodelled parametrically so that dimensional changes propagate through the full assembly, maintaining geometric constraints across the entire thrust-deflection range.</p>
+<p>The key challenge was capturing the non-orthogonal rotational synchronisation between the three duct stages. Each stage rotates about a different axis, and the relative rotation angles must be coordinated precisely to maintain a continuous flow path without internal volume interference.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/f35b-iso2.jpg" alt="F-35B swivel duct reverse angle"><div class="img-caption">Reverse isometric showing duct stage colouring</div></div>
+<div class="img-block"><img src="../img/projects/f35b-rear.jpg" alt="F-35B swivel duct rear nozzle view"><div class="img-caption">Rear view showing nozzle exit geometry</div></div>
+</div>
+
+<h2>Motion study and validation</h2>
+<p>A SolidWorks motion study was configured to simulate the full deflection sequence from horizontal (forward flight) to vertical (hover). At each deflection increment, geometric clearance was verified between adjacent duct surfaces, bearing housings, and the surrounding airframe envelope. Mechanical interference was identified at several intermediate positions and resolved through iterative geometric refinement of the duct wall profiles and bearing seat geometry.</p>
+
+<h2>Method log</h2>
+<ul>
+<li>Reverse-engineering of reference CAD geometry into parametric components</li>
+<li>Fully constrained assembly with propagating dimensional relationships</li>
+<li>Non-orthogonal rotational synchronisation across three duct stages</li>
+<li>Motion study validation for geometric clearance at each deflection angle</li>
+<li>Interference detection and iterative resolution of volumetric conflicts</li>
+</ul>
+
+<div class="note">This project was undertaken independently as a self-directed study of STOVL propulsion systems. It was not assigned as part of any coursework, and reflects a genuine interest in aerospace propulsion and vectoring nozzle mechanics.</div>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>

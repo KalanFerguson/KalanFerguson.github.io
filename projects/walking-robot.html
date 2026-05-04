@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Walking Robot / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="inner">
+<div class="tag">EGB321 / Dynamics of Machines</div>
+<h1>Walking Robot: Four-Bar Linkage Design</h1>
+<div class="meta">Kalan Ferguson &amp; Ryan Millward / Semester 1, 2026 / Pair</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Grashof margin</div><div class="v">9 to 16 mm</div></div>
+<div class="spec-item"><div class="k">Min transmission</div><div class="v">41.1 deg</div></div>
+<div class="spec-item"><div class="k">Result</div><div class="v">2m in 18s</div></div>
+<div class="spec-item"><div class="k">Build</div><div class="v">Acrylic / HDF / Plywood</div></div>
+</div></div>
+
+<div class="article">
+<h2>Overview</h2>
+<p>This project involved the design, kinematic analysis, and physical fabrication of a walking robot powered by coupled four-bar crank-rocker mechanisms. Each side of the robot contains two linkage loops driven by a single crank connected to a DC motor, with cranks offset 180 degrees to ensure at least one pair of feet maintains ground contact at all times.</p>
+<p>The robot successfully walked 2 metres in approximately 18 seconds on a concrete surface, well within the 30-second requirement.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/robot-iso.jpg" alt="Walking robot isometric view"><div class="img-caption">Completed robot, isometric view</div></div>
+<div class="img-block"><img src="../img/projects/robot-side.jpg" alt="Walking robot side view showing linkage"><div class="img-caption">Side view showing linkage mechanism</div></div>
+</div>
+
+<h2>Linkage design</h2>
+<p>The front four-bar loop (a=13, b=30, c=36, d=37 mm) and rear loop (a=13, l=130, b=30, d+m=122 mm) were both verified as Grashof crank-rocker systems with positive margins. The crank was intentionally designed as the shortest link at 13mm, consistent with crank-rocker mechanics.</p>
+<p>A key design innovation was separating the single leg extension parameter (p) into two independent variables: pf = 68mm for the front leg and pb = 75mm for the back leg. This reduced the vertical foot gap to approximately 5mm and significantly improved gait stability without altering the kinematic characteristics of either loop.</p>
+
+<h2>Kinematic analysis</h2>
+<p>Full manual kinematic analysis was performed at theta2 = 60 degrees with omega2 = 12.56 rad/s. Position analysis used Freudenstein's equation with half-angle substitution to solve for all link angles in both the front and rear loops. Velocity analysis determined angular velocities of coupler and rocker links, plus linear foot velocities: front foot at 486 mm/s and back foot at 393 mm/s. Acceleration analysis used the matrix method to determine angular accelerations for both loops.</p>
+
+
+
+<h2>Fabrication and testing</h2>
+<p>The robot was fabricated using 3mm acrylic for the top shell and linkages, 3mm HDF for side shells, and 4mm plywood for input cranks. Plywood was selected for the cranks due to its multi-directional grain and reduced brittleness, minimising the risk of stripping at the motor hex shaft interface.</p>
+<p>During testing, a centre-of-mass imbalance was diagnosed caused by incorrect side shell dimensions that shifted the gearbox mounting position forward. This caused the front legs to drag rather than lift cleanly during the swing phase. The back legs generated the majority of propulsion while the front feet maintained ground contact through a sliding action. Proposed resolutions include repositioning the gearbox rearward and applying higher-friction rubber pads to the foot tips.</p>
+
+<h2>My contribution</h2>
+<ul>
+<li>Linkage dimension selection, design rationale, and Grashof verification</li>
+<li>All manual kinematic analysis: position, velocity, and acceleration for both loops</li>
+<li>Key innovation: independent front/back leg extension parameters (pf, pb)</li>
+<li>Component fabrication and mechanical assembly</li>
+<li>Technical writing and report</li>
+</ul>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+</body>
+</html>
