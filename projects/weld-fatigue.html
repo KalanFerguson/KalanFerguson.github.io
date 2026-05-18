@@ -5,56 +5,185 @@
 <title>Weld Fatigue Design Audit / Kalan Ferguson</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project-style.css">
+<style>
+.result-table {
+  width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 14px;
+  background: var(--snow); border-radius: var(--r-inner); overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+.result-table th {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--pebble); background: var(--fog);
+  padding: 11px 16px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.result-table td {
+  padding: 10px 16px; color: var(--midnight);
+  border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 14px; line-height: 1.5;
+}
+.result-table tr:last-child td { border-bottom: none; }
+.result-table .hi { color: var(--carbon); font-weight: 500; }
+.result-table .pass {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em;
+  color: #2a7a4b; background: rgba(42,122,75,0.08); padding: 2px 8px; border-radius: 4px;
+}
+.result-table .dim { color: var(--pebble); font-style: italic; }
+.finding {
+  background: var(--snow); border-left: 3px solid var(--tangerine);
+  border-radius: 0 var(--r-inner) var(--r-inner) 0;
+  padding: 18px 22px; margin: 32px 0; box-shadow: var(--shadow-subtle);
+}
+.finding .k {
+  font-family: var(--font-mono); font-size: 9px; color: var(--tangerine);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; display: block;
+}
+.finding p { font-size: 14px; line-height: 1.7; color: var(--stone); margin: 0 0 8px; }
+.finding p:last-child { margin: 0; }
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px;
+  font-family: var(--font-display); font-size: 14px; font-weight: 500;
+  color: var(--carbon); background: var(--snow); border-radius: var(--r-btn);
+  box-shadow: var(--shadow-subtle); border: 1px solid rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.dl-btn:hover { box-shadow: var(--shadow-subtle-2); transform: translateY(-1px); }
+.action-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.action-row .back { margin-top: 0; }
+</style>
 </head>
 <body>
+
 <header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
 
 <div class="proj-hero">
-<div class="hero-img"><img src="../img/split.jpg" alt=""></div>
+<div class="hero-img"><img src="../img/projects/weld-fea-system.png" alt="ANSYS weld fatigue model"></div>
 <div class="inner">
 <div class="tag">EGB316 / Design of Machine Elements</div>
 <h1>Weld Fatigue Design Audit</h1>
-<div class="meta">Kalan Ferguson / Semester 1, 2026 / Individual / In Progress</div>
+<div class="meta">Kalan Ferguson / Semester 1, 2026 / Individual</div>
 </div>
 </div>
 
 <div class="specs-bar"><div class="specs-row">
-<div class="spec-item"><div class="k">Material</div><div class="v">Structural Steel</div></div>
-<div class="spec-item"><div class="k">Reliability</div><div class="v">99.9%</div></div>
-<div class="spec-item"><div class="k">Fatigue FoS</div><div class="v">4.39</div></div>
+<div class="spec-item"><div class="k">Material</div><div class="v">C300 Steel</div></div>
+<div class="spec-item"><div class="k">Fatigue FoS</div><div class="v">6.33 (hand) / 2.86 (FEA)</div></div>
+<div class="spec-item"><div class="k">Yield FoS</div><div class="v">14.46</div></div>
 <div class="spec-item"><div class="k">Tools</div><div class="v">ANSYS / SolidWorks</div></div>
 </div></div>
 
 <div class="article">
+
 <h2>Overview</h2>
-<p>This project is a design audit and fatigue analysis of a leaf spring hanger bracket welded to the chassis rail of a light-duty box trailer. The objective is to determine whether the existing fillet weld is safe under both extreme static loads and long-term cyclic operation.</p>
-<p>A conservative 750 kg ATM was established, with four critical load cases defined: static (1g), dynamic pothole (3g), braking (0.6g), and cornering (0.3g). Forces were distributed across four hanger brackets using F=ma principles.</p>
+<p>A complete fatigue design audit of the fillet-welded leaf spring rear hanger bracket on a 750 kg ATM single-axle box trailer. The analysis proceeds through functional load path identification, weld group stress calculation across five loading conditions, Modified Goodman infinite-life verification, and ANSYS FEA validation with a full mesh convergence and boundary condition sensitivity study. Both methods confirm infinite fatigue life; their discrepancy is quantified and explained through three identified stress contributors.</p>
 
-<h2>Weld group analysis</h2>
-<p>The 100 x 50mm rectangular fillet weld group was fully characterised, including throat area (A), second moment of area (Iu), and polar moment of area (Ju). During the calculation process, an orientation error was identified where width and depth (b and d) were initially swapped in the Iu calculation. This was caught and corrected before proceeding.</p>
-<p>Von Mises equivalent stress was calculated for every load case to match the multi-axial stress handling used by ANSYS. The critical load case was the 3g dynamic pothole, producing the highest combined bending and shear stresses on the weld.</p>
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/weld-bracket-iso.jpg" alt="Leaf spring hanger bracket isometric view"><div class="img-caption">Rear leaf spring hanger bracket: fillet weld to 50x50x3mm RHS chassis rail</div></div>
+<div class="img-block"><img src="../img/projects/weld-bracket-rear.jpg" alt="Leaf spring hanger bracket rear view"><div class="img-caption">Rear view showing fillet weld profile and RHS rail interface</div></div>
+</div>
 
-<div class="img-block"><img src="../img/projects/weld-calcs-1.jpg" alt="Weld fatigue hand calculations page 1"><div class="img-caption">Hand calculations: weld geometry, FBDs, and four load case stress analysis</div></div>
+<h2>Functional analysis</h2>
+<p>The box trailer uses a conventional single-axle leaf spring system with U-bolts constraining the leaves. The rear shackle connects the spring eye to the hanger bracket via a 65mm rigid link, with a pin-to-weld-centroid distance of 100mm. This 100mm lever arm is the critical force multiplier generating bending moments on the weld group.</p>
 
-<h2>Fatigue life prediction</h2>
-<p>Operational cycles were defined as fluctuating between static loading (1g) and standard road loading (2g). The endurance limit was modified using a 99.9% reliability factor (Cr = 0.753), an as-welded surface factor (Cs = 0.53), and a fatigue stress concentration factor Kf = 2.7 for end-of-parallel fillet weld geometry.</p>
-<p>Using the Modified Goodman criteria, the fatigue factor of safety was determined at approximately 4.39, confirming infinite life under the defined operational cycle. The yield check under the extreme 3g static event returned a factor of safety of 12.76, well above the failure threshold.</p>
+<p>A comparative lever arm analysis was performed to identify the critical hanger. The front hanger is fixed directly to the chassis rail with a lever arm of approximately 30mm. During braking, the front hanger absorbs 100% of longitudinal forces; the rear shackle swings freely and cannot transmit them. However, the rear hanger's 100mm lever arm multiplies dynamic thrust from leaf spring compression into bending moments more than 3x higher than the front hanger under equivalent loading. The rear hanger is therefore the governing fatigue case.</p>
 
-<div class="img-block"><img src="../img/projects/weld-calcs-2.jpg" alt="Weld fatigue hand calculations page 2"><div class="img-caption">Hand calculations: fatigue analysis, Goodman criteria, endurance limit modifiers</div></div>
+<div class="img-block"><img src="../img/projects/weld-leaf-spring.jpg" alt="Leaf spring hanger system"><div class="img-caption">Rear leaf spring hanger bracket in the physical trailer suspension system</div></div>
 
-<h2>Method log</h2>
-<ul>
-<li>Rectangular weld group geometric properties with self-corrected orientation</li>
-<li>Von Mises equivalent stress for all four load cases</li>
-<li>Fatigue stress concentration Kf = 2.7 for end-of-parallel fillet weld</li>
-<li>Modified Goodman infinite life verification with as-welded surface factor</li>
-<li>Hand calculation vs FEA comparison (in progress)</li>
-<li>Professional SolidWorks drawings with weld callouts (in progress)</li>
-</ul>
+<p>The spring compression geometry was also analysed. The leaf spring arc length of 800mm vs chord length of 690mm means full flattening would require 110mm of horizontal displacement. The rear shackle can only accommodate 65mm, so full flattening is geometrically impossible. This confirms that further spring compression progressively stiffens the shackle, making bending moment transfer to the weld group unavoidable. Conservative shackle angles of 15 degrees for the 2g dynamic case and 20 degrees for the 3g pothole were applied to derive horizontal force components for each load case.</p>
 
-<div class="note">SolidWorks modelling and ANSYS FEA simulation are currently in progress. The hand-calculated stresses will be compared against FEA results to validate the analytical approach. This page will be updated with contour plots and professional drawings upon completion.</div>
+<h2>Load cases</h2>
+<p>Five loading conditions were defined using F = ma with dynamic load factors consistent with Australian single-axle trailer design practice. The full 750 kg ATM is divided equally across four hanger brackets, giving a static force of 1840 N per bracket.</p>
 
-<a href="../index.html#work" class="back">&larr; Back to projects</a>
+<table class="result-table">
+<tr><th>Case</th><th>Event</th><th>Fy (N)</th><th>Fx (N)</th><th>M (Nm)</th><th>Description</th></tr>
+<tr><td class="hi">1</td><td>Static (1g)</td><td>1840</td><td>0</td><td>0</td><td>Trailer at ATM, stationary. Shackle vertical.</td></tr>
+<tr><td class="hi">2</td><td>Dynamic (2g)</td><td>3680</td><td>986</td><td>98.6</td><td>Standard road loading at 15 deg. Primary high-cycle fatigue event.</td></tr>
+<tr><td class="hi">3</td><td>Pothole (3g)</td><td>5520</td><td>2009</td><td>200.9</td><td>Severe impact at 20 deg. Low-cycle yield check.</td></tr>
+<tr><td class="hi">4</td><td>Cornering (0.3g)</td><td>1840</td><td>552 lateral</td><td>55.2</td><td>Lateral cornering; torsional twist on weld group.</td></tr>
+<tr><td class="hi">5</td><td>Braking</td><td class="dim">excluded</td><td class="dim">excluded</td><td class="dim">0</td><td>Rear shackle swings freely; front hanger absorbs 100% of longitudinal forces.</td></tr>
+</table>
+
+<h2>Weld geometry and assumptions</h2>
+<p>The weld group is a four-face rectangular fillet weld: 100x50mm bracket, 5mm leg length, 4.3mm throat (accounting for the curved weld face rather than using the standard 0.707h), total perimeter 300mm. Weld properties (throat area A, second moment of area I<sub>u</sub>, and polar moment J<sub>u</sub>) were derived from first principles for the rectangular geometry.</p>
+<p>Material is Grade C300 structural steel (S<sub>ut</sub> = 430 MPa, S<sub>y</sub> = 300 MPa), selected to represent realistic conservatism for a mass-produced trailer rather than inflating the factor of safety with high-tensile steel. Fatigue stress concentration factor K<sub>f</sub> = 2.7 was applied for end-of-parallel fillet geometry under bending, consistent with AS 4024 weld quality grades. The chassis rail was treated as a perfectly rigid support in hand calculations; this known simplification is quantified in the ANSYS comparison.</p>
+
+<h2>Hand calculation results</h2>
+<p>Von Mises equivalent stress was calculated for all five load cases. The fatigue cycle is defined between the empty parked condition (σ<sub>min</sub> = 2.81 MPa) and the 2g dynamic road loading (σ<sub>max</sub> = 20.74 MPa), representing the primary high-cycle event experienced over the trailer's service life. The modified endurance limit S<sub>n</sub> = 68.64 MPa was established using Marin modification factors for as-welded surface condition, material, and loading type.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/weld-calcs-v2-p1.jpg" alt="Hand calculations page 1"><div class="img-caption">Hand calculations: weld geometry, FBDs, and Von Mises stress for all five load cases</div></div>
+<div class="img-block"><img src="../img/projects/weld-calcs-v2-p2.jpg" alt="Hand calculations page 2"><div class="img-caption">Fatigue analysis: Goodman diagram, endurance limit modifiers, and FoS results</div></div>
+</div>
+
+<table class="result-table">
+<tr><th>Parameter</th><th>Value</th><th>Note</th></tr>
+<tr><td>Static von Mises (Case 1)</td><td>3.01 MPa</td><td>1g, no bending moment</td></tr>
+<tr><td>Dynamic von Mises (Case 2)</td><td>7.68 MPa</td><td>2g, 15 deg shackle</td></tr>
+<tr><td>Pothole von Mises (Case 3)</td><td>13.26 MPa</td><td>3g, 20 deg shackle</td></tr>
+<tr><td>σ<sub>min</sub> (K<sub>f</sub> applied)</td><td>2.81 MPa</td><td>Empty, parked condition</td></tr>
+<tr><td>σ<sub>max</sub> (K<sub>f</sub> applied, Case 2)</td><td>20.74 MPa</td><td>Primary fatigue cycle maximum</td></tr>
+<tr><td>σ<sub>mean</sub></td><td>11.78 MPa</td><td>Operational 1g to 2g cycle</td></tr>
+<tr><td>σ<sub>alternating</sub></td><td>8.97 MPa</td><td>Operational 1g to 2g cycle</td></tr>
+<tr><td>Modified endurance limit S<sub>n</sub></td><td>68.64 MPa</td><td>As-welded, Marin factors applied</td></tr>
+<tr><td><strong>Goodman FoS (fatigue)</strong></td><td><strong>6.33</strong></td><td><span class="pass">INFINITE LIFE</span></td></tr>
+<tr><td>Yield FoS (static)</td><td>14.46</td><td><span class="pass">PASS</span></td></tr>
+<tr><td>Yield FoS (3g pothole)</td><td>8.38</td><td><span class="pass">PASS</span></td></tr>
+</table>
+
+<div class="finding">
+<span class="k">Over-specification finding</span>
+<p>The existing 5mm fillet weld substantially exceeds the minimum required for infinite life. Back calculation for a Goodman FoS of 2 yields a minimum fillet leg of approximately 2mm, compared to the current 5mm: the existing weld is approximately 2.5x over-specified. This is consistent with mass-produced trailer manufacturing, where welders apply a uniform pass size rather than optimising for the minimum material on safety-critical connections.</p>
+</div>
+
+<h2>ANSYS FEA validation</h2>
+<p>The ANSYS model comprises 300mm of 50x50x3mm hollow RHS chassis rail with a 100x50mm rectangular bracket block. Fillet welds were modelled on the two short ends with curved weld face geometry, increasing the effective throat from 3.54mm (flat assumption) to 4.3mm. Bonded contacts were placed between all mating bodies. The 2g dynamic load case (F<sub>y</sub> = 3680 N, F<sub>x</sub> = 986 N at 15 degrees) was applied as resolved components at the bracket face. C300 steel properties were assigned throughout.</p>
+
+<p>A comprehensive seven-iteration sensitivity study was conducted to isolate the sources of stress concentration and benchmark against the hand calculation:</p>
+
+<table class="result-table">
+<tr><th>Configuration</th><th>Peak σ<sub>VM</sub></th><th>Observation</th></tr>
+<tr><td>Corrected force components applied (F<sub>y</sub> + F<sub>x</sub>)</td><td>219 MPa</td><td>Initial singularity; geometric sharpness unresolved</td></tr>
+<tr><td>Flat fillet, 0.10mm blend radius</td><td>160 MPa</td><td>Baseline for weld toe sensitivity study</td></tr>
+<tr><td>Flat fillet, 0.30mm blend radius</td><td>115 MPa</td><td>28% reduction from baseline; convergence trend establishing</td></tr>
+<tr><td class="hi">Convex face, 4.3mm throat, 1mm blend radius</td><td class="hi">70 MPa</td><td class="hi">Realistic weld profile; 56% reduction from sharp baseline</td></tr>
+<tr><td class="hi">Frictionless rear wall (final model)</td><td class="hi">42 MPa</td><td class="hi">Physically representative; constraining thin wall removes 40% of stress</td></tr>
+</table>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/weld-fea-iso.png" alt="ANSYS FEA model isometric"><div class="img-caption">ANSYS model: 0.1mm fillet weld mesh, frictionless rear wall support condition</div></div>
+<div class="img-block"><img src="../img/projects/weld-mesh-critical.png" alt="Critical mesh region closeup"><div class="img-caption">Weld toe at 0.1mm mesh: convergence reached at 41.5 MPa, 13 elements spanning concentration width</div></div>
+</div>
+
+<div class="img-block"><img src="../img/projects/weld-mesh-overview.png" alt="Full mesh overview"><div class="img-caption">Full model mesh: RHS chassis rail, bracket block, and fillet weld geometry</div></div>
+
+<h2>Three contributors to the hand calc / FEA discrepancy</h2>
+<p>The hand calculation returns a Goodman FoS of 6.33; ANSYS returns 2.86. Both predict infinite fatigue life. The 2.2x ratio is expected and fully explained:</p>
+
+<div class="finding">
+<span class="k">Contributor 1: Geometric stress concentration</span>
+<p>The weld toe blend radius controls local stress amplification. Reducing the modelled radius from 1.0mm to 0.10mm increased peak stress from 70 MPa to 160 MPa, a 2.3x increase. Real weld toe radii are never perfectly sharp; the 1mm radius represents a realistic as-welded condition. Hand calculations apply K<sub>f</sub> = 2.7 uniformly, which cannot capture this geometric sensitivity.</p>
+</div>
+
+<div class="finding">
+<span class="k">Contributor 2: Thin wall flexibility</span>
+<p>The frictionless rear wall support reduced peak stress from 70 MPa to 42 MPa, a 40% reduction. The 3mm RHS wall flexes locally under bracket loading; the hand calculation assumes a perfectly rigid support and cannot quantify this deformation. The constrained wall result of 42 MPa is the closest ANSYS analogue to the hand calculation's rigid assumption.</p>
+</div>
+
+<div class="finding">
+<span class="k">Contributor 3: Non-uniform stress distribution</span>
+<p>The hand calculation distributes stress uniformly across the 300mm weld perimeter. ANSYS consistently shows peak stress at the weld toe corners where geometry transitions occur. This non-uniform distribution is physically realistic and cannot be captured by a Kf multiplier applied to an averaged stress value.</p>
+</div>
+
+<h2>Conclusion</h2>
+<p>Both analytical methods converge on the same conclusion: the existing 5mm fillet weld achieves infinite fatigue life with substantial margin. The hand calculation is conservative in fatigue prediction; ANSYS is conservative in stress prediction. The weld has been in service for eight years since manufacture with no visible defects or cracking at the weld toe, which is directly consistent with both methods predicting infinite life.</p>
+<p>Recommendations for improved analysis include direct material testing to confirm C300 steel properties, further investigation of leaf spring kinematics to refine load quantification, and physical measurement of the real weld toe radius to validate ANSYS geometric assumptions.</p>
+
+<div class="action-row">
+  <a href="../img/projects/weld-report.pdf" target="_blank" class="dl-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+    Download report (PDF)
+  </a>
+  <a href="../index.html#work" class="back">&larr; Back to projects</a>
+</div>
+
 </div>
 </body>
 </html>

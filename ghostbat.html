@@ -137,7 +137,7 @@ a    { text-decoration: none; }
   padding: 6px 0 6px 22px; position: relative;
   color: var(--stone); font-size: 15px; line-height: 1.65;
 }
-.article ul li::before { content: "→"; position: absolute; left: 0; color: var(--pebble); }
+.article ul li::before { content: "->"; position: absolute; left: 0; color: var(--pebble); }
 
 /* IMAGE BLOCKS */
 .img-block {
@@ -154,6 +154,19 @@ a    { text-decoration: none; }
 .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 36px 0; }
 .img-grid .img-block { margin: 0; }
 
+/* CALLOUT */
+.callout {
+  background: var(--snow); border-left: 3px solid var(--tangerine);
+  border-radius: 0 var(--r-inner) var(--r-inner) 0;
+  padding: 18px 22px; margin: 32px 0;
+  font-size: 14px; line-height: 1.7; color: var(--stone);
+  box-shadow: var(--shadow-subtle);
+}
+.callout .k {
+  font-family: var(--font-mono); font-size: 9px; color: var(--tangerine);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; display: block;
+}
+
 /* NOTE */
 .note {
   background: var(--snow); border-left: 3px solid rgba(0,0,0,0.12);
@@ -162,7 +175,6 @@ a    { text-decoration: none; }
   font-size: 14px; line-height: 1.7; color: var(--stone);
   box-shadow: var(--shadow-subtle);
 }
-.note a { color: var(--tangerine); }
 
 /* BACK */
 .back {
@@ -202,41 +214,58 @@ a    { text-decoration: none; }
   <div class="hero-img"><img src="img/ghostbat-flight.jpg" alt="MQ-28A Ghost Bat in flight"></div>
   <div class="inner">
     <div class="tag">Defence Strategy / Autonomous Systems</div>
-    <h1>MQ-28A Ghost Bat: Australia's Autonomous Wingman</h1>
+    <h1>MQ-28A Ghost Bat: Engineering Modularity for Autonomous Airpower</h1>
     <div class="meta">Kalan Ferguson / 2025 to present / Systems-level analysis</div>
   </div>
 </div>
 
 <div class="article">
 
-<p>The MQ-28A Ghost Bat is Boeing Australia's collaborative combat aircraft (CCA), designed to operate as a loyal wingman alongside crewed platforms like the F/A-18F Super Hornet and F-35A Lightning II. It represents one of the most significant Australian sovereign defence manufacturing programmes in a generation.</p>
+<p>The MQ-28A Ghost Bat is Boeing Australia's collaborative combat aircraft, designed to operate as an autonomous wingman alongside the F/A-18F Super Hornet and F-35A Lightning II. This takes a step towards one of Australia's most significant sovereign defence manufacturing programmes ever. But its real engineering significance lies not in the airframe itself, but in what the airframe is designed to carry.</p>
 
-<p>This article is an ongoing systems-level analysis covering the platform's autonomous architecture, sensor integration, modular payload design, and the broader strategic implications for Australian defence capability.</p>
-
-<h2>Sovereign manufacturing and AUKUS alignment</h2>
-
-<p>The Ghost Bat is designed and manufactured in Australia by Boeing Defence Australia, with final assembly at the Wellcamp facility in Toowoomba, Queensland. This sovereign manufacturing posture is central to its strategic value. Unlike imported platforms where Australia acts as a customer, the MQ-28A programme builds domestic engineering capability, supply chain depth, and workforce expertise in combat aircraft production.</p>
-
-<p>Under the AUKUS framework, the Ghost Bat positions Australia as a credible contributor to allied autonomous systems development, not merely a consumer of US and UK technology. The platform's modular nose section, designed for rapid payload reconfiguration, creates an architecture that allied nations can adapt to their own sensor and electronic warfare requirements.</p>
+<p>The Ghost Bat's defining feature is its modular nose section: a compound, mission-specific, rapidly reconfigurable payload bay that transforms the aircraft into a groundbreaking system in minutes. This article examines the nose architecture as a design philosophy, why it matters for Australian defence capability, and its engineering trade-offs.</p>
 
 <div class="img-block">
   <img src="img/ghostbat-woomera.jpg" alt="MQ-28A Ghost Bat at Woomera test range">
   <div class="img-caption">MQ-28A Ghost Bat (PRV-001) at the Woomera test range, South Australia. Source: Boeing Defence Australia</div>
 </div>
 
-<h2>Autonomous architecture and crewed-uncrewed teaming</h2>
+<h2>The modular nose as a design philosophy</h2>
 
-<p>The Ghost Bat is not a traditional remotely piloted aircraft. Its autonomous mission management system is designed to enable independent decision-making within mission parameters defined by a human operator in the crewed lead aircraft. This crewed-uncrewed teaming (CUT) concept fundamentally changes the calculus of airpower by allowing a single crewed fighter to coordinate with multiple autonomous wingmen, each carrying different payloads optimised for specific mission roles.</p>
+<p>Most combat aircraft are designed to be mission specific and operationally rigid. The sensor suite, electronic warfare package, and weapons integration are baked into the airframe from the outset, meaning reconfiguration takes months of physical labour. The Ghost Bat flips this approach entirely. Its nose section is designed to be swapped at the operational level, with different payloads for ISR, electronic warfare, or strike installable on the same airframe without heavy structural modification to the fuselage or wings.</p>
 
-<p>The operational implications are significant. Attritable autonomous platforms extend the sensor and weapons envelope of crewed aircraft without proportionally increasing pilot risk. They can be tasked with higher-risk mission profiles, including suppression of enemy air defences (SEAD), electronic warfare, and forward sensing in contested airspace.</p>
+<p>This is not just maintenance convenience. It is strategic optimisation. A fleet of twenty Ghost Bats with five interchangeable nose configurations introduces mission flexibility that has rarely been seen on the battlefield. Logistically, aircraft technicians only need to stock wings, engines, landing gear, and more for one aircraft type, rather than multiple distinct supply warehouses. From a training standpoint, mechanics and pilots only need to learn one flight system and maintenance routine. Deployment, training, and maintenance become significantly more streamlined.</p>
 
-<h2>Cost-per-effect and force structure</h2>
+<p>From an engineering perspective, this architecture demands standardised structural interfaces, plus power and data buses that accommodate payloads with fundamentally different electrical and thermal requirements. Regardless of which payload is installed, structural integrity of the airframe is maintained through a continuous load path through the nose section. The nose must carry an ISR sensor turret and a radar jammer with completely different mass distributions and centre of gravity positions, without requiring specific airframe reinforcements for each configuration.</p>
 
-<p>The economic argument for CCA platforms rests on cost-per-effect rather than cost-per-unit. A Ghost Bat is estimated to cost roughly one-third of a crewed fighter, but the relevant comparison is not unit cost. It is the total mission effect achievable per dollar of force structure investment. A mixed fleet of crewed and autonomous platforms can generate greater sortie capacity, wider sensor coverage, and deeper strike options than an equivalent investment in crewed aircraft alone.</p>
+<div class="callout">
+  <span class="k">Engineering constraint</span>
+  The nose interface must maintain a continuous structural load path regardless of payload mass, CG position, and thermal output. A single standardised mechanical and electrical interface servicing EW, ISR, and strike payloads simultaneously imposes strict envelope limits on each module.
+</div>
 
-<p>This has direct implications for Australia's force structure planning, particularly as the ADF scales its air combat capability under the National Defence Strategy.</p>
+<h2>SWaP constraints and autonomous compute</h2>
 
-<div class="note">This analysis is ongoing and will be expanded with detailed coverage of the platform's sensor fusion architecture, modular payload integration, and the strategic implications of Australia's position in the global CCA development landscape. Commentary published independently at <a href="https://x.com/KalanInvests">@KalanInvests</a>.</div>
+<p>The modular nose also defines the power and thermal envelope available to each payload. The autonomous mission system, meaning the onboard AI that enables the Ghost Bat to operate within mission parameters independent of crew, requires compute hardware that generates heat, draws power, and occupies volume. These size, weight, and power (SWaP) constraints are not abstract. Every watt of thermal dissipation from an inference processor is a watt the airframe's cooling architecture must handle. Every kilogram of compute hardware has a direct effect on the available mass budget for sensors or weapons.</p>
+
+<p>The primary engineering challenge is that different nose payloads impose different SWaP constraints on the same airframe. An electronic warfare jammer is thermally intensive but relatively light. A synthetic aperture radar is heavy and power-hungry. A strike payload is dense and inert until deployment, then radically changes the aircraft's mass distribution and CG position at the moment of release. The modular nose architecture must account for all of these parameters within a single standardised thermal management and power system.</p>
+
+<p>This is where the Ghost Bat's design philosophy intersects with the broader trajectory of autonomous systems engineering. As mission systems grow more computationally intensive and onboard autonomy matures, the SWaP budget will scale relative to what is allocated to sensors and weapons. An airframe that accommodates this inherent shift without structural redesign is one that remains operationally relevant across a 20-year service life. The modular nose is Boeing Australia's answer to that problem.</p>
+
+<h2>Sovereign manufacturing and AUKUS alignment</h2>
+
+<p>The Ghost Bat is designed and manufactured by Boeing Defence Australia, with final assembly at the Wellcamp facility in Toowoomba, Queensland. This sovereign manufacturing posture is core to its strategic value, reducing dependence on critical foreign supply chains. Unlike imported platforms where Australia is merely a customer, the MQ-28A programme builds domestic engineering capability, workforce expertise, and supply chain depth in combat aircraft production.</p>
+
+<p>Under AUKUS, the modular nose takes on additional strategic significance. A standardised payload interface designed and manufactured in Australia creates an architecture where allied nations can adapt their own EW and sensor requirements without airframe modifications. Australia develops into not only a platform operator, but a platform provider. This creates a meaningful contribution to coalition capability in the Indo-Pacific, enabling genuine interoperability between allied nations.</p>
+
+<h2>Crewed-uncrewed teaming and cost-per-effect</h2>
+
+<p>The Ghost Bat's autonomous mission management system enables critical decision making without the physical presence of a human operator. This crewed-uncrewed teaming concept allows a single crewed fighter to seamlessly coordinate with multiple autonomous wingmen, each carrying a different mission-specific modular nose configuration.</p>
+
+<p>The economic argument flows directly from this modularity. Cost-per-effect rather than cost-per-unit becomes the relevant metric. A Ghost Bat costs roughly a third of a crewed fighter, but its modular nose means that each mission's utility is not fixed at procurement. As the threat environment evolves, the aircraft can be reconfigured for electronic warfare even if originally procured for ISR. This flexibility collapses the traditional pipeline of capability planning, procurement, and fielding into a logistics problem rather than a capital expenditure problem.</p>
+
+<p>This has long-term structural effects on the National Defence Strategy. The ADF can scale autonomous airpower by acquiring airframes and nose modules on separate timelines and budgets, adapting fleet composition to emerging threats at a response speed no crewed-only force structure can match.</p>
+
+<div class="note">This analysis is ongoing and will be expanded with detailed coverage of the platform's sensor fusion architecture, communication architecture for crewed-uncrewed teaming, and Australia's positioning within the broader global CCA development landscape.</div>
 
 <a href="index.html#writing" class="back">&larr; Back to writing</a>
 </div>

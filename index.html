@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="img/kf-logo.png"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kalan Ferguson — Mechanical Engineering (Honours) with Aerospace Minor at QUT. Structural analysis, fatigue modelling, defence systems.">
+<meta name="description" content="Kalan Ferguson   Mechanical Engineering (Honours) with Aerospace Minor at QUT. Structural analysis, fatigue modelling, defence systems.">
 <title>Kalan Ferguson | Mechanical & Aerospace Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,7 +102,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
 .nav-cta:hover { opacity: 0.9 !important; transform: translateY(-1px) !important;
   box-shadow: 0 4px 16px rgba(246,146,81,0.45) !important; }
 
-/* ── HERO — VECTOR AESTHETIC ─────────────────────────── */
+/* ── HERO   VECTOR AESTHETIC ─────────────────────────── */
 .hero {
   position: relative; min-height: 100vh; overflow: hidden;
   display: flex; align-items: center;
@@ -119,7 +119,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
   opacity: 0.70;
 }
 
-/* blueprint coordinate grid — right side only via mask */
+/* blueprint coordinate grid   right side only via mask */
 .hero-grid {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background-image:
@@ -130,7 +130,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
   mask-image: linear-gradient(to right, transparent 0%, transparent 38%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.9) 100%);
 }
 
-/* dark gradient — left heavy, clears by 55% so jet is fully exposed right */
+/* dark gradient   left heavy, clears by 55% so jet is fully exposed right */
 .hero-grad {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background:
@@ -143,7 +143,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
     linear-gradient(to top, rgba(8,5,3,0.55) 0%, transparent 30%);
 }
 
-/* targeting reticle — anchored to jet on the right side */
+/* targeting reticle   anchored to jet on the right side */
 .hero-reticle {
   position: absolute; z-index: 3; pointer-events: none;
   width: 300px; height: 300px;
@@ -155,7 +155,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
 @keyframes fadeInReticle { to { opacity: 0.45; } }
 @keyframes reticleSpin   { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-/* ruler / measurement marks — right edge */
+/* ruler / measurement marks   right edge */
 .hero-ruler {
   position: absolute; right: 36px; top: 18%; bottom: 18%;
   z-index: 4; pointer-events: none;
@@ -225,7 +225,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
   border: 1px solid rgba(255,255,255,0.09);
 }
 
-/* hero text content — left column, clear of the aircraft */
+/* hero text content   left column, clear of the aircraft */
 .hero-content {
   position: relative; z-index: 5;
   max-width: 500px;
@@ -288,7 +288,7 @@ sub   { font-size: 0.65em; vertical-align: sub; }
 }
 .btn-ghost:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.28); transform: translateY(-2px); }
 
-/* trust badges — single row */
+/* trust badges   single row */
 .trust-row {
   display: flex; flex-wrap: nowrap; gap: 6px;
   overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none;
@@ -653,7 +653,7 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
   </div>
 </header>
 
-<!-- HERO — VECTOR AESTHETIC -->
+<!-- HERO   VECTOR AESTHETIC -->
 <section class="hero" id="top">
   <div class="hero-photo"><img src="img/hero.jpg" alt="" loading="eager" fetchpriority="high"></div>
   <div class="hero-grid"></div>
@@ -697,8 +697,8 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
     <div class="hero-content">
       <span class="hero-label">Third Year &middot; Mechanical Engineering (Honours) &middot; Aerospace Minor &middot; QUT</span>
       <h1>First&#8209;<br>Principles<br>Engineering</h1>
-      <div class="hero-sub-label">Defence &middot; Aerospace &middot; Structures</div>
-      <p class="sub">Structural analysis, fatigue modelling, and systems-level thinking for defence and aerospace applications.</p>
+      
+      <p class="sub">Structural analysis, fatigue modelling, and systems-level design for defence and aerospace.<br><span style="color:rgba(246,146,81,0.80);">Actively seeking a 2026 internship   aerospace, defence, advanced manufacturing.</span></p>
       <div class="hero-actions">
         <a href="#work" class="btn-primary">View the Work</a>
         <a href="#about" class="btn-ghost">About me</a>
@@ -755,8 +755,8 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
       <div class="featured-text reveal">
         <span class="section-tag">Featured Project</span>
         <h2>Validating fatigue life,<br>weld by weld.</h2>
-        <p>Design audit and fatigue analysis of a trailer leaf spring hanger bracket. Four critical load cases, von Mises stresses compared against ANSYS FEA.</p>
-        <p>Modified Goodman criteria with 99.9% reliability factor and K<sub>f</sub> = 2.7 for as-welded geometry. Factor of safety: 4.39. Infinite life confirmed.</p>
+        <p>Design audit and fatigue analysis of a welded leaf spring rear hanger bracket on a 750 kg ATM trailer. Five load cases, lever arm analysis identifying the rear bracket as critical, and full weld group characterisation from first principles.</p>
+        <p>Modified Goodman infinite life verification with K<sub>f</sub> = 2.7 for as-welded geometry and C300 steel. Fatigue FoS: 6.33. ANSYS mesh convergence and boundary condition sensitivity study quantify a 40% stress reduction when modelling realistic RHS rail flexibility.</p>
         <div class="featured-actions">
           <a href="projects/weld-fatigue.html" class="btn-primary">Read the analysis</a>
           <a href="#work" class="btn-outline">All projects</a>
@@ -765,13 +765,13 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
       <div class="reveal">
         <div class="featured-img-wrap">
           <div class="featured-card">
-            <img src="img/split.jpg" alt="Weld fatigue analysis" loading="lazy">
+            <img src="img/projects/weld-mesh-critical.png" alt="Weld fatigue analysis" loading="lazy">
             <div class="featured-card-foot">
               <div class="meta">
                 <b>EGB316 / Weld Fatigue Design Audit</b>
                 ANSYS FEA &middot; SolidWorks &middot; Sem 1, 2026
               </div>
-              <span class="spec-badge">FoS 4.39</span>
+              <span class="spec-badge">FoS 6.33</span>
             </div>
           </div>
         </div>
@@ -798,9 +798,9 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
       <div class="about-text reveal">
         <span class="section-tag">About</span>
         <h2>A first-principles engineer.</h2>
-        <p>I am a third-year Mechanical Engineering (Honours) student at QUT with an Aerospace Minor. My approach to engineering is grounded in first principles: I decompose systems into their load paths, control surfaces, and failure modes, then build analytical models rigorous enough to trust.</p>
-        <p>My technical focus spans structural analysis, fatigue modelling, kinematics, and thermodynamic systems. Alongside this I maintain a strong interest in <span class="em">Australian sovereign defence capability</span>, <span class="em">autonomous aerospace systems</span>, and the strategic context in which platforms like the MQ-28A Ghost Bat operate.</p>
-        <p>Currently contributing to QUT Aerospace Society's fixed-wing UAS programme. Seeking a 2026 internship in aerospace, defence, or advanced manufacturing.</p>
+        <p>I am a third-year Mechanical Engineering (Honours) student at QUT with an Aerospace Minor. My approach to engineering is grounded in first principles: I decompose systems into their load paths, failure modes, and energy flows before touching any software, then validate analytically before committing to FEA or CAD.</p>
+        <p>My technical work spans structural analysis, fatigue modelling, kinematics, aerodynamics, and thermodynamics. I maintain a deep interest in <span class="em">Australian sovereign defence capability</span> and the engineering behind platforms that define it. I want to contribute directly to programmes like the <span class="em">MQ-28A Ghost Bat</span>, AUKUS Pillar II advanced capabilities, and the structural design work underpinning next-generation autonomous airframes.</p>
+        <p>Outside coursework, I am one of two aerostructural leads on a QUT Aerospace Society design team developing a twin-boom, push-pull, fully autonomous racing UAV from blank-sheet conceptual design. I led configuration trade studies across propulsion layouts, tail arrangements, and airframe architectures, and drove the airfoil selection process evaluating Selig, Eppler, Drela, and NACA families at Re ~110k, ultimately recommending NACA 4412. Current work covers aerodynamic sizing methodology and early CAD. Next phases: OpenVSP validation, ANSYS structural FEA, and prototype fabrication with ArduPilot integration.</p>
       </div>
       <div class="about-side reveal">
         <div class="stat-card">
@@ -819,7 +819,11 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
           <span class="k">Security vetting</span>
           <div class="v">NV1 eligible<small>Australian citizen</small></div>
         </div>
-        <div class="open-pill">Open to defence-aligned roles, Brisbane</div>
+        <div class="stat-card">
+          <span class="k">Active   QUT Aerospace Society</span>
+          <div class="v">UAV Aerostructures Lead<small>Twin-boom autonomous racer / 500g MTOW / Conceptual design phase</small></div>
+        </div>
+        <div class="open-pill">Actively seeking 2026 internship, Brisbane</div>
       </div>
     </div>
   </div>
@@ -857,16 +861,7 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
             <p>Australia's acquisition of Anduril's extra-large autonomous underwater vehicle and its implications for Indo-Pacific deterrence.</p>
           </div>
         </div>
-        <div class="writing-card muted reveal">
-          <div class="writing-card-img short">
-            <span style="font-family:var(--font-mono);font-size:9px;color:var(--pebble);letter-spacing:0.18em;text-transform:uppercase">In Progress</span>
-          </div>
-          <div class="writing-card-body">
-            <span class="card-tag">Hypersonics</span>
-            <h3>Australian Hypersonic Launch Systems</h3>
-            <p>The AUKUS advanced capabilities pillar and Australia's pathway to sovereign hypersonic strike and research capability.</p>
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -880,13 +875,10 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
         <div class="brand-row"><img src="img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></div>
         <p>Mechanical engineer. First-principles approach. Brisbane, open to defence and aerospace roles.</p>
         <div>
-          <h4>Follow</h4>
+          <h4>Connect</h4>
           <div class="social-row">
             <a href="https://linkedin.com/in/kalan-ferguson-288858326" target="_blank" rel="noopener" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v4H4zm0 6h4v10H4zm6 0h3.8v1.4c.6-1 1.9-1.7 3.7-1.7 3.6 0 4.5 2.1 4.5 5V20h-4v-4.6c0-1.4-.5-2.4-1.8-2.4-1.4 0-2.2 1-2.2 2.4V20h-4z"/></svg>
-            </a>
-            <a href="https://x.com/KalanInvests" target="_blank" rel="noopener" aria-label="X">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.3l-7.2 8.2L22 21h-6.6l-5.2-6.8L4.3 21H1l7.7-8.8L1.4 3h6.7l4.7 6.2L17.5 3zm-1.2 16h1.8L7.8 5h-2L16.3 19z"/></svg>
             </a>
           </div>
         </div>
@@ -931,8 +923,8 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
 <script>
 /* ── PROJECTS ────────────────────────────────────────── */
 var PROJECTS = [
-  { tag:"Fatigue Analysis",  title:"Weld Fatigue Design Audit",             summary:"Von Mises stresses verified against ANSYS FEA under four load cases. Infinite life confirmed via Modified Goodman. Factor of safety: 4.39.",                url:"projects/weld-fatigue.html",      img:"img/split.jpg" },
-  { tag:"Kinematics",        title:"Walking Robot: Four-Bar Linkage",       summary:"Coupled four-bar crank-rocker mechanisms with 180-degree phase offset. Walked 2 m in 18 s, inside the 30-second target.",                                    url:"projects/walking-robot.html",     img:"img/projects/robot-iso.jpg" },
+  { tag:"Fatigue Analysis",  title:"Weld Fatigue Design Audit",             summary:"Five load case fatigue audit of a welded trailer suspension bracket. Modified Goodman with Kf = 2.7 and ANSYS mesh convergence study. FoS: 6.33, infinite life confirmed.",    url:"projects/weld-fatigue.html",      img:"img/projects/weld-mesh-critical.png" },
+  { tag:"Kinematics",        title:"Walking Robot: Four-Bar Linkage",       summary:"Coupled four-bar crank-rocker mechanisms with 180-degree phase offset. Walked 2 m in 18 s, inside the 30-second target.",                                    url:"projects/walking-robot.html",     img:"img/projects/robot-iso-full.jpg" },
   { tag:"Machine Design",    title:"3-Stage Planetary Gearbox",             summary:"64:1 reduction gearbox delivering 20 Nm from 1500 RPM. Lewis bending, AGMA contact, and von Mises fatigue analysis.",                                         url:"projects/planetary-gearbox.html", img:"img/projects/gbx-assembly.jpg" },
   { tag:"Thermodynamics",    title:"Diesel Engine Thermodynamic Analysis",  summary:"Perkins 404D-22 evaluated across six operating points. Energy balance, PV cycle, polytropic coefficient fitting with R squared above 0.999.",               url:"projects/diesel-engine.html",     img:"img/projects/thermo-turbine.jpg" },
   { tag:"Aerodynamics",      title:"E387 Aerofoil Flow Control",            summary:"Low-Re flow control for the Eppler 387. Shape factor framework with passive and active control classification and Strouhal optimisation.",                   url:"projects/aerofoil-flow.html",     img:"img/projects/aero-glider.jpg" },
