@@ -48,11 +48,36 @@
 .dl-btn:hover { box-shadow: var(--shadow-subtle-2); transform: translateY(-1px); }
 .action-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 .action-row .back { margin-top: 0; }
+/* CHART FIGURES */
+.chart-fig { background: var(--snow); border-radius: var(--r-inner);
+  box-shadow: var(--shadow-subtle); overflow: hidden; margin: 36px 0; }
+.chart-fig svg { display: block; width: 100%; height: auto; }
+.chart-cap { font-family: var(--font-mono); font-size: 10px; color: var(--pebble);
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 16px;
+  background: var(--snow); border-top: 1px solid rgba(0,0,0,0.05); }
+.ch-axis { stroke: rgba(0,0,0,0.30); stroke-width: 1; }
+.ch-grid { stroke: rgba(0,0,0,0.07); stroke-width: 1; }
+.ch-lbl { font-family: var(--font-mono); font-size: 11px; fill: var(--pebble); }
+.ch-axtitle { font-family: var(--font-mono); font-size: 10px; fill: var(--stone);
+  letter-spacing: 0.08em; text-transform: uppercase; }
+.ch-series { fill: none; stroke: var(--graphite); stroke-width: 2; }
+.ch-dot { fill: var(--snow); stroke: var(--graphite); stroke-width: 2; }
+.ch-dot-hl { fill: var(--tangerine); stroke: var(--snow); stroke-width: 2; }
+.ch-conv { stroke: var(--tangerine); stroke-width: 1.4; stroke-dasharray: 5 5; }
+.ch-acc { font-family: var(--font-mono); font-size: 10.5px; fill: #b05c18; }
+.gd-safe { fill: rgba(246,146,81,0.07); }
+.gd-goodman { stroke: var(--carbon); stroke-width: 1.8; fill: none; }
+.gd-yield { stroke: var(--pebble); stroke-width: 1.3; stroke-dasharray: 6 5; fill: none; }
+.gd-load { stroke: var(--tangerine); stroke-width: 1.3; stroke-dasharray: 4 4; }
+.gd-op { fill: var(--tangerine); stroke: var(--snow); stroke-width: 2; }
+.gd-fp { fill: var(--snow); stroke: var(--carbon); stroke-width: 1.6; }
+.gd-t { font-family: var(--font-mono); font-size: 10.5px; fill: var(--carbon); }
+.gd-tk { font-family: var(--font-mono); font-size: 10px; fill: var(--pebble); }
 </style>
 </head>
 <body>
 
-<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../ghostbat.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../writing.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
 
 <div class="proj-hero">
 <div class="hero-img"><img src="../img/projects/weld-fea-system.png" alt="ANSYS weld fatigue model"></div>
@@ -83,6 +108,8 @@
 <h2>Functional analysis</h2>
 <p>The box trailer uses a conventional single-axle leaf spring system with U-bolts constraining the leaves. The rear shackle connects the spring eye to the hanger bracket via a 65mm rigid link, with a pin-to-weld-centroid distance of 100mm. This 100mm lever arm is the critical force multiplier generating bending moments on the weld group.</p>
 
+<div class="img-block"><img src="../img/projects/weld-drawing-assembly.png" alt="SolidWorks general-arrangement drawing of the 750 kg box trailer leaf spring system with bill of materials"><div class="img-caption">SolidWorks GA drawing: 750 kg box-trailer leaf spring assembly. Item 8 is the 50&times;50&times;3 RHS chassis rail carrying the welded front and rear hanger brackets; item 9 the rear shackle (70 mm)</div></div>
+
 <p>A comparative lever arm analysis was performed to identify the critical hanger. The front hanger is fixed directly to the chassis rail with a lever arm of approximately 30mm. During braking, the front hanger absorbs 100% of longitudinal forces; the rear shackle swings freely and cannot transmit them. However, the rear hanger's 100mm lever arm multiplies dynamic thrust from leaf spring compression into bending moments more than 3x higher than the front hanger under equivalent loading. The rear hanger is therefore the governing fatigue case.</p>
 
 <div class="img-block"><img src="../img/projects/weld-leaf-spring.jpg" alt="Leaf spring hanger system"><div class="img-caption">Rear leaf spring hanger bracket in the physical trailer suspension system</div></div>
@@ -103,6 +130,8 @@
 
 <h2>Weld geometry and assumptions</h2>
 <p>The weld group is a four-face rectangular fillet weld: 100x50mm bracket, 5mm leg length, 4.3mm throat (accounting for the curved weld face rather than using the standard 0.707h), total perimeter 300mm. Weld properties (throat area A, second moment of area I<sub>u</sub>, and polar moment J<sub>u</sub>) were derived from first principles for the rectangular geometry.</p>
+
+<div class="img-block"><img src="../img/projects/weld-drawing-bracket.png" alt="SolidWorks detail drawing of the rear hanger bracket with dimensions"><div class="img-caption">Rear hanger bracket detail (C300, scale 1:1): 100&times;50 mm welded face, &Oslash;16 mm shackle-pin bore at 22.5 / 30 mm, 45 mm tapered base. The pin-to-weld-centroid offset sets the 100 mm fatigue lever arm</div></div>
 <p>Material is Grade C300 structural steel (S<sub>ut</sub> = 430 MPa, S<sub>y</sub> = 300 MPa), selected to represent realistic conservatism for a mass-produced trailer rather than inflating the factor of safety with high-tensile steel. Fatigue stress concentration factor K<sub>f</sub> = 2.7 was applied for end-of-parallel fillet geometry under bending, consistent with AS 4024 weld quality grades. The chassis rail was treated as a perfectly rigid support in hand calculations; this known simplification is quantified in the ANSYS comparison.</p>
 
 <h2>Hand calculation results</h2>
@@ -128,6 +157,8 @@
 <tr><td>Yield FoS (3g pothole)</td><td>8.38</td><td><span class="pass">PASS</span></td></tr>
 </table>
 
+<div class="img-block"><img src="../img/projects/weld-goodman-am.png" alt="Alternating-mean (Goodman) fatigue diagram for the rear leaf spring hanger weld, showing the operating point well inside the Goodman and yield failure lines"><div class="img-caption">Alternating-mean diagram: the operating point (&#963;<sub>m</sub> 11.78, &#963;<sub>a</sub> 8.97 MPa) sits deep inside the Goodman (N = 6.33) and yield (N = 14.46) lines. Infinite life with large margin</div></div>
+
 <div class="finding">
 <span class="k">Over-specification finding</span>
 <p>The existing 5mm fillet weld substantially exceeds the minimum required for infinite life. Back calculation for a Goodman FoS of 2 yields a minimum fillet leg of approximately 2mm, compared to the current 5mm: the existing weld is approximately 2.5x over-specified. This is consistent with mass-produced trailer manufacturing, where welders apply a uniform pass size rather than optimising for the minimum material on safety-critical connections.</p>
@@ -136,15 +167,62 @@
 <h2>ANSYS FEA validation</h2>
 <p>The ANSYS model comprises 300mm of 50x50x3mm hollow RHS chassis rail with a 100x50mm rectangular bracket block. Fillet welds were modelled on the two short ends with curved weld face geometry, increasing the effective throat from 3.54mm (flat assumption) to 4.3mm. Bonded contacts were placed between all mating bodies. The 2g dynamic load case (F<sub>y</sub> = 3680 N, F<sub>x</sub> = 986 N at 15 degrees) was applied as resolved components at the bracket face. C300 steel properties were assigned throughout.</p>
 
-<p>A comprehensive seven-iteration sensitivity study was conducted to isolate the sources of stress concentration and benchmark against the hand calculation:</p>
+<h3>Mesh convergence</h3>
+<p>A face sizing was swept across the fixed-radius blend at the critical weld toe while the rest of the model held a 5&nbsp;mm global tetrahedral mesh. Peak von Mises stress stays inside a 41.2 to 42.4&nbsp;MPa band across an order-of-magnitude refinement. The small fluctuation reflects the discrete element edges resolving the concentration rather than a drifting solution. The result is mesh-independent; the final 0.1&nbsp;mm toe mesh resolves roughly 13 elements across the concentration width.</p>
+
+<div class="chart-fig">
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mesh convergence plot of peak von Mises stress versus weld-toe element size">
+  <line class="ch-grid" x1="72" y1="203.3" x2="732" y2="203.3"/>
+  <line class="ch-grid" x1="72" y1="118.7" x2="732" y2="118.7"/>
+  <line class="ch-grid" x1="72" y1="34"    x2="732" y2="34"/>
+  <line class="ch-axis" x1="72" y1="34"  x2="72" y2="288"/>
+  <line class="ch-axis" x1="72" y1="288" x2="732" y2="288"/>
+  <text class="ch-lbl" x="64" y="291.5" text-anchor="end">38</text>
+  <text class="ch-lbl" x="64" y="206.8" text-anchor="end">40</text>
+  <text class="ch-lbl" x="64" y="122.2" text-anchor="end">42</text>
+  <text class="ch-lbl" x="64" y="37.5"  text-anchor="end">44</text>
+  <line class="ch-conv" x1="72" y1="139.8" x2="732" y2="139.8"/>
+  <text class="ch-acc" x="728" y="133" text-anchor="end">converged &#8776; 41.5 MPa &#183; 13 elements across toe</text>
+  <polyline class="ch-series" points="118,118.7 260,152.5 402,101.7 544,144.1 686,139.8"/>
+  <circle class="ch-dot" cx="118" cy="118.7" r="4.5"/>
+  <circle class="ch-dot" cx="260" cy="152.5" r="4.5"/>
+  <circle class="ch-dot" cx="402" cy="101.7" r="4.5"/>
+  <circle class="ch-dot" cx="544" cy="144.1" r="4.5"/>
+  <circle class="ch-dot-hl" cx="686" cy="139.8" r="6"/>
+  <text class="ch-lbl" x="118" y="306" text-anchor="middle">1.0</text>
+  <text class="ch-lbl" x="260" y="306" text-anchor="middle">0.5</text>
+  <text class="ch-lbl" x="402" y="306" text-anchor="middle">0.3</text>
+  <text class="ch-lbl" x="544" y="306" text-anchor="middle">0.2</text>
+  <text class="ch-lbl" x="686" y="306" text-anchor="middle">0.1</text>
+  <text class="ch-axtitle" x="402" y="334" text-anchor="middle">Weld-toe element size (mm) &#183; refinement increasing &#8594;</text>
+  <text class="ch-axtitle" x="20" y="161" text-anchor="middle" transform="rotate(-90 20 161)">Peak &#963; (MPa)</text>
+</svg>
+<div class="chart-cap">Mesh convergence at the critical weld toe: peak von Mises stress versus element size (y-axis truncated to 38 to 44 MPa to resolve the converged band)</div>
+</div>
 
 <table class="result-table">
-<tr><th>Configuration</th><th>Peak σ<sub>VM</sub></th><th>Observation</th></tr>
-<tr><td>Corrected force components applied (F<sub>y</sub> + F<sub>x</sub>)</td><td>219 MPa</td><td>Initial singularity; geometric sharpness unresolved</td></tr>
-<tr><td>Flat fillet, 0.10mm blend radius</td><td>160 MPa</td><td>Baseline for weld toe sensitivity study</td></tr>
-<tr><td>Flat fillet, 0.30mm blend radius</td><td>115 MPa</td><td>28% reduction from baseline; convergence trend establishing</td></tr>
-<tr><td class="hi">Convex face, 4.3mm throat, 1mm blend radius</td><td class="hi">70 MPa</td><td class="hi">Realistic weld profile; 56% reduction from sharp baseline</td></tr>
-<tr><td class="hi">Frictionless rear wall (final model)</td><td class="hi">42 MPa</td><td class="hi">Physically representative; constraining thin wall removes 40% of stress</td></tr>
+<tr><th>Weld-toe element size</th><th>Peak &#963;<sub>VM</sub></th><th>Note</th></tr>
+<tr><td>1.0 mm</td><td>42.0 MPa</td><td>Coarse toe mesh.</td></tr>
+<tr><td>0.5 mm</td><td>41.2 MPa</td><td></td></tr>
+<tr><td>0.3 mm</td><td>42.4 MPa</td><td></td></tr>
+<tr><td>0.2 mm</td><td>41.4 MPa</td><td></td></tr>
+<tr><td class="hi">0.1 mm</td><td class="hi">41.5 MPa</td><td class="hi">Final mesh: 13 elements span the concentration width.</td></tr>
+</table>
+
+<h3>Parameter sensitivity study</h3>
+<p>Beyond mesh density, a five-stage parametric study isolated each source of stress concentration and took the model from an unphysical singularity to a physically representative result. Stage&nbsp;3 sweeps the weld-toe blend radius; stages&nbsp;4 and&nbsp;5 add the real convex weld profile and the flexible rear wall.</p>
+
+<table class="result-table">
+<tr><th>Stage</th><th>Configuration</th><th>Peak &#963;<sub>VM</sub></th><th>Observation</th></tr>
+<tr><td class="hi">1</td><td>Pure compression (axial only)</td><td>27 MPa</td><td>Bending omitted before the force was resolved into its horizontal component.</td></tr>
+<tr><td class="hi">2</td><td>Corrected force (F<sub>y</sub> + F<sub>x</sub> resolved)</td><td>219 MPa</td><td>Geometric singularity at the sharp weld toe; unconverged.</td></tr>
+<tr><td>3a</td><td>Flat fillet, 0.10 mm blend radius</td><td>160 MPa</td><td>Baseline for the blend-radius sensitivity sweep.</td></tr>
+<tr><td>3b</td><td>Flat fillet, 0.15 mm blend radius</td><td>141 MPa</td><td>12% reduction; clear sensitivity to toe sharpness.</td></tr>
+<tr><td>3c</td><td>Flat fillet, 0.20 mm blend radius</td><td>130 MPa</td><td>19% reduction; trend establishing.</td></tr>
+<tr><td>3d</td><td>Flat fillet, 0.25 mm blend radius</td><td>121 MPa</td><td>24% reduction; rate of decrease slowing.</td></tr>
+<tr><td>3e</td><td>Flat fillet, 0.30 mm blend radius</td><td>115 MPa</td><td>28% reduction from baseline.</td></tr>
+<tr><td class="hi">4</td><td>Convex face, 4.3 mm throat, 1 mm blend radius</td><td class="hi">70 MPa</td><td class="hi">Realistic as-welded profile; 56% below the sharp baseline.</td></tr>
+<tr><td class="hi">5</td><td>Frictionless rear-wall support (final model)</td><td class="hi">42 MPa</td><td class="hi">Physically representative; constraining the 3 mm wall removes 28 MPa (40%).</td></tr>
 </table>
 
 <div class="img-grid">
@@ -155,7 +233,18 @@
 <div class="img-block"><img src="../img/projects/weld-mesh-overview.png" alt="Full mesh overview"><div class="img-caption">Full model mesh: RHS chassis rail, bracket block, and fillet weld geometry</div></div>
 
 <h2>Three contributors to the hand calc / FEA discrepancy</h2>
-<p>The hand calculation returns a Goodman FoS of 6.33; ANSYS returns 2.86. Both predict infinite fatigue life. The 2.2x ratio is expected and fully explained:</p>
+<p>The hand calculation returns a Goodman FoS of 6.33; ANSYS returns 2.86. Both predict infinite fatigue life. Reading the two methods side by side as an <em>effective stress multiplier</em> on the 7.68&nbsp;MPa nominal stress shows exactly where they diverge, and the 2.2&times; ratio between them is expected and fully explained by the three contributors below.</p>
+
+<table class="result-table">
+<tr><th>Quantity</th><th>Hand calc</th><th>ANSYS &#183; free wall</th><th>ANSYS &#183; constrained wall</th></tr>
+<tr><td>Nominal von Mises (2g dynamic)</td><td>7.68 MPa</td><td class="dim">n/a</td><td class="dim">n/a</td></tr>
+<tr><td>Peak von Mises</td><td>20.74 MPa</td><td>70 MPa</td><td>42 MPa</td></tr>
+<tr><td>Effective stress multiplier</td><td class="hi">2.7&times; <span class="dim">applied K<sub>f</sub></span></td><td class="hi">9.1&times;</td><td class="hi">5.4&times;</td></tr>
+<tr><td>Goodman fatigue FoS</td><td class="hi">6.33</td><td class="dim">n/a</td><td class="hi">2.86</td></tr>
+<tr><td>Predicted life</td><td><span class="pass">INFINITE</span></td><td class="dim">n/a</td><td><span class="pass">INFINITE</span></td></tr>
+</table>
+
+<p>The constrained-wall model (5.4&times;) is the closest numerical analogue to the hand calculation's rigid-support assumption: its 42&nbsp;MPa against the hand calc's 20.74&nbsp;MPa is the like-for-like comparison, while the free-wall 9.1&times; shows how much real geometry and wall flexibility the uniform K<sub>f</sub> = 2.7 cannot capture.</p>
 
 <div class="finding">
 <span class="k">Contributor 1: Geometric stress concentration</span>
