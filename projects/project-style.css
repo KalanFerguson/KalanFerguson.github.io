@@ -189,6 +189,54 @@ a     { text-decoration: none; }
   box-shadow: var(--shadow-subtle);
 }
 
+/* ─── RESULT TABLE ────────────────────────────────────── */
+.result-table {
+  width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 14px;
+  background: var(--snow); border-radius: var(--r-inner); overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+.result-table th {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--pebble); background: var(--fog);
+  padding: 11px 16px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.result-table td {
+  padding: 10px 16px; color: var(--midnight);
+  border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 14px; line-height: 1.5;
+}
+.result-table tr:last-child td { border-bottom: none; }
+.result-table .hi { color: var(--carbon); font-weight: 500; }
+.result-table .pass {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em;
+  color: #2a7a4b; background: rgba(42,122,75,0.08); padding: 2px 8px; border-radius: 4px;
+}
+.result-table .dim { color: var(--pebble); font-style: italic; }
+
+/* ─── FINDING ─────────────────────────────────────────── */
+.finding {
+  background: var(--snow); border-left: 3px solid var(--tangerine);
+  border-radius: 0 var(--r-inner) var(--r-inner) 0;
+  padding: 18px 22px; margin: 32px 0; box-shadow: var(--shadow-subtle);
+}
+.finding .k {
+  font-family: var(--font-mono); font-size: 9px; color: var(--tangerine);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; display: block;
+}
+.finding p { font-size: 14px; line-height: 1.7; color: var(--stone); margin: 0 0 8px; }
+.finding p:last-child { margin: 0; }
+
+/* ─── DOWNLOAD BUTTON / ACTION ROW ────────────────────── */
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px;
+  font-family: var(--font-display); font-size: 14px; font-weight: 500;
+  color: var(--carbon); background: var(--snow); border-radius: var(--r-btn);
+  box-shadow: var(--shadow-subtle); border: 1px solid rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.dl-btn:hover { box-shadow: var(--shadow-subtle-2); transform: translateY(-1px); }
+.action-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.action-row .back { margin-top: 0; }
+
 /* ─── BACK LINK ───────────────────────────────────────── */
 .back {
   display: inline-flex; align-items: center; gap: 8px;

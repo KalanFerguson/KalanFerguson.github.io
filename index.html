@@ -800,7 +800,7 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
         <h2>A first-principles engineer.</h2>
         <p>I am a third-year Mechanical Engineering (Honours) student at QUT with an Aerospace Minor. My approach to engineering is grounded in first principles: I decompose systems into their load paths, failure modes, and energy flows before touching any software, then validate analytically before committing to FEA or CAD.</p>
         <p>My technical work spans structural analysis, fatigue modelling, kinematics, aerodynamics, and thermodynamics: the same first-principles physics that governs thermal management and energy flow in any high-density system, whether that is a turbine, a weld group, or a data centre. I maintain a deep interest in <span class="em">Australian sovereign defence capability</span> and the engineering behind platforms that define it, and an equal interest in the physical constraints now reshaping energy infrastructure: the power density, cooling, and grid-capacity limits behind the AI buildout. I want to contribute directly to programmes like the <span class="em">MQ-28A Ghost Bat</span> and AUKUS Pillar II advanced capabilities, or to the structural and thermal engineering problems facing energy majors and infrastructure consultancies as demand scales.</p>
-        <p>Outside coursework, I am one of two aerostructural leads on a QUT Aerospace Society design team developing a twin-boom, push-pull, fully autonomous racing UAV from blank-sheet conceptual design. I led configuration trade studies across propulsion layouts, tail arrangements, and airframe architectures, and drove the airfoil selection process evaluating Selig, Eppler, Drela, and NACA families at Re ~110k, ultimately recommending NACA 4412. Current work covers aerodynamic sizing methodology and early CAD. Next phases: OpenVSP validation, ANSYS structural FEA, and prototype fabrication with ArduPilot integration.</p>
+        <p>Outside coursework, I was one of two aerostructural leads on a QUT Aerospace Society design team developing a twin-boom, tractor-and-pusher, hand-launched autonomous UAV from blank-sheet conceptual design. I led configuration trade studies across propulsion layouts, tail arrangements, and airframe architectures, and drove the airfoil selection process evaluating Selig, Eppler, Drela, and NACA families at Re ~110k, ultimately recommending NACA 4412. The project reached a design-and-sizing milestone: structure, sizing, and configuration finalised in CAD at a 529 g takeoff weight under a 750 g ceiling, with no physical build completed.</p>
       </div>
       <div class="about-side reveal">
         <div class="stat-card">
@@ -820,8 +820,8 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
           <div class="v">NV1 eligible<small>Australian citizen</small></div>
         </div>
         <div class="stat-card">
-          <span class="k">Active   QUT Aerospace Society</span>
-          <div class="v">UAV Aerostructures Lead<small>Twin-boom autonomous racer / 500g MTOW / Conceptual design phase</small></div>
+          <span class="k">QUT Aerospace Society</span>
+          <div class="v">UAV Aerostructures Co-Lead<small>Twin-boom hand-launched UAV / 529g design weight / Structure finalised in CAD</small></div>
         </div>
         <div class="open-pill">Actively seeking 2026 internship, Brisbane</div>
       </div>
@@ -899,6 +899,7 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
         <h4>Work</h4>
         <div class="links">
           <a href="projects/weld-fatigue.html">Weld fatigue audit</a>
+          <a href="projects/uav-aerostructures.html">Twin-boom UAV</a>
           <a href="projects/walking-robot.html">Walking robot</a>
           <a href="projects/planetary-gearbox.html">Planetary gearbox</a>
           <a href="projects/diesel-engine.html">Diesel engine analysis</a>
@@ -936,6 +937,7 @@ a.writing-card:hover .writing-card-img img { transform: scale(1.04); }
 /* ── PROJECTS ────────────────────────────────────────── */
 var PROJECTS = [
   { tag:"Fatigue Analysis",  title:"Weld Fatigue Design Audit",             summary:"Five load case fatigue audit of a welded trailer suspension bracket. Modified Goodman with Kf = 2.7 and ANSYS mesh convergence study. FoS: 6.33, infinite life confirmed.",    url:"projects/weld-fatigue.html",      img:"img/projects/weld-mesh-critical.png" },
+  { tag:"Aerostructures",    title:"Twin-Boom Autonomous UAV",              summary:"Aerostructural sizing and design for a hand-launched autonomous UAV. Every constraint (hand-launch speed, wingspan limit) derived down to a 650 mm wing at 142k Re. Structure finalised in CAD.", url:"projects/uav-aerostructures.html", img:"img/projects/uav-wing-iso.png" },
   { tag:"Kinematics",        title:"Walking Robot: Four-Bar Linkage",       summary:"Coupled four-bar crank-rocker mechanisms with 180-degree phase offset. Walked 2 m in 18 s, inside the 30-second target.",                                    url:"projects/walking-robot.html",     img:"img/projects/robot-iso-full.jpg" },
   { tag:"Machine Design",    title:"3-Stage Planetary Gearbox",             summary:"64:1 reduction gearbox delivering 20 Nm from 1500 RPM. Lewis bending, AGMA contact, and von Mises fatigue analysis.",                                         url:"projects/planetary-gearbox.html", img:"img/projects/gbx-assembly.jpg" },
   { tag:"Thermodynamics",    title:"Diesel Engine Thermodynamic Analysis",  summary:"Perkins 404D-22 evaluated across six operating points. Energy balance, PV cycle, polytropic coefficient fitting with R squared above 0.999.",               url:"projects/diesel-engine.html",     img:"img/projects/thermo-turbine.jpg" },

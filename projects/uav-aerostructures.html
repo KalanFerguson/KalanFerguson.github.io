@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Twin-Boom Autonomous UAV / Kalan Ferguson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+
+<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../writing.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+
+<div class="proj-hero">
+<div class="inner">
+<div class="tag">QUT Aerospace Society / UAV Aerostructures</div>
+<h1>Twin-Boom Autonomous UAV: Aerostructural Sizing and Design</h1>
+<div class="meta">Kalan Ferguson / Aerostructures Co-Lead / 2025 to present</div>
+</div>
+</div>
+
+<div class="specs-bar"><div class="specs-row">
+<div class="spec-item"><div class="k">Wingspan</div><div class="v">650 mm</div></div>
+<div class="spec-item"><div class="k">Takeoff Weight</div><div class="v">~529 g</div></div>
+<div class="spec-item"><div class="k">Cruise Re</div><div class="v">142,000</div></div>
+<div class="spec-item"><div class="k">Status</div><div class="v">Design finalised</div></div>
+</div></div>
+
+<div class="article">
+
+<h2>Overview</h2>
+<p>Every major number in this wing was derived, not chosen. The 650 mm span, the 16 m/s cruise speed, the 142k Reynolds number at that cruise: none of these were picked as targets and worked backward from. They fell out of pinning down the constraints that actually mattered (hand-launch capability, a wingspan limit, and the geometry already committed to in CAD) and letting the rest follow.</p>
+
+<h2>Where we started</h2>
+<p>The starting point was not a spreadsheet. It was a review of basic drone archetypes: what missions they were built for, and why their configurations looked the way they did. That review, not a target aircraft, is what drove every configuration decision that followed.</p>
+
+<p>Twin motors, tractor and pusher, came directly out of it. A conventional twin-motor layout with one prop on each wing creates yaw asymmetry the moment thrust differs between the two motors. Placing both motors on the centreline instead, one pulling at the nose and one pushing at the tail, removes that asymmetry entirely.</p>
+
+<p>The twin-boom fuselage followed from that decision, not the other way around. It was the structural answer to physically clearing a pusher propeller of the tail, something a conventional single-boom fuselage cannot do without shortening the tail moment arm or fouling the prop disc.</p>
+
+<p>A high elevator kept the horizontal stabiliser out of the pusher propeller's wake, avoiding degraded control effectiveness from disturbed flow over that surface. Twin rudders, one on each boom, added the yaw control authority the twin-boom layout made available, rather than relying on a single fin.</p>
+
+<h2>From configuration to numbers</h2>
+<p>With the configuration fixed, the next step was putting numbers to it. A sizing spreadsheet with rough estimates sat alongside CAD that already showed the twin-boom fuselage, high elevator, and twin rudders. The spreadsheet's wingspan came out at 743 mm, too large for the platform. Weights throughout were placeholder estimates rather than numbers grounded in what the CAD actually showed. The goal from here was to replace every estimate with a number that was either measured from the CAD or derived from a real constraint.</p>
+
+<div class="img-block"><img src="../img/projects/uav-wing-iso.png" alt="Twin-boom UAV wing assembly, isometric CAD render"><div class="img-caption">Wing assembly, isometric: dihedral break visible at the centre join, outer 40% aileron sections either side</div></div>
+
+<div class="img-block"><img src="../img/projects/uav-wing-planform.png" alt="Twin-boom UAV wing planform, front view showing rib spacing and dihedral break"><div class="img-caption">Wing planform: dihedral break at the centre join, alternating rib bays visible along each half</div></div>
+
+<h2>Design decisions</h2>
+
+<div class="finding">
+<span class="k">750 g as a ceiling, not a target</span>
+<p>Rather than designing toward the maximum takeoff weight, the aircraft was sized to whatever it actually weighed once every component was accounted for, with 750 g held as a hard limit it had to stay under.</p>
+</div>
+
+<div class="finding">
+<span class="k">Cruise speed derived, not assumed</span>
+<p>Rather than picking a cruise speed and checking whether it worked, cruise was derived as the fastest speed the design could sustain while keeping hand-launch speed at or below a 12 m/s threshold, arriving at 16 m/s.</p>
+</div>
+
+<h3>No wing taper</h3>
+<p>Tapering was considered early on but never had a strong justification behind it. A rectangular planform was selected, which simplifies the build without giving up meaningful performance at this scale.</p>
+
+<h3>Rib pitch at 50 mm</h3>
+<p>An initial 15 mm spacing would have meant 44 ribs, adding unnecessary weight for no structural benefit at this span. Fifty millimetres is a conventional pitch that still supports the skin properly.</p>
+
+<div class="finding">
+<span class="k">Dihedral kept, washout added</span>
+<p>A zero-dihedral critique aimed at racing wings did not apply here: this is a hand-launched autonomous platform, not a racer, so 2 to 3 degrees of dihedral was retained for stability. The one part of that critique worth keeping was washout, added at roughly 2 degrees tip to root.</p>
+</div>
+
+<h3>Structure simplified</h3>
+<p>The wing settled on a single 6 mm carbon spar rather than two, a balsa trailing-edge strip instead of a second carbon rod, D-box sheeting for torsional stiffness, and plywood reserved only for the three highest-load ribs.</p>
+
+<div class="img-grid">
+<div class="img-block"><img src="../img/projects/uav-rib-profiles.png" alt="Wing rib airfoil cross-sections, isometric"><div class="img-caption">Rib stations along the span: NACA 4412 profile with spar bore visible</div></div>
+<div class="img-block"><img src="../img/projects/uav-rib-stack.png" alt="Close-up of stacked wing ribs"><div class="img-caption">Rib stack close-up: 6&nbsp;mm carbon spar bore and D-box leading-edge line</div></div>
+</div>
+
+<h2>Where it landed</h2>
+
+<table class="result-table">
+<tr><th>Aircraft</th><th>Value</th><th>Note</th></tr>
+<tr><td>Takeoff weight</td><td class="hi">~529 g</td><td>Under the 750 g ceiling</td></tr>
+<tr><td>Configuration</td><td>Twin-boom, tractor + pusher</td><td>High elevator, twin rudders</td></tr>
+</table>
+
+<table class="result-table">
+<tr><th>Wing</th><th>Value</th><th>Note</th></tr>
+<tr><td>Planform</td><td>Rectangular, 650 &times; 130 mm</td><td>No taper</td></tr>
+<tr><td>Aspect ratio</td><td>5.0</td><td>Rectangular, no taper</td></tr>
+<tr><td>Aerofoil</td><td>NACA 4412</td><td>Validated at cruise Re</td></tr>
+<tr><td>Dihedral</td><td>2 to 3 degrees</td><td>Retained for stability</td></tr>
+<tr><td>Washout</td><td>~2 degrees, tip to root</td><td>Added to the design</td></tr>
+<tr><td>Ribs</td><td>14 balsa, 3 plywood</td><td>50 mm pitch, plywood at high-load stations</td></tr>
+<tr><td>Main spar</td><td>Single 6 mm carbon</td><td>At 25% chord</td></tr>
+<tr><td>Trailing edge</td><td>Balsa strip</td><td>D-box sheeting forward of spar</td></tr>
+<tr><td>Ailerons</td><td>Outer 40% each half</td><td>Control surfaces</td></tr>
+<tr><td>Covering</td><td>Heat-shrink film</td><td>Skin finish</td></tr>
+<tr><td class="hi">Estimated mass</td><td class="hi">~51 g</td><td>Wing only</td></tr>
+</table>
+
+<table class="result-table">
+<tr><th>Performance</th><th>Value</th><th>Note</th></tr>
+<tr><td>Cruise speed</td><td class="hi">16 m/s</td><td>~57 km/h</td></tr>
+<tr><td>Stall speed</td><td>~10 m/s</td><td>Estimated</td></tr>
+<tr><td>Hand-launch target</td><td>~12 m/s</td><td>Sets the cruise margin</td></tr>
+<tr><td>Reynolds number at cruise</td><td class="hi">142,000</td><td>Inside the validated NACA 4412 data range</td></tr>
+<tr><td>Cruise power</td><td>~22 W total</td><td>~11 W per motor</td></tr>
+<tr><td class="hi">Estimated endurance</td><td class="hi">~36 minutes</td><td>Estimated</td></tr>
+</table>
+
+<h2>Status</h2>
+<p>This is a design-and-sizing milestone, not a completed aircraft. Structure, sizing, and configuration are finalised in CAD; nothing has been physically built yet. Next phases are OpenVSP aerodynamic validation, ANSYS structural FEA on the spar and rib layout, and prototype fabrication with ArduPilot integration.</p>
+
+<h2>The through-line</h2>
+<p>Nothing here was chosen because it looked reasonable. Every number traces back to a constraint: hand-launch speed sets cruise, cruise sets Reynolds number, the wingspan limit sets aspect ratio, and the CAD-visible fuselage geometry set the motor layout before any of the wing sizing began. That ordering, constraints first and numbers derived second, is the actual design process behind this aircraft, not just its result.</p>
+
+<a href="../index.html#work" class="back">&larr; Back to projects</a>
+
+</div>
+</body>
+</html>
