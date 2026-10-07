@@ -1,173 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><link rel="icon" type="image/png" href="img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- chrome:head -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Resume / Kalan Ferguson</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --fog:       #f7f7f7;
-  --snow:      #ffffff;
-  --carbon:    #000000;
-  --midnight:  #181825;
-  --stone:     #636363;
-  --pebble:    #949494;
-  --tangerine: #f69251;
-  --shadow-subtle:   rgba(24,24,37,0.12) 0px 2px 3px -2px;
-  --shadow-subtle-2: rgba(0,0,0,0.04) 0px 1px 2px 0px,
-                     rgba(0,0,0,0.02) 0px 2px 4px 0px,
-                     rgba(0,0,0,0.02) 0px 4px 8px 0px;
-  --r-btn:   28px;
-  --r-nav:   32px;
-  --r-badge: 100px;
-  --r-card:  24px;
-  --font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--fog); color: var(--carbon); font-family: var(--font-body);
-       -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-a { text-decoration: none; }
-
-/* NAV */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  padding: 12px 24px;
-  pointer-events: none;
-}
-.nav-inner {
-  pointer-events: auto;
-  max-width: 1200px; margin: 0 auto;
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border: 1px solid rgba(255,255,255,0.55);
-  border-radius: var(--r-nav);
-  box-shadow: var(--shadow-subtle);
-  padding: 0 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
-}
-.brand {
-  display: flex; align-items: center; gap: 10px;
-  font-family: var(--font-display); font-size: 15px; font-weight: 500;
-  color: var(--carbon); letter-spacing: -0.01em;
-}
-.brand img { width: 34px; height: 34px; border-radius: 50%; }
-.nav-links { display: flex; gap: 4px; align-items: center; }
-.nav-links a {
-  font-size: 14px; font-weight: 500; color: var(--stone);
-  padding: 6px 12px; border-radius: var(--r-badge);
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--carbon); }
-.nav-cta {
-  background: var(--tangerine) !important;
-  color: var(--carbon) !important;
-  border-radius: var(--r-btn) !important;
-  padding: 8px 20px !important;
-  box-shadow: var(--shadow-subtle-2);
-  transition: opacity 0.2s !important;
-}
-.nav-cta:hover { opacity: 0.85 !important; }
-
-/* PAGE CONTENT */
-.page-header {
-  max-width: 900px; margin: 0 auto;
-  padding: 56px 32px 32px;
-}
-.page-header .label {
-  font-family: var(--font-mono); font-size: 10px;
-  color: var(--pebble); letter-spacing: 0.2em; text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.page-header h1 {
-  font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px);
-  font-weight: 300; letter-spacing: -0.02em; color: var(--carbon);
-  margin-bottom: 8px;
-}
-.page-header .sub {
-  font-size: 15px; color: var(--stone); line-height: 1.6;
-}
-
-.resume-wrap {
-  max-width: 900px; margin: 0 auto;
-  padding: 0 32px 120px;
-}
-.pdf-card {
-  background: var(--snow);
-  border-radius: var(--r-card);
-  box-shadow: var(--shadow-subtle);
-  overflow: hidden;
-  margin-bottom: 24px;
-}
-.pdf-embed {
-  width: 100%; height: 80vh;
-  border: none; display: block;
-}
-.resume-actions {
-  display: flex; gap: 12px; flex-wrap: wrap;
-}
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 28px;
-  font-family: var(--font-display); font-size: 14px; font-weight: 500;
-  color: var(--carbon); background: var(--tangerine);
-  border-radius: var(--r-btn);
-  box-shadow: var(--shadow-subtle-2);
-  transition: opacity 0.2s;
-}
-.btn-primary:hover { opacity: 0.85; }
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 28px;
-  font-family: var(--font-display); font-size: 14px; font-weight: 500;
-  color: var(--carbon); background: var(--snow);
-  border-radius: var(--r-btn);
-  box-shadow: var(--shadow-subtle);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.btn-ghost:hover { box-shadow: var(--shadow-subtle-2); transform: translateY(-1px); }
-
-@media (max-width: 700px) {
-  .nav-links a:not(.nav-cta) { display: none; }
-  .pdf-embed { height: 60vh; }
-}
-::selection { background: var(--tangerine); color: var(--carbon); }
-</style>
+<meta name="description" content="Resume of Kalan Ferguson, Mechanical Engineering (Honours) with an aerospace minor at QUT.">
+<link rel="canonical" href="https://kalanferguson.com/resume.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kalan Ferguson">
+<meta property="og:title" content="Resume">
+<meta property="og:description" content="Resume of Kalan Ferguson, Mechanical Engineering (Honours) with an aerospace minor at QUT.">
+<meta property="og:url" content="https://kalanferguson.com/resume.html">
+<meta property="og:image" content="https://kalanferguson.com/img/og/resume.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="resume.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="site.js" defer></script>
+<script data-goatcounter="https://kalanferguson.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- /chrome:head -->
 </head>
 <body>
-
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="index.html" class="brand"><img src="img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a>
-    <nav class="nav-links">
-      <a href="index.html#work">Work</a>
-      <a href="index.html#about">About</a>
-      <a href="writing.html">Writing</a>
-      <a href="resume.html">Resume</a>
-      <a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a>
+<!-- chrome:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="img/kf-logo-96.png" alt="" width="28" height="28">Kalan Ferguson</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="resume.html" aria-current="page">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   </div>
 </header>
-
-<div class="page-header">
-  <div class="label">Curriculum Vitae</div>
-  <h1>Resume</h1>
-  <p class="sub">Mechanical Engineering (Honours) / Aerospace Minor / Queensland University of Technology</p>
-</div>
-
-<div class="resume-wrap">
-  <div class="pdf-card">
-    <iframe src="resume.pdf" class="pdf-embed" title="Kalan Ferguson Resume"></iframe>
+<!-- /chrome:header -->
+<main id="main">
+  <div class="resume wrap">
+    <div class="side">
+      <p class="label">Resume</p>
+      <h1>Kalan Ferguson</h1>
+      <p class="lede">Mechanical Engineering (Honours), aerospace minor, Queensland University of Technology. Major GPA 6.0 / 7.</p>
+      <p class="actions">
+        <a href="resume.pdf">Open the PDF</a>
+        <a href="resume.pdf" download="Kalan_Ferguson_Resume.pdf">Download the PDF (300 KB)</a>
+      </p>
+      <p class="muted" style="margin:0">One page. The preview shows the same file.</p>
+    </div>
+    <a class="sheet" href="resume.pdf" aria-label="Open the resume PDF">
+      <img src="img/resume-preview.webp" width="1310" height="1853" alt="Preview of Kalan Ferguson's one-page resume: career objective, education, technical projects, professional experience and technical skills">
+    </a>
   </div>
-  <div class="resume-actions">
-    <a href="resume.pdf" download class="btn-primary">Download PDF</a>
-    <a href="index.html" class="btn-ghost">&larr; Back to portfolio</a>
+</main>
+<!-- chrome:footer -->
+<footer class="site-foot" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p style="margin:0 0 .4rem;font-size:1.15rem;color:var(--ink)">Kalan Ferguson</p>
+        <p class="muted" style="margin:0;max-width:34ch">Mechanical Engineering (Honours), aerospace minor, QUT. Seeking 2026/27 summer internships in aerospace, defence, energy and advanced manufacturing.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a class="addr" href="mailto:kalanferguson005@gmail.com">kalanferguson005@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/kalan-ferguson-288858326/" rel="noopener">LinkedIn</a></li>
+          <li><a href="resume.html">Resume</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="projects/egh404-liquid-cooling.html">Liquid cooling for AI racks</a></li>
+          <li><a href="projects/weld-fatigue.html">Weld fatigue audit</a></li>
+          <li><a href="projects/uav-aerostructures.html">Twin-boom UAV</a></li>
+          <li><a href="index.html#more">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Writing</h2>
+        <ul>
+          <li><a href="ghostbat.html">MQ-28A Ghost Bat</a></li>
+          <li><a href="writing.html">All writing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>Academic figures reflect QUT records as of Semester 1, 2026. Writing is personal and does not represent QUT, the QUT Aerospace Society or any company.</span>
+      <span>&copy; 2026 Kalan Ferguson</span>
+    </div>
   </div>
-</div>
-
+</footer>
+<!-- /chrome:footer -->
 </body>
 </html>

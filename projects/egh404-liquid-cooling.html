@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- chrome:head -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where single-phase cooling runs out / Kalan Ferguson</title>
+<meta name="description" content="Research proposal: a boundary-consistent comparison of single- and two-phase direct-to-chip liquid cooling for AI accelerator racks above 200 kW.">
+<link rel="canonical" href="https://kalanferguson.com/projects/egh404-liquid-cooling.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kalan Ferguson">
+<meta property="og:title" content="Where single-phase cooling runs out">
+<meta property="og:description" content="Research proposal: a boundary-consistent comparison of single- and two-phase direct-to-chip liquid cooling for AI accelerator racks above 200 kW.">
+<meta property="og:url" content="https://kalanferguson.com/projects/egh404-liquid-cooling.html">
+<meta property="og:image" content="https://kalanferguson.com/img/og/egh404.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="project-style.css">
+<link rel="stylesheet" href="egh404.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="../site.js" defer></script>
+<script data-goatcounter="https://kalanferguson.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- /chrome:head -->
+</head>
+<body>
+<!-- chrome:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img src="../img/kf-logo-96.png" alt="" width="28" height="28">Kalan Ferguson</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../writing.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /chrome:header -->
+<main id="main">
+
+<header class="proj-hero">
+  <figure class="hero-img">
+    <img src="../img/projects/egh404-hero.webp" width="1200" height="1406" alt="Contour map of case temperature across a GPU die under a grid of 16 jet nozzles: blue at the die edge, orange towards the centre, and a hotspot outlined in red where the case temperature exceeds its limit" fetchpriority="high">
+  </figure>
+  <div class="inner">
+    <div class="tag">EGH404 Research in Engineering Practice, research proposal</div>
+    <h1>Where single-phase cooling runs out</h1>
+    <p class="lede">A boundary-consistent comparison of single- and two-phase direct-to-chip liquid cooling for AI accelerator racks above 200 kW.</p>
+    <div class="meta">Kalan Ferguson, Queensland University of Technology, October 2026</div>
+    <p class="status"><b>Proposal stage.</b> The literature review, method and evaluation plan are complete. The preliminary analysis runs on a synthetic dataset; no experiment has been carried out yet.</p>
+  </div>
+</header>
+
+<div class="specs-bar"><div class="specs-row">
+  <div class="spec-item"><div class="k">Validated today</div><div class="v">52 kW per rack</div></div>
+  <div class="spec-item"><div class="k">Needed next</div><div class="v">180 to 220 kW</div></div>
+  <div class="spec-item"><div class="k">Proposed test matrix</div><div class="v">270 runs, 3 scales</div></div>
+  <div class="spec-item"><div class="k">Deliverable</div><div class="v">A measured P* map</div></div>
+</div></div>
+
+<!-- Introduction -->
+<section class="chapter" aria-labelledby="h-intro">
+  <div class="wide">
+    <p class="sec-name">Introduction</p>
+    <h2 id="h-intro">Single-phase cooling is validated to 52 kW per rack. Next-generation racks need 180 to 220 kW.</h2>
+    <div class="split">
+      <dl class="rows">
+        <div><dt>Topic</dt><dd>Direct-to-chip liquid cooling of AI accelerators. A cold plate on each GPU carries heat away by warming a liquid (single-phase) or boiling a refrigerant (two-phase).</dd></div>
+        <div><dt>Problem</dt><dd>Single-phase is the only mode validated at rack scale (Heydari et al., 2024). Two-phase has been tested only at chip and channel scale, with incompatible metrics (Lee et al., 2026; Morse et al., 2021). The limit of single-phase cannot yet be quantified.</dd></div>
+        <div><dt>Questions</dt><dd>
+          <span class="rq"><span class="n">RQ1</span>At what GPU power and coolant condition does single-phase cooling exceed its case-temperature limit, measured on the same boundary as two-phase?</span>
+          <span class="rq"><span class="n">RQ2</span>Does two-phase extend that limit at rack scale without dryout or flow maldistribution?</span>
+        </dd></div>
+      </dl>
+      <figure>
+        <img src="../img/projects/egh404-modes.webp" width="1800" height="1518" alt="Two cold-plate channel sections. Single-phase: cool liquid enters and warms along the channel as heat flows up from the die. Two-phase: liquid boils into bubbles, vapour slugs and a vapour core, and at the end the wall film dries out and wall temperature jumps." loading="lazy">
+        <figcaption>Single-phase carries sensible heat: the liquid warms along the channel. Two-phase carries latent heat at near-constant temperature until the wall film dries out, where wall temperature jumps (red).</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Literature review -->
+<section class="chapter" aria-labelledby="h-lit">
+  <div class="wide">
+    <p class="sec-name">Literature review</p>
+    <h2 id="h-lit">No study compares both modes on one boundary above package scale.</h2>
+    <div class="table-scroll">
+      <table class="lit">
+        <thead><tr><th scope="col">Scale</th><th scope="col">Metric reported</th><th scope="col">Single-phase</th><th scope="col">Two-phase</th></tr></thead>
+        <tbody>
+          <tr><td>Rack</td><td>Heat capture ratio; CDU effectiveness</td><td><b>Heydari et al. (2024).</b> Three racks, about 52 kW per rack, 94% of heat captured by liquid.</td><td class="gap"><b>No published data.</b>The cell this proposal fills.</td></tr>
+          <tr><td>Package</td><td>Thermal resistance, K/W</td><td><b>Lee et al. (2026).</b> 0.032 K/W at about 1 kW. <b>Wu et al. (2025):</b> 3,000 W/cm².</td><td><b>Lee et al. (2026).</b> Resistance 8.7% higher; energy efficiency 78% better. <b>Drummond et al. (2018):</b> 910 W/cm².</td></tr>
+          <tr><td>Channel</td><td>Dryout fraction, % of critical heat flux</td><td><b>Classical correlations.</b> Dittus-Boelter forced convection (Incropera et al., 2007).</td><td><b>Morse et al. (2021).</b> Dryout begins at about 90% of critical heat flux; the heat-transfer coefficient peaks just before it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="claim">Each study draws its boundary at a different scale and reports a different metric, and the verdict flips with the metric (Lee et al., 2026).</p>
+    <div class="split body-text" style="margin-top:var(--s-5)">
+      <div>
+        <p>My literature review found the apparent superiority of two-phase cooling is largely an artefact of mismatched scales and metrics. On Lee et al.'s same-rig comparison, single-phase leads on thermal resistance by 8.7% while two-phase leads on energy efficiency by 78%. The better architecture depends on the framework applied, not only the physics.</p>
+      </div>
+      <div>
+        <p>Two-phase also carries a failure mode single-phase does not. Its best heat transfer sits right next to dryout, so operating near its optimum means accepting a margin to a discontinuity. Nobody has located that margin at chip-relevant heat flux, or tested two-phase flow distribution across a rack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Motivation -->
+<section class="chapter" aria-labelledby="h-mot">
+  <div class="wide">
+    <p class="sec-name">Motivation, rationale and objectives</p>
+    <h2 id="h-mot">Rack heat load now exceeds the validated evidence by 3.5 to 4.2 times.</h2>
+    <div class="split">
+      <figure>
+        <svg class="plot bars" viewBox="0 0 560 330" role="img" aria-labelledby="bars-t">
+          <title id="bars-t">Bar chart of rack heat load: the largest validated rack test is 52 kW; GB200 and GB300 racks need 120 to 140 kW; Vera Rubin NVL72 racks need 180 to 220 kW, 3.5 to 4.2 times the largest test.</title>
+          <text x="0" y="18" class="atitle">Largest validated rack (Heydari et al., 2024)</text>
+          <rect x="0" y="30" width="103" height="34" fill="var(--cold)"/>
+          <text x="113" y="58" style="font-family:var(--f-serif);font-size:30px;fill:var(--cold)">52</text><text x="152" y="58" style="font-size:15px;fill:var(--muted)">kW</text>
+          <text x="0" y="110" class="atitle">GB200 / GB300 today</text>
+          <rect x="0" y="122" width="238" height="34" fill="#8F8D86"/><rect x="238" y="122" width="40" height="34" fill="#C9C7BE"/>
+          <text x="290" y="150" style="font-family:var(--f-serif);font-size:30px;fill:var(--ink)">120 to 140</text><text x="440" y="150" style="font-size:15px;fill:var(--muted)">kW</text>
+          <text x="0" y="202" class="atitle">Vera Rubin NVL72, next (Chu et al., 2026)</text>
+          <rect x="0" y="214" width="357" height="34" fill="#8F8D86"/><rect x="357" y="214" width="79" height="34" fill="#C9C7BE"/>
+          <text x="448" y="242" style="font-family:var(--f-serif);font-size:30px;fill:var(--ink)">180 to 220</text>
+          <path d="M103 278 V292 M103 285 H357 M357 278 V292" stroke="var(--red)" stroke-width="2" fill="none"/>
+          <text x="103" y="316" style="font-family:var(--f-serif);font-size:16px;fill:var(--red-ink)">Unvalidated: 3.5 to 4.2 times the largest rack-scale test</text>
+        </svg>
+        <figcaption>Bars to scale, 0 to 220 kW. Roadmaps approach 1 MW per rack, and thermal management already draws about 40% of data-centre electricity (Wu et al., 2025).</figcaption>
+      </figure>
+      <div>
+        <p class="sec-name">Objectives</p>
+        <ol class="objectives">
+          <li>One boundary and one metric set for both modes.</li>
+          <li>Measure the single-phase limit P* across power, flow and inlet temperature.</li>
+          <li>Test whether two-phase extends P* at rack-slice and full-rack scale.</li>
+        </ol>
+        <div class="hypothesis">
+          <span class="sec-name">Hypothesis</span>
+          <p>Two-phase holds T<sub>case</sub> below 90 °C beyond the single-phase P*, at equal or lower pumping power.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Methods -->
+<section class="chapter" aria-labelledby="h-meth">
+  <div class="wide">
+    <p class="sec-name">Methods</p>
+    <h2 id="h-meth">One control volume, measured at three scales.</h2>
+    <div class="split wide-left">
+      <figure>
+        <img src="../img/projects/egh404-cv.webp" width="2000" height="872" alt="Section through the test stack: coolant flows through microchannels in a copper cold-plate base, above a thermal interface, a case thermocouple, the silicon die and a heater. A dashed control volume encloses case to coolant, with flow, temperature and pressure-drop sensors at inlet and outlet." loading="lazy">
+        <figcaption>The control volume runs from case to coolant and is measured the same way for both modes on the same mount.</figcaption>
+        <p class="muted" style="font-size:1rem">Every stage reports the same four metrics: thermal resistance, heat capture, pumping power (ΔP × V̇) and exergy destruction.</p>
+      </figure>
+      <ol class="stages">
+        <li><div><h3>Package bench</h3><p>One thermal test vehicle. The single-phase cold plate and the two-phase evaporator swap on one mount, with a full-factorial sweep of power, flow and inlet temperature.</p><p class="why">Cooling mode becomes the only variable, as in Lee et al. (2026).</p></div></li>
+        <li><div><h3>Rack-slice</h3><p>Eight test vehicles on parallel cold plates sharing supply and return headers, up to 1.8 kW each (about 15 kW).</p><p class="why">Reproduces uneven branch flow, the rack-scale failure mode in Heydari et al. (2024).</p></div></li>
+        <li><div><h3>Full-rack validation</h3><p>One NVL72-class production rack (180 to 220 kW) at an industry partner, same sensors, live workloads.</p><p class="why">Tests the bench-derived P* map under real facility conditions.</p></div></li>
+      </ol>
+    </div>
+    <p class="muted" style="margin-top:var(--s-4);max-width:70ch">I ruled out CFD alone because it cannot yet predict dryout onset at these geometries, and field data alone because it cannot isolate cooling mode.</p>
+  </div>
+</section>
+
+<!-- Resources -->
+<section class="chapter" aria-labelledby="h-res">
+  <div class="wide">
+    <p class="sec-name">Resources</p>
+    <h2 id="h-res">Two coolant loops, 15 kW of test load, one partner rack, no human participants.</h2>
+    <div>
+      <p class="muted" style="margin:0 0 var(--s-3);max-width:70ch">What the experiment would need. None of it has been booked or agreed; this is the request the proposal makes.</p>
+      <div class="table-scroll" style="margin:0">
+        <table class="res">
+          <thead><tr><th scope="col">Resource</th><th scope="col">Requirement</th><th scope="col">Specification</th></tr></thead>
+          <tbody>
+            <tr><td>Test articles</td><td>8 thermal test vehicles</td><td>0.6 to 1.8 kW each; embedded thermocouples; patterned heaters</td></tr>
+            <tr><td>Cooling hardware</td><td>Single-phase cold plates and CDU; two-phase evaporators and pumped loop</td><td>PG25 water-glycol; low-GWP, PFAS-free dielectric refrigerant</td></tr>
+            <tr><td>Instrumentation</td><td>Coriolis flow meters, ΔP transducers, thermocouples, RTDs, power analyser</td><td>1 Hz acquisition, calibrated before commissioning</td></tr>
+            <tr><td>Facility</td><td>A thermal laboratory bay</td><td>About 20 kW three-phase supply, chiller, ventilation, refrigerant recovery</td></tr>
+            <tr><td>Field site</td><td>A partner data centre, to be secured</td><td>One NVL72-class rack (180 to 220 kW); telemetry under NDA</td></tr>
+            <tr><td>Software</td><td>Python (SciPy, CoolProp), Excel</td><td>Open repository for non-confidential data and code</td></tr>
+            <tr><td>People and time</td><td>Supervisor, lab technician, partner engineer</td><td>12 months: bench 0 to 5, rack-slice 5 to 9, field 9 to 11, write-up 11 to 12</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <dl class="rows ethics">
+        <div><dt>Ethics</dt><dd>Human research ethics clearance is not required: no human or animal participants.</dd></div>
+        <div><dt>Still required</dt><dd>Lab risk assessment for high-power electrical work and pressurised refrigerant. Licensed refrigerant handling. A PFAS-free fluid, since 3M exited PFAS manufacturing at the end of 2025. Partner data under NDA, with funding and conflicts disclosed, and non-confidential data published openly.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Evaluation -->
+<section class="chapter" aria-labelledby="h-eval">
+  <div class="wide">
+    <p class="sec-name">Evaluation methods</p>
+    <h2 id="h-eval">270 controlled runs, an 8&#8209;branch rack-slice, then a live rack.</h2>
+    <ol class="steps">
+      <li><strong>Commission</strong><span>Heat balance closes within ±5%</span></li>
+      <li><strong>Test matrix</strong><span>2 × 5 × 3 × 3 × 3 = 270 randomised runs</span></li>
+      <li><strong>Collect</strong><span>1 Hz; steady when dT/dt &lt; 0.1 °C/min</span></li>
+      <li><strong>Analyse</strong><span>Fit case temperature against power and flow; P* with 95% confidence intervals</span></li>
+      <li><strong>Scale up</strong><span>Rack-slice, then a live rack</span></li>
+    </ol>
+    <div class="split">
+      <figure>
+        <img src="../img/projects/egh404-tree.webp" width="1800" height="1150" alt="Rack-slice schematic: a coolant source feeds a blue supply header with eight branches, each with a valve, a flow meter and a thermal test vehicle, returning through an orange reverse-return header so every branch has the same path length." loading="lazy">
+        <figcaption>Eight branches at 1.8 kW each (about 14.4 kW). A reverse-return header gives every branch the same total path length.</figcaption>
+      </figure>
+      <dl class="rows">
+        <div><dt>Rack-slice acceptance</dt><dd>Every branch within ±10% of mean flow, and 100 hours held at 90% of predicted dryout.</dd></div>
+        <div><dt>Live rack</dt><dd>Predicted against measured case temperature under real workloads.</dd></div>
+        <div><dt>Hypothesis test</dt><dd>Supported if the two-phase P* interval lies above the single-phase interval at equal or lower pumping power: a paired comparison with a two-way ANOVA, mode × power.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Preliminary analysis -->
+<section class="chapter" aria-labelledby="h-pre">
+  <div class="wide">
+    <p class="sec-name">Preliminary data analysis and reflection</p>
+    <h2 id="h-pre">On synthetic data, two-phase resistance sits well below single-phase until dryout, then jumps 43%.</h2>
+    <div class="caveat"><span class="k">Synthetic data</span><span>These 240 runs come from a dataset I generated in Assessment 2 from textbook correlations, with 2 °C of random noise. They test the analysis pipeline, not the physics. Hover or focus a point for its run details.</span></div>
+    <div class="charts">
+      <figure class="chart">
+        <h3>Single-phase runs hotter per watt; 12 runs exceed 90 °C</h3>
+        <ul class="legend">
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="var(--cold)"/></svg>Single-phase (n = 120)</li>
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="none" stroke="var(--warm)" stroke-width="1.5"/></svg>Two-phase (n = 120)</li>
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><circle cx="11" cy="6" r="5" fill="none" stroke="var(--red)" stroke-width="1.5"/></svg>Single-phase above 90 °C</li>
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6 H21" stroke="var(--ink-2)" stroke-dasharray="2 2"/></svg>Linear trend</li>
+        </ul>
+        <svg class="plot" id="c-temp" viewBox="0 0 600 420" role="img" aria-labelledby="c-temp-t"><title id="c-temp-t">Scatter of case temperature against GPU power for 240 synthetic runs. Single-phase rises about 0.032 °C per watt and 12 runs exceed the 90 °C limit, all above 1,580 W. Two-phase rises about 0.015 °C per watt and none exceed it.</title></svg>
+        <p class="read"><b>How to read:</b> a steeper trend runs hotter per watt (R² = 0.68 single-phase, 0.27 two-phase).</p>
+      </figure>
+      <figure class="chart">
+        <h3>Two-phase resistance is lower until dryout, then jumps</h3>
+        <ul class="legend">
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="none" stroke="var(--warm)" stroke-width="1.5"/></svg>Two-phase, no dryout (n = 100)</li>
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="var(--red)"/></svg>Two-phase, dryout (n = 20)</li>
+          <li><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6 H21" stroke="var(--cold)" stroke-width="1.5" stroke-dasharray="5 3"/></svg>Single-phase mean</li>
+        </ul>
+        <svg class="plot" id="c-rth" viewBox="0 0 600 420" role="img" aria-labelledby="c-rth-t"><title id="c-rth-t">Scatter of two-phase thermal resistance against GPU power. Without dryout it falls with power along a power-law trend, averaging 34% below the single-phase mean of 0.0292 K/W. The 20 dryout runs jump 43%, back up near the single-phase line.</title></svg>
+        <p class="read"><b>How to read:</b> lower is better cooling. Before dryout, two-phase averages 0.0194 K/W, 34% below single-phase. Dryout lifts it 43%, to 0.0276 K/W.</p>
+      </figure>
+    </div>
+    <dl class="rows takeaways">
+      <div><dt>Supports the direction</dt><dd>The analysis separates the two modes and resolves a dryout step, which is exactly what the experiment must measure.</dd></div>
+      <div><dt class="k red">Contradicts the literature</dt><dd>On real hardware, two-phase resistance was 8.7% higher (Lee et al., 2026). My generator assumed two-phase wins on resistance; measured hardware shows the opposite. That is the strongest argument for the experiment.</dd></div>
+      <div><dt>Limitations</dt><dd>Synthetic and circular; no pumping power; one GPU; dryout onset uncalibrated.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- Outcomes -->
+<section class="chapter" aria-labelledby="h-out">
+  <div class="wide">
+    <p class="sec-name">Outcomes and benefits</p>
+    <h2 id="h-out">Deliverable: a measured map of where single-phase stops being sufficient.</h2>
+    <div class="split">
+      <figure class="map-wrap">
+        <div class="map-controls">
+          <span id="gpu-label">GPU power</span>
+          <div class="seg" role="group" aria-labelledby="gpu-label">
+            <button type="button" data-kw="1.4" aria-pressed="false">1.4 kW</button>
+            <button type="button" data-kw="1.8" aria-pressed="true">1.8 kW</button>
+            <button type="button" data-kw="2.2" aria-pressed="false">2.2 kW</button>
+          </div>
+        </div>
+        <ul class="legend" aria-hidden="true">
+          <li><svg viewBox="0 0 22 12"><rect width="22" height="12" fill="var(--rose)"/></svg>Single-phase exceeds 90 °C: two-phase needed</li>
+          <li><svg viewBox="0 0 22 12"><line x1="0" y1="6" x2="22" y2="6" stroke="var(--red)" stroke-width="2.4"/></svg>Limit at the selected power</li>
+        </ul>
+        <svg class="plot" id="c-map" viewBox="0 0 600 470" role="img" aria-labelledby="c-map-t"><title id="c-map-t">Map of coolant flow rate against inlet temperature with contours of the single-phase power limit P* at a 90 °C case limit. The shaded red zone is where single-phase cannot hold 90 °C for the selected GPU power.</title></svg>
+        <p class="map-out" id="map-out" aria-live="polite"></p>
+        <figcaption>Preview from the fit to the synthetic data: T<sub>case</sub> − T<sub>in</sub> = aP + bP·V̇<sup>−0.8</sup>, with a = 0.0122 and b = 0.0276 K/W. Worst case (1 L/min, 45 °C): P* = 1.13 kW single-phase, 1.66 kW two-phase.</figcaption>
+      </figure>
+      <div>
+        <p class="sec-name">Outcomes</p>
+        <ol class="objectives">
+          <li>An open benchmark dataset: both modes on one boundary, at bench, rack-slice and rack scale.</li>
+          <li>A mode-selection map: measured P*(V̇, T<sub>in</sub>) for each mode, with 95% confidence bounds.</li>
+          <li>Design limits: dryout margin and branch flow-split tolerance for parallel cold plates.</li>
+          <li>A peer-reviewed paper with open analysis code.</li>
+        </ol>
+        <dl class="rows" style="margin-top:var(--s-4)">
+          <div><dt>Operators</dt><dd>Cooling architecture chosen on measured limits, not vendor claims.</dd></div>
+          <div><dt>Engineers</dt><dd>Validated margins for cold-plate and manifold design above 1 kW per GPU.</dd></div>
+          <div><dt>Energy and environment</dt><dd>Lower pumping energy, warmer-water heat reuse, PFAS-free fluids.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q&A -->
+<section class="chapter" aria-labelledby="h-qa">
+  <div class="wide">
+    <p class="sec-name">Questions I prepared for</p>
+    <h2 id="h-qa">Each answer states the trade-off openly.</h2>
+    <dl class="qa">
+      <div><dt>Your synthetic data was generated from the relationships you then found. What is it worth?</dt><dd>It validates the analysis pipeline, not the physics. It showed the method separates the two modes, resolves a dryout step, and that a linear model is wrong for two-phase. It also exposed the contradiction with Lee et al. (2026), which is the strongest argument for the experiment.</dd></div>
+      <div><dt>Why not test a full 200 kW rack in the lab?</dt><dd>Cost and facility power. Heydari et al. (2024) show the rack-scale failure mode is flow distribution across parallel branches, which eight branches reproduce at real per-GPU heat flux. Stage 3 then validates on one production rack. Extrapolating from 8 to 72 branches is the main stated limitation.</dd></div>
+      <div><dt>Why not CFD?</dt><dd>Two-phase CFD cannot yet reliably predict dryout onset at these geometries. Experiment first; CFD is then useful for interpreting manifold flow distribution.</dd></div>
+      <div><dt>How will you detect dryout?</dt><dd>A step rise and growing fluctuation in wall and case temperature at constant power, cross-checked against exit vapour quality from the energy balance, with a sight glass at the evaporator outlet.</dd></div>
+      <div><dt>Which refrigerant?</dt><dd>A low-GWP dielectric screened against PFAS restrictions. Classic HFE fluids such as HFE-7100, used by Lee et al., are affected by 3M exiting PFAS manufacturing. Fluid choice is an ethical and supply-chain decision as well as a thermal one.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- Conclusion -->
+<section class="chapter" aria-labelledby="h-con">
+  <div class="wide">
+    <p class="sec-name">Conclusion</p>
+    <h2 id="h-con">Single-phase is proven today. This project measures where it stops being enough.</h2>
+    <div class="split wide-left">
+      <dl class="rows">
+        <div><dt>Gap</dt><dd>No study compares single- and two-phase cooling on one boundary above package scale.</dd></div>
+        <div><dt>Method</dt><dd>One control volume at bench, rack-slice and full-rack scale: 270 controlled runs, endurance and field validation.</dd></div>
+        <div><dt>Contribution</dt><dd>The first boundary-consistent P* map for direct-to-chip cooling.</dd></div>
+        <div><dt>Impact</dt><dd>Evidence for cooling-architecture decisions as AI racks pass 200 kW, where thermal management already draws about 40% of data-centre electricity (Wu et al., 2025).</dd></div>
+      </dl>
+      <figure>
+        <img src="../img/projects/egh404-closing.webp" width="900" height="1061" alt="A second illustrative case-temperature map under the jet array, with an irregular hotspot outlined in red." loading="lazy">
+        <figcaption>Illustrative: a hotspot above T<sub>case,max</sub> under the jet array.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- References -->
+<section class="chapter" aria-labelledby="h-refs">
+  <div class="wide">
+    <p class="sec-name">References</p>
+    <h2 id="h-refs" style="margin-bottom:var(--s-4)">Sources</h2>
+    <ul class="refs">
+      <li>3M. (2022, December 20). <i>3M to exit PFAS manufacturing by the end of 2025</i> [Press release]. <a href="https://news.3m.com/2022-12-20-3M-to-Exit-PFAS-Manufacturing-by-the-End-of-2025">news.3m.com</a></li>
+      <li>Chu, W., Patel, D., &amp; Nishball, D. (2026, February 25). <i>Vera Rubin: Extreme co-design, an evolution from Grace Blackwell Oberon</i>. SemiAnalysis. <a href="https://newsletter.semianalysis.com/p/vera-rubin-extreme-co-design-an-evolution">newsletter.semianalysis.com</a></li>
+      <li>Drummond, K. P., Back, D., Sinanis, M. D., Janes, D. B., Peroulis, D., Weibel, J. A., &amp; Garimella, S. V. (2018). A hierarchical manifold microchannel heat sink array for high-heat-flux two-phase cooling of electronics. <i>International Journal of Heat and Mass Transfer, 117</i>, 319-330. <a href="https://doi.org/10.1016/j.ijheatmasstransfer.2017.10.015">doi.org/10.1016/j.ijheatmasstransfer.2017.10.015</a></li>
+      <li>Ferguson, K. (2026). <i>Synthetic single- and two-phase direct-to-chip cooling dataset (n = 240)</i> [Unpublished dataset]. EGH404 Assessment 2, Queensland University of Technology.</li>
+      <li>Heydari, A., Gharaibeh, A. R., Tradat, M., Soud, Q., Manaserh, Y., Radmard, V., Eslami, B., Rodriguez, J., &amp; Sammakia, B. (2024). Experimental evaluation of direct-to-chip cold plate liquid cooling for high-heat-density data centers. <i>Applied Thermal Engineering, 239</i>, 122122. <a href="https://doi.org/10.1016/j.applthermaleng.2023.122122">doi.org/10.1016/j.applthermaleng.2023.122122</a></li>
+      <li>Incropera, F. P., DeWitt, D. P., Bergman, T. L., &amp; Lavine, A. S. (2007). <i>Fundamentals of heat and mass transfer</i> (6th ed.). John Wiley &amp; Sons.</li>
+      <li>Lee, I., Cho, H., Kim, S., Kim, J., &amp; Nam, Y. (2026). High efficiency single and multi-phase direct liquid jet-impingement cooling for heterogeneous packaging. <i>Energy Conversion and Management, 348</i>, 120665. <a href="https://doi.org/10.1016/j.enconman.2025.120665">doi.org/10.1016/j.enconman.2025.120665</a></li>
+      <li>Morse, R. W., Moreira, T. A., Chan, J., Dressler, K. M., Ribatski, G., Hurlburt, E. T., McCarroll, L. L., Nellis, G. F., &amp; Berson, A. (2021). Critical heat flux and the dryout of liquid film in vertical two-phase annular flow. <i>International Journal of Heat and Mass Transfer, 177</i>, 121487. <a href="https://doi.org/10.1016/j.ijheatmasstransfer.2021.121487">doi.org/10.1016/j.ijheatmasstransfer.2021.121487</a></li>
+      <li>Wu, Z., Xiao, W., He, H., Wang, W., &amp; Song, B. (2025). Jet-enhanced manifold microchannels for cooling electronics up to a heat flux of 3,000 W cm<sup>−2</sup>. <i>Nature Electronics</i>. <a href="https://doi.org/10.1038/s41928-025-01449-4">doi.org/10.1038/s41928-025-01449-4</a></li>
+    </ul>
+    <p style="margin-top:var(--s-5)"><a href="../index.html#work" class="textlink">All projects</a></p>
+  </div>
+</section>
+
+</main>
+<!-- chrome:footer -->
+<footer class="site-foot" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p style="margin:0 0 .4rem;font-size:1.15rem;color:var(--ink)">Kalan Ferguson</p>
+        <p class="muted" style="margin:0;max-width:34ch">Mechanical Engineering (Honours), aerospace minor, QUT. Seeking 2026/27 summer internships in aerospace, defence, energy and advanced manufacturing.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a class="addr" href="mailto:kalanferguson005@gmail.com">kalanferguson005@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/kalan-ferguson-288858326/" rel="noopener">LinkedIn</a></li>
+          <li><a href="../resume.html">Resume</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="../projects/egh404-liquid-cooling.html">Liquid cooling for AI racks</a></li>
+          <li><a href="../projects/weld-fatigue.html">Weld fatigue audit</a></li>
+          <li><a href="../projects/uav-aerostructures.html">Twin-boom UAV</a></li>
+          <li><a href="../index.html#more">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Writing</h2>
+        <ul>
+          <li><a href="../ghostbat.html">MQ-28A Ghost Bat</a></li>
+          <li><a href="../writing.html">All writing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>Academic figures reflect QUT records as of Semester 1, 2026. Writing is personal and does not represent QUT, the QUT Aerospace Society or any company.</span>
+      <span>&copy; 2026 Kalan Ferguson</span>
+    </div>
+  </div>
+</footer>
+<!-- /chrome:footer -->
+
+<script>
+/* Charts drawn from the synthetic dataset (EGH404 Assessment 2, n = 240).
+   Row: [run, mode (0 single, 1 two), power W, flow L/min, inlet C, case C, dryout flag]. */
+var RUNS = [[1,1,1200,2.2,37.3,58.0,0],[2,1,640,1.36,27.3,44.6,0],[3,0,1020,2.31,25.7,52.5,0],[4,0,1430,1.55,34.5,80.4,0],[5,1,1410,2.76,33.8,60.3,0],[6,1,1460,2.68,44.3,71.2,0],[7,0,1230,1.59,38.6,76.7,0],[8,0,1340,1.71,39.4,78.0,0],[9,0,680,2.17,43.1,60.7,0],[10,1,1390,1.05,42.4,80.1,1],[11,1,760,2.4,33.3,45.0,0],[12,1,1600,1.36,36.1,79.8,1],[13,0,1040,2.13,25.9,54.5,0],[14,0,1750,1.33,32.8,94.2,0],[15,0,990,2.33,29.7,51.7,0],[16,0,1070,1.92,25.5,56.7,0],[17,1,630,2.81,27.6,40.4,0],[18,0,960,2.46,39.7,61.7,0],[19,1,1530,1.89,32.5,55.4,0],[20,0,1470,1.06,31.2,87.8,0],[21,1,1240,1.84,29.4,52.4,0],[22,1,1580,1.04,31.8,75.3,1],[23,1,1030,2.97,28.8,45.3,0],[24,1,790,1.28,39.1,57.6,0],[25,1,1370,2.03,29.7,53.4,0],[26,1,1690,2.6,35.2,64.8,0],[27,1,710,2.61,44.6,59.2,0],[28,1,1020,1.29,34.0,56.6,0],[29,0,680,1.39,27.7,49.8,0],[30,0,1760,1.29,33.5,94.6,0],[31,1,830,2.97,44.2,60.5,0],[32,0,1450,2.09,36.1,74.5,0],[33,0,1770,1.26,30.5,94.8,0],[34,0,690,2.82,28.4,47.0,0],[35,0,1330,2.77,34.9,67.3,0],[36,0,1540,1.79,33.9,75.8,0],[37,0,1000,2.39,34.8,59.2,0],[38,1,1610,2.77,26.5,50.6,0],[39,1,1460,1.78,27.0,48.0,0],[40,1,1640,2.89,42.4,70.1,0],[41,1,1400,1.33,29.5,67.7,1],[42,0,1060,1.94,28.5,54.2,0],[43,1,1450,2.45,30.7,56.9,0],[44,1,880,2.25,40.1,62.2,0],[45,1,770,2.5,34.4,52.0,0],[46,1,700,1.19,27.9,43.0,0],[47,1,1730,1.11,26.0,72.3,1],[48,0,1090,1.47,38.5,75.1,0],[49,0,1630,2.57,38.1,78.5,0],[50,1,1590,1.19,36.7,77.5,1],[51,0,1640,2.97,36.9,77.7,0],[52,0,1420,2.43,44.4,79.8,0],[53,0,1020,1.21,41.0,76.2,0],[54,0,960,1.42,31.0,62.8,0],[55,1,1430,1.76,28.6,54.5,0],[56,0,990,1.44,27.0,59.2,0],[57,0,1380,1.1,38.4,89.1,0],[58,0,1220,2.19,38.2,74.1,0],[59,0,1490,2.11,31.0,71.6,0],[60,0,840,2.58,25.9,46.0,0],[61,1,1450,1.42,32.8,74.7,1],[62,0,830,2.64,38.3,58.0,0],[63,0,1780,2.98,35.7,75.6,0],[64,0,820,1.48,35.9,61.9,0],[65,1,1030,1.65,42.8,59.9,0],[66,0,870,1.84,44.0,72.9,0],[67,0,1790,2.2,41.4,90.6,0],[68,1,1110,2.71,30.4,53.2,0],[69,1,1180,2.78,36.0,54.0,0],[70,1,1350,2.98,40.2,62.4,0],[71,0,1460,2.42,42.3,80.0,0],[72,0,1430,1.42,36.8,83.1,0],[73,1,920,2.76,41.9,60.6,0],[74,1,1070,1.99,25.5,45.6,0],[75,0,1740,1.49,43.8,101.3,0],[76,1,820,2.33,25.6,41.1,0],[77,0,1040,1.73,33.1,63.2,0],[78,1,1630,1.34,43.3,88.0,1],[79,1,1320,1.04,30.7,66.1,1],[80,0,1030,1.62,39.1,72.0,0],[81,0,1140,1.0,28.0,74.3,0],[82,0,750,2.45,25.8,44.0,0],[83,1,850,1.52,41.2,63.5,0],[84,0,1790,2.12,41.9,89.6,0],[85,0,1200,1.78,39.0,73.3,0],[86,0,720,2.84,39.8,58.2,0],[87,1,970,1.44,39.0,58.5,0],[88,0,830,2.81,37.6,62.8,0],[89,0,660,1.07,33.6,54.5,0],[90,0,1770,1.05,44.1,112.7,0],[91,1,980,2.65,39.2,57.9,0],[92,1,1720,1.75,30.3,55.5,0],[93,1,1000,1.64,42.6,63.5,0],[94,1,1730,2.78,27.1,54.9,0],[95,0,1200,2.91,40.5,68.7,0],[96,1,1050,2.97,31.9,49.3,0],[97,1,1030,2.6,25.0,46.8,0],[98,0,1110,2.75,30.4,63.6,0],[99,1,1220,2.5,30.8,48.0,0],[100,1,910,2.87,33.5,54.4,0],[101,1,1130,1.22,44.2,66.2,0],[102,0,850,2.03,43.2,66.5,0],[103,0,1430,1.97,32.1,71.6,0],[104,1,1060,2.71,41.9,63.0,0],[105,0,1520,2.1,34.2,76.7,0],[106,0,840,1.08,31.7,62.2,0],[107,1,1610,1.71,36.7,62.4,0],[108,1,1660,2.72,41.0,68.1,0],[109,0,1670,1.45,41.6,99.7,0],[110,0,1630,1.54,28.8,84.0,0],[111,1,630,2.54,43.6,61.4,0],[112,0,1520,2.75,41.5,76.5,0],[113,1,600,1.15,30.8,44.1,0],[114,0,900,2.66,31.7,56.3,0],[115,1,780,2.24,29.5,47.4,0],[116,0,1170,2.11,35.8,69.1,0],[117,1,1360,1.12,41.5,80.8,1],[118,1,600,2.67,34.0,48.8,0],[119,0,1630,2.64,30.8,69.0,0],[120,1,1360,2.91,44.4,66.8,0],[121,1,1380,1.67,34.2,58.3,0],[122,1,610,1.61,29.0,44.7,0],[123,0,900,1.59,27.3,55.4,0],[124,0,640,2.35,43.7,58.3,0],[125,1,640,2.31,38.0,53.6,0],[126,1,1620,1.27,32.5,73.4,1],[127,0,690,2.47,31.2,44.6,0],[128,1,1570,1.13,40.6,81.6,1],[129,1,930,2.99,32.7,50.5,0],[130,1,1780,1.97,27.5,57.5,0],[131,1,800,2.43,38.9,54.0,0],[132,1,1180,2.93,38.4,60.4,0],[133,1,760,2.7,39.6,54.5,0],[134,0,750,1.77,39.9,61.6,0],[135,0,1260,2.47,30.4,63.3,0],[136,1,1790,1.67,29.7,76.6,1],[137,0,1250,1.73,44.9,77.6,0],[138,0,620,1.76,31.3,53.0,0],[139,0,1720,2.48,41.4,91.0,0],[140,1,1310,1.23,44.4,84.6,1],[141,0,1760,1.79,39.9,90.9,0],[142,0,930,1.35,25.5,55.2,0],[143,1,850,2.92,37.2,57.6,0],[144,0,1410,1.58,36.3,82.9,0],[145,1,1080,1.4,29.8,53.9,0],[146,1,1010,2.1,30.5,52.2,0],[147,0,780,1.13,37.0,66.8,0],[148,1,950,2.6,28.7,48.6,0],[149,0,1250,1.57,26.5,64.4,0],[150,0,1110,1.31,32.9,72.1,0],[151,0,1500,1.92,42.9,83.6,0],[152,1,1160,1.13,25.1,59.6,1],[153,0,720,2.11,34.8,52.2,0],[154,0,1780,2.02,34.5,85.3,0],[155,1,1390,1.35,27.1,66.0,1],[156,1,1060,1.8,37.3,59.4,0],[157,0,1750,1.17,43.0,107.7,0],[158,1,1370,2.93,38.9,62.5,0],[159,0,1320,2.88,25.5,56.3,0],[160,1,690,2.2,42.8,58.6,0],[161,0,1780,1.57,33.1,85.7,0],[162,1,920,2.05,27.9,46.9,0],[163,1,1700,1.25,30.4,77.9,1],[164,0,1600,2.07,25.1,71.2,0],[165,1,1510,2.0,26.8,52.8,0],[166,0,1280,1.85,34.7,71.3,0],[167,0,970,1.28,38.6,74.3,0],[168,1,760,1.75,32.3,47.5,0],[169,1,1630,1.1,38.9,84.3,1],[170,1,1320,2.9,40.6,60.7,0],[171,0,780,1.22,34.4,60.6,0],[172,0,1590,1.67,29.0,78.8,0],[173,0,1440,1.4,26.6,75.0,0],[174,1,1770,1.81,25.4,54.0,0],[175,0,1230,1.11,30.7,75.5,0],[176,1,810,2.71,42.6,60.9,0],[177,0,720,2.6,26.9,47.6,0],[178,1,990,2.98,40.9,58.6,0],[179,1,910,2.98,35.1,52.3,0],[180,0,1580,1.37,38.1,96.1,0],[181,0,830,2.91,41.1,59.5,0],[182,0,1350,2.34,29.1,63.0,0],[183,1,980,1.56,40.8,61.9,0],[184,0,1390,1.69,40.5,79.9,0],[185,1,1220,2.73,29.5,51.4,0],[186,1,1660,1.73,30.2,54.6,0],[187,0,1010,1.67,31.6,63.3,0],[188,0,1200,2.21,25.1,55.1,0],[189,1,790,2.46,41.8,56.1,0],[190,0,1790,1.41,29.3,87.6,0],[191,1,1330,1.12,36.0,75.3,1],[192,1,1430,1.53,25.1,50.8,0],[193,1,1100,2.79,36.2,56.4,0],[194,1,1520,2.58,25.1,47.6,0],[195,1,1710,2.46,30.2,54.1,0],[196,0,1530,2.77,27.8,65.7,0],[197,1,900,2.39,25.3,41.9,0],[198,1,1540,1.79,31.4,57.7,0],[199,1,900,1.66,25.1,42.6,0],[200,0,850,2.43,33.5,52.2,0],[201,1,880,1.86,38.0,56.8,0],[202,1,850,1.37,32.2,53.3,0],[203,0,1750,2.3,36.6,83.1,0],[204,0,1210,2.17,30.3,62.5,0],[205,1,790,1.77,39.7,56.1,0],[206,0,1480,1.71,36.1,82.1,0],[207,1,1650,1.74,31.9,59.0,0],[208,0,1560,2.99,42.7,80.5,0],[209,1,1200,1.71,26.2,48.5,0],[210,0,900,1.61,42.3,71.1,0],[211,0,1740,1.46,35.5,90.8,0],[212,0,1570,2.85,32.8,70.1,0],[213,1,760,2.83,37.7,53.0,0],[214,0,1760,1.96,37.0,85.7,0],[215,1,740,1.57,38.6,56.4,0],[216,1,720,1.09,43.3,62.2,0],[217,0,1530,2.36,38.1,79.9,0],[218,0,1420,1.93,31.5,70.7,0],[219,1,1370,1.61,25.6,46.5,0],[220,1,1580,1.76,30.2,55.6,0],[221,0,730,1.75,43.9,66.5,0],[222,1,1520,2.73,31.6,54.6,0],[223,0,1440,2.93,29.2,67.8,0],[224,1,1680,2.88,38.8,63.8,0],[225,0,690,2.34,43.2,63.1,0],[226,1,950,1.21,30.8,52.2,0],[227,1,640,1.69,40.9,57.4,0],[228,0,630,2.66,30.2,43.0,0],[229,1,640,1.46,29.9,44.9,0],[230,0,720,2.09,30.0,52.4,0],[231,1,1790,1.22,29.5,78.1,1],[232,0,1110,1.11,29.7,71.2,0],[233,1,1460,2.5,42.2,66.7,0],[234,1,1340,2.69,27.8,50.8,0],[235,0,1710,1.39,27.9,83.6,0],[236,0,1650,2.9,31.9,69.5,0],[237,0,1450,2.83,25.5,60.9,0],[238,0,940,1.53,25.7,61.0,0],[239,0,1340,1.35,35.6,78.6,0],[240,0,920,1.73,32.5,60.8,0]];
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function fmt(n) { return n.toLocaleString('en-AU'); }
+  var M = { l: 64, r: 16, t: 14, b: 54 }, W = 600, H = 420;
+
+  function frame(svg, xd, yd, xticks, yticks, xlab, ylab, yfmt) {
+    var X = function (v) { return M.l + (v - xd[0]) / (xd[1] - xd[0]) * (W - M.l - M.r); };
+    var Y = function (v) { return H - M.b - (v - yd[0]) / (yd[1] - yd[0]) * (H - M.t - M.b); };
+    var g = el('g', {}, svg);
+    yticks.forEach(function (v) {
+      el('line', { x1: M.l, x2: W - M.r, y1: Y(v), y2: Y(v), class: 'gr' }, g);
+      el('text', { x: M.l - 8, y: Y(v) + 4, 'text-anchor': 'end', class: 'tk' }, g, yfmt ? yfmt(v) : v);
+    });
+    xticks.forEach(function (v) {
+      el('line', { x1: X(v), x2: X(v), y1: H - M.b, y2: H - M.b + 5, class: 'ax' }, g);
+      el('text', { x: X(v), y: H - M.b + 20, 'text-anchor': 'middle', class: 'tk' }, g, fmt(v));
+    });
+    el('line', { x1: M.l, x2: W - M.r, y1: H - M.b, y2: H - M.b, class: 'ax' }, g);
+    el('line', { x1: M.l, x2: M.l, y1: M.t, y2: H - M.b, class: 'ax' }, g);
+    el('text', { x: (M.l + W - M.r) / 2, y: H - 10, 'text-anchor': 'middle', class: 'atitle' }, g, xlab);
+    el('text', { x: 16, y: (M.t + H - M.b) / 2, 'text-anchor': 'middle', class: 'atitle', transform: 'rotate(-90 16 ' + (M.t + H - M.b) / 2 + ')' }, g, ylab);
+    return { X: X, Y: Y };
+  }
+  function tip(r) {
+    return 'Run ' + r[0] + ': ' + (r[1] ? 'two-phase' : 'single-phase') + (r[6] ? ' (dryout)' : '') + ', ' + fmt(r[2]) + ' W, ' + r[3].toFixed(2) + ' L/min, ' + r[4].toFixed(1) + ' °C inlet, case ' + r[5].toFixed(1) + ' °C';
+  }
+  function dot(g, x, y, r, attrs, run) {
+    var c = el('circle', Object.assign({ cx: x.toFixed(1), cy: y.toFixed(1), r: r, tabindex: 0 }, attrs), g);
+    el('title', {}, c, tip(run));
+  }
+
+  /* chart 1: case temperature vs power */
+  (function () {
+    var svg = document.getElementById('c-temp');
+    var f = frame(svg, [500, 1900], [20, 120], [500, 700, 900, 1100, 1300, 1500, 1700, 1900], [20, 40, 60, 80, 100, 120], 'GPU power (W)', 'Case temperature (°C)');
+    var g = el('g', {}, svg);
+    el('line', { x1: f.X(500), x2: f.X(1900), y1: f.Y(90), y2: f.Y(90), stroke: 'var(--red)', 'stroke-width': 1.4, 'stroke-dasharray': '6 4' }, g);
+    el('text', { x: f.X(520), y: f.Y(90) - 7, fill: 'var(--red-ink)', style: 'fill:var(--red-ink)' }, g, '90 °C case limit');
+    RUNS.filter(function (r) { return r[1] === 1; }).forEach(function (r) { dot(g, f.X(r[2]), f.Y(r[5]), 3.4, { fill: 'none', stroke: 'var(--warm)', 'stroke-width': 1.4 }, r); });
+    RUNS.filter(function (r) { return r[1] === 0; }).forEach(function (r) {
+      if (r[5] > 90) el('circle', { cx: f.X(r[2]).toFixed(1), cy: f.Y(r[5]).toFixed(1), r: 7.5, fill: 'none', stroke: 'var(--red)', 'stroke-width': 1.5 }, g);
+      dot(g, f.X(r[2]), f.Y(r[5]), 3.4, { fill: 'var(--cold)' }, r);
+    });
+    el('line', { x1: f.X(600), y1: f.Y(31.22 + 0.032 * 600), x2: f.X(1800), y2: f.Y(31.22 + 0.032 * 1800), stroke: 'var(--cold)', 'stroke-width': 1.6, 'stroke-dasharray': '2 3' }, g);
+    el('line', { x1: f.X(600), y1: f.Y(40.52 + 0.0152 * 600), x2: f.X(1800), y2: f.Y(40.52 + 0.0152 * 1800), stroke: 'var(--warm)', 'stroke-width': 1.6, 'stroke-dasharray': '2 3' }, g);
+    el('text', { x: f.X(860), y: f.Y(67), style: 'fill:var(--cold);font-weight:600' }, g, '≈ 0.032 °C/W');
+    el('text', { x: f.X(1440), y: f.Y(48), style: 'fill:var(--warm-ink);font-weight:600' }, g, '≈ 0.015 °C/W');
+  })();
+
+  /* chart 2: two-phase thermal resistance vs power */
+  (function () {
+    var svg = document.getElementById('c-rth');
+    var f = frame(svg, [500, 1900], [0, 0.035], [500, 700, 900, 1100, 1300, 1500, 1700, 1900], [0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035], 'GPU power (W)', 'Thermal resistance (K/W)', function (v) { return v.toFixed(3); });
+    var g = el('g', {}, svg);
+    el('line', { x1: f.X(500), x2: f.X(1900), y1: f.Y(0.0292), y2: f.Y(0.0292), stroke: 'var(--cold)', 'stroke-width': 1.6, 'stroke-dasharray': '7 4' }, g);
+    el('text', { x: f.X(1880), y: f.Y(0.0292) - 8, 'text-anchor': 'end', style: 'fill:var(--cold)' }, g, 'single-phase mean, 0.0292 K/W');
+    var pts = [];
+    for (var p = 600; p <= 1790; p += 10) pts.push(f.X(p).toFixed(1) + ',' + f.Y(0.382 * Math.pow(p, -0.43)).toFixed(1));
+    el('polyline', { points: pts.join(' '), fill: 'none', stroke: 'var(--warm)', 'stroke-width': 1.6, 'stroke-dasharray': '2 3' }, g);
+    RUNS.filter(function (r) { return r[1] === 1; }).forEach(function (r) {
+      var R = (r[5] - r[4]) / r[2];
+      if (r[6]) dot(g, f.X(r[2]), f.Y(R), 4, { fill: 'var(--red)' }, r);
+      else dot(g, f.X(r[2]), f.Y(R), 3.4, { fill: 'none', stroke: 'var(--warm)', 'stroke-width': 1.4 }, r);
+    });
+    var lbl = el('text', { x: f.X(1880), y: f.Y(0.0118), 'text-anchor': 'end', style: 'fill:var(--warm-ink);font-weight:600' }, g);
+    lbl.innerHTML = 'R<tspan baseline-shift="sub" font-size="9">th</tspan> ≈ 0.382 P<tspan baseline-shift="super" font-size="9">−0.43</tspan>';
+  })();
+
+  /* P* map: P* = (90 - Tin) / (a + b V^-0.8) */
+  (function () {
+    var a = 0.0122, b = 0.0276, svg = document.getElementById('c-map'), out = document.getElementById('map-out');
+    var MM = { l: 64, r: 22, t: 30, b: 54 }, WW = 600, HH = 470;
+    var X = function (v) { return MM.l + (v - 1) / 2 * (WW - MM.l - MM.r); };
+    var Y = function (t) { return HH - MM.b - (t - 25) / 20 * (HH - MM.t - MM.b); };
+    var Pstar = function (V, T) { return (90 - T) / (a + b * Math.pow(V, -0.8)); };
+    var Tcurve = function (P, V) { return 90 - P * (a + b * Math.pow(V, -0.8)); };
+    var base = el('g', {}, svg), zone = el('g', {}, svg), lines = el('g', {}, svg), top = el('g', {}, svg);
+    [25, 30, 35, 40, 45].forEach(function (t) { el('text', { x: MM.l - 8, y: Y(t) + 4, 'text-anchor': 'end', class: 'tk' }, base, t); el('line', { x1: MM.l - 5, x2: MM.l, y1: Y(t), y2: Y(t), class: 'ax' }, base); });
+    [1, 1.5, 2, 2.5, 3].forEach(function (v) { el('text', { x: X(v), y: HH - MM.b + 20, 'text-anchor': 'middle', class: 'tk' }, base, v.toFixed(1)); el('line', { x1: X(v), x2: X(v), y1: HH - MM.b, y2: HH - MM.b + 5, class: 'ax' }, base); });
+    el('rect', { x: MM.l, y: MM.t, width: WW - MM.l - MM.r, height: HH - MM.t - MM.b, fill: 'none', stroke: 'var(--ink-2)', 'stroke-width': 1 }, base);
+    el('text', { x: (MM.l + WW - MM.r) / 2, y: HH - 10, 'text-anchor': 'middle', class: 'atitle' }, base, 'Coolant flow rate, V̇ (L/min)');
+    el('text', { x: 16, y: (MM.t + HH - MM.b) / 2, 'text-anchor': 'middle', class: 'atitle', transform: 'rotate(-90 16 ' + (MM.t + HH - MM.b) / 2 + ')' }, base, 'Inlet temperature, T (°C)');
+    el('text', { x: MM.l, y: 18, class: 'tk' }, base, 'Contours: single-phase limit P* (kW) at a 90 °C case limit');
+    function curve(P) {
+      var pts = [];
+      for (var v = 1; v <= 3.0001; v += 0.01) { var t = Tcurve(P, v); if (t >= 25 && t <= 45) pts.push([X(v), Y(t)]); }
+      return pts;
+    }
+    [1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6].forEach(function (kw) {
+      var pts = curve(kw * 1000); if (pts.length < 2) return;
+      el('polyline', { points: pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '), fill: 'none', stroke: 'var(--faint)', 'stroke-width': 1, 'data-kw': kw }, lines);
+      var m = pts[Math.floor(pts.length * 0.62)];
+      var lab = el('text', { x: m[0], y: m[1] - 5, 'text-anchor': 'middle', class: 'tk', 'data-kw': kw, style: 'paint-order:stroke;stroke:var(--paper);stroke-width:4px' }, lines, kw.toFixed(1));
+    });
+    var wc = el('circle', { cx: X(1), cy: Y(45), r: 5, fill: 'var(--red)' }, top);
+    el('title', {}, wc, 'Worst case: 1 L/min, 45 °C inlet, P* = 1.13 kW single-phase');
+    function draw(kw) {
+      zone.textContent = '';
+      var P = kw * 1000, pts = curve(P);
+      var poly = [];
+      if (pts.length) {
+        poly.push([X(1), Y(45)]);
+        var t1 = Tcurve(P, 1);
+        if (t1 < 25) poly.push([X(1), Y(25)]); else poly.push([X(1), Y(t1)]);
+        pts.forEach(function (p) { poly.push(p); });
+        var last = pts[pts.length - 1];
+        if (Tcurve(P, 3) < 45) poly.push([X(3), last[1]], [X(3), Y(45)]);
+      } else if (Tcurve(P, 3) > 45) {
+        poly = [];
+      } else {
+        poly = [[X(1), Y(45)], [X(1), Y(25)], [X(3), Y(25)], [X(3), Y(45)]];
+      }
+      if (poly.length) el('polygon', { points: poly.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '), fill: 'var(--rose)', opacity: 0.85 }, zone);
+      if (pts.length > 1) el('polyline', { points: pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '), fill: 'none', stroke: 'var(--red)', 'stroke-width': 2.4 }, zone);
+      lines.querySelectorAll('[data-kw]').forEach(function (e) { e.style.visibility = (+e.getAttribute('data-kw') === kw) ? 'hidden' : 'visible'; });
+      if (pts.length > 1) { var e2 = pts[pts.length - 1]; el('text', { x: Math.min(e2[0], WW - MM.r - 4), y: e2[1] - 8, 'text-anchor': 'end', style: 'fill:var(--red-ink);font-weight:600;font-size:13px' }, zone, kw.toFixed(1) + ' kW'); }
+      var ok = 0, n = 0;
+      for (var v = 1; v <= 3; v += 0.02) for (var t = 25; t <= 45; t += 0.2) { n++; if (Pstar(v, t) >= P) ok++; }
+      out.innerHTML = 'For a <b>' + kw.toFixed(1) + ' kW</b> GPU, single-phase holds 90 °C across <b>' + Math.round(100 * ok / n) + '%</b> of this flow and inlet-temperature range.';
+    }
+    document.querySelectorAll('.map-controls button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.map-controls button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === btn)); });
+        draw(+btn.getAttribute('data-kw'));
+      });
+    });
+    draw(1.8);
+  })();
+})();
+</script>
+</body>
+</html>

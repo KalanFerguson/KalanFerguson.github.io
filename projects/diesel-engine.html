@@ -1,16 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- chrome:head -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Diesel Engine Analysis / Kalan Ferguson</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Thermodynamic analysis of a Perkins 404D-22 diesel engine across six operating points: performance, energy balance and PV cycle.">
+<link rel="canonical" href="https://kalanferguson.com/projects/diesel-engine.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kalan Ferguson">
+<meta property="og:title" content="Diesel Engine Analysis">
+<meta property="og:description" content="Thermodynamic analysis of a Perkins 404D-22 diesel engine across six operating points: performance, energy balance and PV cycle.">
+<meta property="og:url" content="https://kalanferguson.com/projects/diesel-engine.html">
+<meta property="og:image" content="https://kalanferguson.com/img/og/diesel-engine.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../site.css">
 <link rel="stylesheet" href="project-style.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="../site.js" defer></script>
+<script data-goatcounter="https://kalanferguson.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- /chrome:head -->
 </head>
 <body>
-<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../writing.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+<!-- chrome:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img src="../img/kf-logo-96.png" alt="" width="28" height="28">Kalan Ferguson</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../writing.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /chrome:header -->
+<main id="main">
 
 <div class="proj-hero">
-<div class="hero-img"><img src="../img/projects/thermo-engine.jpg" alt=""></div>
+<figure class="hero-img svg" id="sankey"><svg viewBox="0 0 520 380" role="img" aria-labelledby="sk-t"><title id="sk-t">Energy balance of the Perkins 404D-22 at full load: 29 percent of the fuel energy becomes brake power, 50 percent goes to the coolant, 11 percent leaves as exhaust heat and 10 percent is unaccounted.</title><path d="M22 46.0 C161.0 46.0 161.0 46.0 300 46.0 L300 119.1 C161.0 119.1 161.0 133.0 22 133.0 Z" fill="var(--ink)" opacity="0.88"/><path d="M22 133.0 C161.0 133.0 161.0 135.1 300 135.1 L300 261.1 C161.0 261.1 161.0 283.0 22 283.0 Z" fill="var(--warm)" opacity="0.88"/><path d="M22 283.0 C161.0 283.0 161.0 277.1 300 277.1 L300 304.8 C161.0 304.8 161.0 316.0 22 316.0 Z" fill="var(--red)" opacity="0.88"/><path d="M22 316.0 C161.0 316.0 161.0 320.8 300 320.8 L300 346.0 C161.0 346.0 161.0 346.0 22 346.0 Z" fill="var(--faint)" opacity="0.88"/><rect x="8" y="46" width="14" height="300" fill="var(--ink-2)"/><rect x="300" y="46.0" width="14" height="73.1" fill="var(--ink)"/><rect x="300" y="135.1" width="14" height="126.0" fill="var(--warm)"/><rect x="300" y="277.1" width="14" height="27.7" fill="var(--red)"/><rect x="300" y="320.8" width="14" height="25.2" fill="var(--faint)"/><text x="8" y="30" style="font-family:var(--f-sans);font-size:14px;fill:var(--ink)">Fuel energy in, 100%</text><text x="326" y="81.5" style="font-family:var(--f-sans);font-size:14px;fill:var(--ink)">Brake power, 29%</text><text x="326" y="98.5" style="font-family:var(--f-sans);font-size:12px;fill:var(--muted)">useful work</text><text x="326" y="197.1" style="font-family:var(--f-sans);font-size:14px;fill:var(--ink)">Coolant, 50%</text><text x="326" y="214.1" style="font-family:var(--f-sans);font-size:12px;fill:var(--muted)">heat to the radiator</text><text x="326" y="289.9" style="font-family:var(--f-sans);font-size:14px;fill:var(--ink)">Exhaust, 11%</text><text x="326" y="306.9" style="font-family:var(--f-sans);font-size:12px;fill:var(--muted)">heat out the stack</text><text x="326" y="332.4" style="font-family:var(--f-sans);font-size:14px;fill:var(--ink)">Unaccounted, 10%</text><text x="326" y="349.4" style="font-family:var(--f-sans);font-size:12px;fill:var(--muted)">radiation, friction, pumping</text></svg><figcaption>Where the fuel energy goes at full load, from the energy balance below. Widths are to scale.</figcaption></figure>
 <div class="inner">
 <div class="tag">EGB322 / Thermodynamics</div>
 <h1>Diesel Engine Thermodynamic Analysis</h1>
@@ -28,8 +68,6 @@
 <div class="article">
 <h2>Overview</h2>
 <p>A comprehensive thermodynamic evaluation of a four-cylinder, naturally aspirated Perkins 404D-22 diesel engine under varying speed (1400, 1800, 2000 RPM) and load (50%, 100%) conditions. The analysis covered engine performance characterisation, energy balance, and PV cycle reconstruction from experimental dynamometer data.</p>
-
-<div class="img-block"><img src="../img/projects/thermo-turbine.jpg" alt="Turbine fan face"><div class="img-caption">Turbine fan geometry: precision engineering in thermodynamic systems</div></div>
 
 <h2>Performance analysis</h2>
 <p>Brake power, torque, BMEP, specific fuel consumption (SFC), air-fuel ratio, volumetric efficiency, and thermal efficiency were calculated and plotted across all six operating points. The analysis identified 1800 RPM as the optimal operating point where SFC was minimised and thermal efficiency peaked at approximately 30.4% at 50% load. Mechanical efficiency decreased from 91.1% at 1400 RPM to 85.0% at 2000 RPM, consistent with increasing friction and pumping losses at higher speeds.</p>
@@ -51,7 +89,48 @@
 <li>Diesel vs petrol PV cycle comparison at 1400 RPM</li>
 </ul>
 
-<a href="../index.html#work" class="back">&larr; Back to projects</a>
+<a href="../index.html#work" class="back">All projects</a>
 </div>
+</main>
+<!-- chrome:footer -->
+<footer class="site-foot" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p style="margin:0 0 .4rem;font-size:1.15rem;color:var(--ink)">Kalan Ferguson</p>
+        <p class="muted" style="margin:0;max-width:34ch">Mechanical Engineering (Honours), aerospace minor, QUT. Seeking 2026/27 summer internships in aerospace, defence, energy and advanced manufacturing.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a class="addr" href="mailto:kalanferguson005@gmail.com">kalanferguson005@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/kalan-ferguson-288858326/" rel="noopener">LinkedIn</a></li>
+          <li><a href="../resume.html">Resume</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="../projects/egh404-liquid-cooling.html">Liquid cooling for AI racks</a></li>
+          <li><a href="../projects/weld-fatigue.html">Weld fatigue audit</a></li>
+          <li><a href="../projects/uav-aerostructures.html">Twin-boom UAV</a></li>
+          <li><a href="../index.html#more">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Writing</h2>
+        <ul>
+          <li><a href="../ghostbat.html">MQ-28A Ghost Bat</a></li>
+          <li><a href="../writing.html">All writing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>Academic figures reflect QUT records as of Semester 1, 2026. Writing is personal and does not represent QUT, the QUT Aerospace Society or any company.</span>
+      <span>&copy; 2026 Kalan Ferguson</span>
+    </div>
+  </div>
+</footer>
+<!-- /chrome:footer -->
 </body>
 </html>

@@ -1,74 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><link rel="icon" type="image/png" href="img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="Writing by Kalan Ferguson: systems-level analysis of defence platforms and energy infrastructure, written from an engineer's view of the physics underneath them.">
+<!-- chrome:head -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Writing / Kalan Ferguson</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Essays on defence systems and energy infrastructure, written from an engineer&#x27;s view of the physics underneath them.">
+<link rel="canonical" href="https://kalanferguson.com/writing.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kalan Ferguson">
+<meta property="og:title" content="Writing">
+<meta property="og:description" content="Essays on defence systems and energy infrastructure, written from an engineer&#x27;s view of the physics underneath them.">
+<meta property="og:url" content="https://kalanferguson.com/writing.html">
+<meta property="og:image" content="https://kalanferguson.com/img/og/writing.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="article-style.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="site.js" defer></script>
+<script data-goatcounter="https://kalanferguson.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- /chrome:head -->
 </head>
 <body>
-
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="index.html" class="brand"><img src="img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a>
-    <nav class="nav-links">
-      <a href="index.html#work">Work</a>
-      <a href="index.html#about">About</a>
-      <a href="writing.html">Writing</a>
-      <a href="resume.html">Resume</a>
-      <a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a>
+<!-- chrome:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="img/kf-logo-96.png" alt="" width="28" height="28">Kalan Ferguson</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="writing.html" aria-current="page">Writing</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   </div>
 </header>
+<!-- /chrome:header -->
+<main id="main">
 
 <div class="article-hero">
   <div class="inner">
-    <div class="tag">Writing / Systems Analysis</div>
+    <div class="tag">Writing</div>
     <h1>Defence systems and energy infrastructure</h1>
-    <div class="meta">Kalan Ferguson / Systems-level analysis, ongoing</div>
+    <p class="lede" style="max-width:58ch">Long-form analysis of the physical constraints that govern complex systems: structure, power, thermal budgets and the design trade-offs underneath the strategy. Whether the system is a defence platform or the energy infrastructure behind AI, the physics decides what is possible.</p>
   </div>
 </div>
 
 <div class="hub-wrap">
-  <p style="max-width:62ch;margin:8px 0 36px;font-size:16px;line-height:1.8;color:var(--midnight)">
-    Long-form analysis written from an engineer's view of the physical constraints that actually govern complex systems. Structure, power, thermal budgets, and the design trade-offs underneath the strategy. Whether the system is a defence platform or the energy infrastructure powering the AI buildout, the physics decides what is actually possible.
-  </p>
-
-  <div class="hub-grid">
-
-    <a href="ghostbat.html" class="hub-card">
-      <div class="thumb"><img src="img/ghostbat-woomera.jpg" alt="MQ-28A Ghost Bat at Woomera"></div>
-      <div class="body">
-        <span class="hub-tag">Defence Strategy</span>
-        <h3>MQ-28A Ghost Bat: engineering modularity for autonomous airpower</h3>
-        <p>Why the Ghost Bat's real significance is its modular nose, the SWaP and structural constraints it imposes, and what that means for Australian sovereign capability under AUKUS.</p>
-        <span class="read">Read essay &#8594;</span>
-      </div>
-    </a>
-
-    <div class="hub-card muted">
-      <div class="thumb"><div class="ph">In progress</div></div>
-      <div class="body">
-        <span class="hub-tag">Defence Industry</span>
-        <h3>Anduril and the software-defined defence prime</h3>
-        <p>How mass-manufactured hardware, the Lattice autonomy stack, and a procurement model built to move at software speed are letting Anduril challenge the traditional prime playbook.</p>
-        <span class="status">In progress</span>
-      </div>
+  <article class="essay">
+    <a href="ghostbat.html" tabindex="-1" aria-hidden="true"><img src="img/ghostbat-woomera.jpg" alt="" width="1200" height="800"></a>
+    <div>
+      <span class="k">Defence strategy, 2025</span>
+      <h2><a href="ghostbat.html">MQ-28A Ghost Bat: engineering modularity for autonomous airpower</a></h2>
+      <p>Why the Ghost Bat's real significance is its modular nose, the size, weight and power constraints it imposes, and what that means for Australian sovereign capability under AUKUS.</p>
+      <p><a href="ghostbat.html">Read the essay</a></p>
     </div>
+  </article>
 
-    <div class="hub-card muted">
-      <div class="thumb"><div class="ph">Researching</div></div>
-      <div class="body">
-        <span class="hub-tag">Energy Systems</span>
-        <h3>AI's physical ceiling: power, heat, and the grid</h3>
-        <p>Compute scaling is bounded by thermodynamics and energy supply, not chip design. An engineering read on what that means for the datacentre buildout.</p>
-        <span class="status">Researching</span>
-      </div>
-    </div>
-
-  </div>
+  <section class="queue" aria-labelledby="h-queue">
+    <h2 id="h-queue">In progress</h2>
+    <ul>
+      <li><span class="k">Defence industry</span><span><span class="t">Anduril and the software-defined defence prime</span><span class="d">How mass-manufactured hardware, the Lattice autonomy stack and a faster procurement model let Anduril challenge the traditional primes.</span></span></li>
+      <li><span class="k">Energy systems</span><span><span class="t">AI's physical ceiling: power, heat and the grid</span><span class="d">Compute scaling is bounded by thermodynamics and energy supply. Builds on my <a href="projects/egh404-liquid-cooling.html">liquid-cooling research proposal</a>.</span></span></li>
+    </ul>
+  </section>
 </div>
 
+</main>
+<!-- chrome:footer -->
+<footer class="site-foot" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p style="margin:0 0 .4rem;font-size:1.15rem;color:var(--ink)">Kalan Ferguson</p>
+        <p class="muted" style="margin:0;max-width:34ch">Mechanical Engineering (Honours), aerospace minor, QUT. Seeking 2026/27 summer internships in aerospace, defence, energy and advanced manufacturing.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a class="addr" href="mailto:kalanferguson005@gmail.com">kalanferguson005@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/kalan-ferguson-288858326/" rel="noopener">LinkedIn</a></li>
+          <li><a href="resume.html">Resume</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="projects/egh404-liquid-cooling.html">Liquid cooling for AI racks</a></li>
+          <li><a href="projects/weld-fatigue.html">Weld fatigue audit</a></li>
+          <li><a href="projects/uav-aerostructures.html">Twin-boom UAV</a></li>
+          <li><a href="index.html#more">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Writing</h2>
+        <ul>
+          <li><a href="ghostbat.html">MQ-28A Ghost Bat</a></li>
+          <li><a href="writing.html">All writing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>Academic figures reflect QUT records as of Semester 1, 2026. Writing is personal and does not represent QUT, the QUT Aerospace Society or any company.</span>
+      <span>&copy; 2026 Kalan Ferguson</span>
+    </div>
+  </div>
+</footer>
+<!-- /chrome:footer -->
 </body>
 </html>

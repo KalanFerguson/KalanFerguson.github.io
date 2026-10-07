@@ -1,36 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><link rel="icon" type="image/png" href="../img/kf-logo.png"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- chrome:head -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weld Fatigue Design Audit / Kalan Ferguson</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Fatigue design audit of a trailer hanger weld: five load cases, Modified Goodman, an ANSYS mesh convergence study and a reconciliation of hand and FEA results.">
+<link rel="canonical" href="https://kalanferguson.com/projects/weld-fatigue.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kalan Ferguson">
+<meta property="og:title" content="Weld Fatigue Design Audit">
+<meta property="og:description" content="Fatigue design audit of a trailer hanger weld: five load cases, Modified Goodman, an ANSYS mesh convergence study and a reconciliation of hand and FEA results.">
+<meta property="og:url" content="https://kalanferguson.com/projects/weld-fatigue.html">
+<meta property="og:image" content="https://kalanferguson.com/img/og/weld-fatigue.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="../site.css">
 <link rel="stylesheet" href="project-style.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="../site.js" defer></script>
+<script data-goatcounter="https://kalanferguson.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<!-- /chrome:head -->
 <style>
-/* CHART FIGURES (page-specific: mesh-convergence plot) */
-.chart-fig { background: var(--snow); border-radius: var(--r-inner);
-  box-shadow: var(--shadow-subtle); overflow: hidden; margin: 36px 0; }
-.chart-fig svg { display: block; width: 100%; height: auto; }
-.chart-cap { font-family: var(--font-mono); font-size: 10px; color: var(--pebble);
-  letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 16px;
-  background: var(--snow); border-top: 1px solid rgba(0,0,0,0.05); }
-.ch-axis { stroke: rgba(0,0,0,0.30); stroke-width: 1; }
-.ch-grid { stroke: rgba(0,0,0,0.07); stroke-width: 1; }
-.ch-lbl { font-family: var(--font-mono); font-size: 11px; fill: var(--pebble); }
-.ch-axtitle { font-family: var(--font-mono); font-size: 10px; fill: var(--stone);
-  letter-spacing: 0.08em; text-transform: uppercase; }
-.ch-series { fill: none; stroke: var(--graphite); stroke-width: 2; }
-.ch-dot { fill: var(--snow); stroke: var(--graphite); stroke-width: 2; }
-.ch-dot-hl { fill: var(--tangerine); stroke: var(--snow); stroke-width: 2; }
-.ch-conv { stroke: var(--tangerine); stroke-width: 1.4; stroke-dasharray: 5 5; }
-.ch-acc { font-family: var(--font-mono); font-size: 10.5px; fill: #b05c18; }
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap");
+/* wd:css */
+.wd text { font-family: "IBM Plex Mono", Consolas, "Courier New", monospace; font-size: 10.5px; fill: var(--ink,#141413); letter-spacing: 0.02em; }
+.wd .s { font-size: 9px; } .wd .l { font-size: 12.5px; } .wd .xl { font-size: 14px; font-weight: 600; }
+.wd .m { fill: var(--muted,#6B6A64); } .wd .r { fill: var(--red-ink,#A8361F); } .wd .b { font-weight: 600; }
+.wd :is(line, path, polyline, circle, rect, polygon):not([fill]) { fill: none; }
+.wd .ln { stroke: var(--ink,#141413); stroke-width: 1.3; }
+.wd .th { stroke: var(--ink,#141413); stroke-width: 0.7; }
+.wd .dm { stroke: var(--ink-2,#3D3D3A); stroke-width: 0.6; }
+.wd .gr { stroke: var(--hair,#DEDCD1); stroke-width: 0.6; fill: none; }
+.wd .cl { stroke: var(--ink-2,#3D3D3A); stroke-width: 0.6; fill: none; stroke-dasharray: 14 3 2 3; }
+.wd .hid { stroke: var(--ink,#141413); stroke-width: 1; fill: none; stroke-dasharray: 6 4; }
+.wd .rd { stroke: var(--red,#C2412D); stroke-width: 1.3; }
+/* /wd:css */
+/* drawing-sheet figures for this page */
+.wd-fig { --fw: min(1040px, calc(100vw - 2 * var(--gutter))); width: var(--fw); margin: var(--s-6) 0 var(--s-6) calc(50% - var(--fw) / 2); }
+
+.wd-fig .sc { overflow-x: auto; -webkit-overflow-scrolling: touch; border-top: 1.5px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 14px 0 6px; }
+.wd-fig svg { width: 100%; min-width: 620px; height: auto; display: block; }
+.wd-fig figcaption { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 0.8rem; }
+.wd-fig figcaption b { font-family: "IBM Plex Mono", Consolas, monospace; font-weight: 600; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink); padding-top: 0.1rem; }
+@media (max-width: 700px) { .wd-fig .sc::after { content: "Scroll sideways for the full chart"; display: block; font-family: var(--f-sans); font-size: 0.78rem; color: var(--muted); padding-top: 6px; } }
 </style>
 </head>
 <body>
 
-<header class="site-header"><div class="nav-inner"><a href="../index.html" class="brand"><img src="../img/kf-logo.png" alt="KF"><span>Kalan Ferguson</span></a><nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#about">About</a><a href="../writing.html">Writing</a><a href="../resume.html">Resume</a><a href="mailto:kalanferguson005@gmail.com" class="nav-cta">Contact</a></nav></div></header>
+<!-- chrome:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img src="../img/kf-logo-96.png" alt="" width="28" height="28">Kalan Ferguson</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../writing.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- /chrome:header -->
+<main id="main">
 
 <div class="proj-hero">
-<div class="hero-img"><img src="../img/projects/weld-fea-system.png" alt="ANSYS weld fatigue model"></div>
+<figure class="hero-img"><img src="../img/projects/weld-suspension.webp" width="1800" height="1188" alt="Underside of the 750 kg box trailer: the leaf spring runs from a fixed hanger on the left to the rear hanger and swinging shackle on the right, both welded to the chassis rail."><figcaption>The trailer's leaf spring suspension. The rear hanger, right, with its swinging shackle, carries the audited weld.</figcaption></figure>
 <div class="inner">
 <div class="tag">EGB316 / Design of Machine Elements</div>
 <h1>Weld Fatigue Design Audit</h1>
@@ -56,7 +101,7 @@
 </div>
 
 <h2>Functional analysis</h2>
-<p>The box trailer uses a conventional single-axle leaf spring system with U-bolts constraining the leaves. The rear shackle connects the spring eye to the hanger bracket via a 65mm rigid link, with a pin-to-weld-centroid distance of 100mm. This 100mm lever arm is the critical force multiplier generating bending moments on the weld group.</p>
+<p>The box trailer uses a conventional single-axle leaf spring system with U-bolts constraining the leaves. The rear shackle connects the spring eye to the hanger bracket via a 70mm rigid link, with a pin-to-weld-centroid distance of 100mm. This 100mm lever arm is the critical force multiplier generating bending moments on the weld group.</p>
 
 <div class="img-block"><img src="../img/projects/weld-drawing-assembly.png" alt="SolidWorks general-arrangement drawing of the 750 kg box trailer leaf spring system with bill of materials"><div class="img-caption">SolidWorks GA drawing: 750 kg box-trailer leaf spring assembly. Item 8 is the 50&times;50&times;3 RHS chassis rail carrying the welded front and rear hanger brackets; item 9 the rear shackle (70 mm)</div></div>
 
@@ -64,50 +109,52 @@
 
 <div class="img-block"><img src="../img/projects/weld-leaf-spring.jpg" alt="Leaf spring hanger system"><div class="img-caption">Rear leaf spring hanger bracket in the physical trailer suspension system</div></div>
 
-<p>The spring compression geometry was also analysed. The leaf spring arc length of 800mm vs chord length of 690mm means full flattening would require 110mm of horizontal displacement. The rear shackle can only accommodate 65mm, so full flattening is geometrically impossible. This confirms that further spring compression progressively stiffens the shackle, making bending moment transfer to the weld group unavoidable. Conservative shackle angles of 15 degrees for the 2g dynamic case and 20 degrees for the 3g pothole were applied to derive horizontal force components for each load case.</p>
+<p>The spring compression geometry was also analysed. The leaf spring arc length of 800mm vs chord length of 690mm means full flattening would require 110mm of horizontal displacement. The rear shackle can only accommodate 70mm, so full flattening is geometrically impossible. This confirms that further spring compression progressively stiffens the shackle, making bending moment transfer to the weld group unavoidable. Conservative shackle angles of 15 degrees for the 2g dynamic case and 20 degrees for the 3g pothole (17 mm and 22 mm of shackle displacement) were applied to derive horizontal force components for each load case.</p>
 
 <h2>Load cases</h2>
-<p>Five loading conditions were defined using F = ma with dynamic load factors consistent with Australian single-axle trailer design practice. The full 750 kg ATM is divided equally across four hanger brackets, giving a static force of 1840 N per bracket.</p>
+<p>Five loading conditions were defined using F = ma with dynamic load factors of 2g for road loading (high-cycle, more than 10<sup>6</sup> cycles) and 3g for a pothole (low-cycle yield check, about 10<sup>3</sup> cycles), following the dynamic and fatigue loading framework of AS 3990 and AS 4100 and standard vehicle-dynamics practice. The full 750 kg ATM is divided equally across four hanger brackets, giving a static force of 1840 N per bracket. The usual 10% tow-ball deduction was deliberately left out as a conservative worst case.</p>
 
-<table class="result-table">
+<div class="table-scroll"><table class="result-table">
 <tr><th>Case</th><th>Event</th><th>Fy (N)</th><th>Fx (N)</th><th>M (Nm)</th><th>Description</th></tr>
 <tr><td class="hi">1</td><td>Static (1g)</td><td>1840</td><td>0</td><td>0</td><td>Trailer at ATM, stationary. Shackle vertical.</td></tr>
 <tr><td class="hi">2</td><td>Dynamic (2g)</td><td>3680</td><td>986</td><td>98.6</td><td>Standard road loading at 15 deg. Primary high-cycle fatigue event.</td></tr>
 <tr><td class="hi">3</td><td>Pothole (3g)</td><td>5520</td><td>2009</td><td>200.9</td><td>Severe impact at 20 deg. Low-cycle yield check.</td></tr>
 <tr><td class="hi">4</td><td>Cornering (0.3g)</td><td>1840</td><td>552 lateral</td><td>55.2</td><td>Lateral cornering; torsional twist on weld group.</td></tr>
 <tr><td class="hi">5</td><td>Braking</td><td class="dim">excluded</td><td class="dim">excluded</td><td class="dim">0</td><td>Rear shackle swings freely; front hanger absorbs 100% of longitudinal forces.</td></tr>
-</table>
+</table></div>
 
 <h2>Weld geometry and assumptions</h2>
 <p>The weld group is a four-face rectangular fillet weld: 100x50mm bracket, 5mm leg length, 4.3mm throat (accounting for the curved weld face rather than using the standard 0.707h), total perimeter 300mm. Weld properties (throat area A, second moment of area I<sub>u</sub>, and polar moment J<sub>u</sub>) were derived from first principles for the rectangular geometry.</p>
 
 <div class="img-block"><img src="../img/projects/weld-drawing-bracket.png" alt="SolidWorks detail drawing of the rear hanger bracket with dimensions"><div class="img-caption">Rear hanger bracket detail (C300, scale 1:1): 100&times;50 mm welded face, &Oslash;16 mm shackle-pin bore at 22.5 / 30 mm, 45 mm tapered base. The pin-to-weld-centroid offset sets the 100 mm fatigue lever arm</div></div>
-<p>Material is Grade C300 structural steel (S<sub>ut</sub> = 430 MPa, S<sub>y</sub> = 300 MPa), selected to represent realistic conservatism for a mass-produced trailer rather than inflating the factor of safety with high-tensile steel. Fatigue stress concentration factor K<sub>f</sub> = 2.7 was applied for end-of-parallel fillet geometry under bending, consistent with AS 4024 weld quality grades. The chassis rail was treated as a perfectly rigid support in hand calculations; this known simplification is quantified in the ANSYS comparison.</p>
+<p>Material is Grade C300 structural steel (S<sub>ut</sub> = 430 MPa, S<sub>y</sub> = 300 MPa), selected to represent realistic conservatism for a mass-produced trailer rather than inflating the factor of safety with high-tensile steel. Fatigue stress concentration factor K<sub>f</sub> = 2.7 was applied as a conservative value for the end of a parallel fillet weld, taken from the approximate fatigue stress concentration factors in <em>Fundamentals of Machine Component Design</em> (Table 11.2). The chassis rail was treated as a perfectly rigid support in hand calculations; this known simplification is quantified in the ANSYS comparison.</p>
 
 <h2>Hand calculation results</h2>
-<p>Von Mises equivalent stress was calculated for all five load cases. The fatigue cycle is defined between the empty parked condition (σ<sub>min</sub> = 2.81 MPa) and the 2g dynamic road loading (σ<sub>max</sub> = 20.74 MPa), representing the primary high-cycle event experienced over the trailer's service life. The modified endurance limit S<sub>n</sub> = 68.64 MPa was established using Marin modification factors for as-welded surface condition, material, and loading type.</p>
+<p>Von Mises equivalent stress was calculated for all five load cases. The fatigue cycle is defined between the empty parked condition at the 260 kg tare mass (σ<sub>min</sub> = 2.81 MPa) and the 2g dynamic road loading (σ<sub>max</sub> = 20.74 MPa), representing the primary high-cycle event experienced over the trailer's service life. The modified endurance limit S<sub>n</sub> = 68.64 MPa was established from S<sub>n</sub>&prime; = 0.5 S<sub>ut</sub> = 215 MPa with combined modification factors of 1 &times; 0.8 &times; 0.53 &times; 1 &times; 0.753 = 0.32, including the as-welded surface condition.</p>
 
 <div class="img-grid">
 <div class="img-block"><img src="../img/projects/weld-calcs-v2-p1.jpg" alt="Hand calculations page 1"><div class="img-caption">Hand calculations: weld geometry, FBDs, and Von Mises stress for all five load cases</div></div>
 <div class="img-block"><img src="../img/projects/weld-calcs-v2-p2.jpg" alt="Hand calculations page 2"><div class="img-caption">Fatigue analysis: Goodman diagram, endurance limit modifiers, and FoS results</div></div>
 </div>
 
-<table class="result-table">
+<div class="table-scroll"><table class="result-table">
 <tr><th>Parameter</th><th>Value</th><th>Note</th></tr>
-<tr><td>Static von Mises (Case 1)</td><td>3.01 MPa</td><td>1g, no bending moment</td></tr>
-<tr><td>Dynamic von Mises (Case 2)</td><td>7.68 MPa</td><td>2g, 15 deg shackle</td></tr>
-<tr><td>Pothole von Mises (Case 3)</td><td>13.26 MPa</td><td>3g, 20 deg shackle</td></tr>
-<tr><td>σ<sub>min</sub> (K<sub>f</sub> applied)</td><td>2.81 MPa</td><td>Empty, parked condition</td></tr>
-<tr><td>σ<sub>max</sub> (K<sub>f</sub> applied, Case 2)</td><td>20.74 MPa</td><td>Primary fatigue cycle maximum</td></tr>
-<tr><td>σ<sub>mean</sub></td><td>11.78 MPa</td><td>Operational 1g to 2g cycle</td></tr>
-<tr><td>σ<sub>alternating</sub></td><td>8.97 MPa</td><td>Operational 1g to 2g cycle</td></tr>
-<tr><td>Modified endurance limit S<sub>n</sub></td><td>68.64 MPa</td><td>As-welded, Marin factors applied</td></tr>
-<tr><td><strong>Goodman FoS (fatigue)</strong></td><td><strong>6.33</strong></td><td><span class="pass">INFINITE LIFE</span></td></tr>
-<tr><td>Yield FoS (static)</td><td>14.46</td><td><span class="pass">PASS</span></td></tr>
-<tr><td>Yield FoS (3g pothole)</td><td>8.38</td><td><span class="pass">PASS</span></td></tr>
-</table>
+<tr><td>Static von Mises (Case 1)</td><td>3.01&nbsp;MPa</td><td>1g, no bending moment</td></tr>
+<tr><td>Dynamic von Mises (Case 2)</td><td>7.68&nbsp;MPa</td><td>2g, 15 deg shackle</td></tr>
+<tr><td>Pothole von Mises (Case 3)</td><td>13.26&nbsp;MPa</td><td>3g, 20 deg shackle</td></tr>
+<tr><td>σ<sub>min</sub> (K<sub>f</sub> applied)</td><td>2.81&nbsp;MPa</td><td>Empty, parked condition</td></tr>
+<tr><td>σ<sub>max</sub> (K<sub>f</sub> applied, Case 2)</td><td>20.74&nbsp;MPa</td><td>Primary fatigue cycle maximum</td></tr>
+<tr><td>σ<sub>mean</sub></td><td>11.78&nbsp;MPa</td><td>Operational 1g to 2g cycle</td></tr>
+<tr><td>σ<sub>alternating</sub></td><td>8.97&nbsp;MPa</td><td>Operational 1g to 2g cycle</td></tr>
+<tr><td>Modified endurance limit S<sub>n</sub></td><td>68.64&nbsp;MPa</td><td>As-welded, Marin factors applied</td></tr>
+<tr><td><strong>Goodman FoS (fatigue)</strong></td><td><strong>6.33</strong></td><td><span class="pass">Infinite life</span></td></tr>
+<tr><td>Yield FoS (static)</td><td>14.46</td><td><span class="pass">Pass</span></td></tr>
+<tr><td>Yield FoS (3g pothole)</td><td>8.38</td><td><span class="pass">Pass</span></td></tr>
+</table></div>
 
-<div class="img-block"><img src="../img/projects/weld-goodman-am.png" alt="Alternating-mean (Goodman) fatigue diagram for the rear leaf spring hanger weld, showing the operating point well inside the Goodman and yield failure lines"><div class="img-caption">Alternating-mean diagram: the operating point (&#963;<sub>m</sub> 11.78, &#963;<sub>a</sub> 8.97 MPa) sits deep inside the Goodman (N = 6.33) and yield (N = 14.46) lines. Infinite life with large margin</div></div>
+<figure class="wd-fig"><div class="sc"><!-- fig:cycle --><svg class="wd" viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stress-time history of the fatigue cycle: von Mises stress with Kf applied oscillates between 2.81 MPa empty and parked and 20.74 MPa under the 2g road load, a mean of 11.78 MPa and an alternating amplitude of 8.97 MPa, for more than a million cycles."><defs></defs><line x1="66.0" y1="190.0" x2="70.0" y2="190.0" class="th"/><text x="62.0" y="193.5" class="s m" text-anchor="end">0</text><line x1="66.0" y1="157.6" x2="70.0" y2="157.6" class="th"/><text x="62.0" y="161.1" class="s m" text-anchor="end">5</text><line x1="70.0" y1="157.6" x2="560.0" y2="157.6" class="gr"/><line x1="66.0" y1="125.2" x2="70.0" y2="125.2" class="th"/><text x="62.0" y="128.7" class="s m" text-anchor="end">10</text><line x1="70.0" y1="125.2" x2="560.0" y2="125.2" class="gr"/><line x1="66.0" y1="92.8" x2="70.0" y2="92.8" class="th"/><text x="62.0" y="96.3" class="s m" text-anchor="end">15</text><line x1="70.0" y1="92.8" x2="560.0" y2="92.8" class="gr"/><line x1="66.0" y1="60.4" x2="70.0" y2="60.4" class="th"/><text x="62.0" y="63.9" class="s m" text-anchor="end">20</text><line x1="70.0" y1="60.4" x2="560.0" y2="60.4" class="gr"/><line x1="66.0" y1="28.0" x2="70.0" y2="28.0" class="th"/><text x="62.0" y="31.5" class="s m" text-anchor="end">25</text><line x1="70.0" y1="28.0" x2="560.0" y2="28.0" class="gr"/><line x1="70.0" y1="28.0" x2="70.0" y2="190.0" class="th"/><line x1="70.0" y1="190.0" x2="560.0" y2="190.0" class="th"/><text x="18.0" y="109.0" class="s m" text-anchor="middle" transform="rotate(-90 18.0 109.0)">σ VM WITH Kf (MPa)</text><text x="315.0" y="212.0" class="s m" text-anchor="middle">TIME, 4 OF >10⁶ ROAD CYCLES</text><path d="M70.0,113.7 L71.2,110.1 L72.5,106.4 L73.7,102.8 L74.9,99.3 L76.1,95.7 L77.3,92.3 L78.6,89.0 L79.8,85.7 L81.0,82.6 L82.2,79.6 L83.5,76.7 L84.7,73.9 L85.9,71.3 L87.2,68.9 L88.4,66.7 L89.6,64.6 L90.8,62.8 L92.0,61.1 L93.3,59.7 L94.5,58.4 L95.7,57.4 L97.0,56.6 L98.2,56.1 L99.4,55.7 L100.6,55.6 L101.8,55.7 L103.1,56.1 L104.3,56.6 L105.5,57.4 L106.8,58.4 L108.0,59.7 L109.2,61.1 L110.4,62.8 L111.7,64.6 L112.9,66.7 L114.1,68.9 L115.3,71.3 L116.5,73.9 L117.8,76.7 L119.0,79.6 L120.2,82.6 L121.5,85.7 L122.7,89.0 L123.9,92.3 L125.1,95.7 L126.3,99.3 L127.6,102.8 L128.8,106.4 L130.0,110.1 L131.2,113.7 L132.5,117.3 L133.7,121.0 L134.9,124.6 L136.2,128.1 L137.4,131.6 L138.6,135.1 L139.8,138.4 L141.1,141.7 L142.3,144.8 L143.5,147.8 L144.7,150.7 L145.9,153.5 L147.2,156.0 L148.4,158.5 L149.6,160.7 L150.8,162.7 L152.1,164.6 L153.3,166.3 L154.5,167.7 L155.8,168.9 L157.0,170.0 L158.2,170.8 L159.4,171.3 L160.7,171.7 L161.9,171.8 L163.1,171.7 L164.3,171.3 L165.6,170.8 L166.8,170.0 L168.0,168.9 L169.2,167.7 L170.4,166.3 L171.7,164.6 L172.9,162.7 L174.1,160.7 L175.3,158.5 L176.6,156.0 L177.8,153.5 L179.0,150.7 L180.2,147.8 L181.5,144.8 L182.7,141.7 L183.9,138.4 L185.2,135.1 L186.4,131.6 L187.6,128.1 L188.8,124.6 L190.1,121.0 L191.3,117.3 L192.5,113.7 L193.7,110.1 L194.9,106.4 L196.2,102.8 L197.4,99.3 L198.6,95.7 L199.8,92.3 L201.1,89.0 L202.3,85.7 L203.5,82.6 L204.8,79.6 L206.0,76.7 L207.2,73.9 L208.4,71.3 L209.7,68.9 L210.9,66.7 L212.1,64.6 L213.3,62.8 L214.6,61.1 L215.8,59.7 L217.0,58.4 L218.2,57.4 L219.4,56.6 L220.7,56.1 L221.9,55.7 L223.1,55.6 L224.3,55.7 L225.6,56.1 L226.8,56.6 L228.0,57.4 L229.2,58.4 L230.5,59.7 L231.7,61.1 L232.9,62.8 L234.2,64.6 L235.4,66.7 L236.6,68.9 L237.8,71.3 L239.1,73.9 L240.3,76.7 L241.5,79.6 L242.7,82.6 L243.9,85.7 L245.2,89.0 L246.4,92.3 L247.6,95.7 L248.8,99.3 L250.1,102.8 L251.3,106.4 L252.5,110.1 L253.8,113.7 L255.0,117.3 L256.2,121.0 L257.4,124.6 L258.6,128.1 L259.9,131.6 L261.1,135.1 L262.3,138.4 L263.6,141.7 L264.8,144.8 L266.0,147.8 L267.2,150.7 L268.4,153.5 L269.7,156.0 L270.9,158.5 L272.1,160.7 L273.4,162.7 L274.6,164.6 L275.8,166.3 L277.0,167.7 L278.2,168.9 L279.5,170.0 L280.7,170.8 L281.9,171.3 L283.1,171.7 L284.4,171.8 L285.6,171.7 L286.8,171.3 L288.1,170.8 L289.3,170.0 L290.5,168.9 L291.7,167.7 L292.9,166.3 L294.2,164.6 L295.4,162.7 L296.6,160.7 L297.9,158.5 L299.1,156.0 L300.3,153.5 L301.5,150.7 L302.8,147.8 L304.0,144.8 L305.2,141.7 L306.4,138.4 L307.6,135.1 L308.9,131.6 L310.1,128.1 L311.3,124.6 L312.6,121.0 L313.8,117.3 L315.0,113.7 L316.2,110.1 L317.4,106.4 L318.7,102.8 L319.9,99.3 L321.1,95.7 L322.4,92.3 L323.6,89.0 L324.8,85.7 L326.0,82.6 L327.2,79.6 L328.5,76.7 L329.7,73.9 L330.9,71.3 L332.1,68.9 L333.4,66.7 L334.6,64.6 L335.8,62.8 L337.1,61.1 L338.3,59.7 L339.5,58.4 L340.7,57.4 L341.9,56.6 L343.2,56.1 L344.4,55.7 L345.6,55.6 L346.9,55.7 L348.1,56.1 L349.3,56.6 L350.5,57.4 L351.8,58.4 L353.0,59.7 L354.2,61.1 L355.4,62.8 L356.6,64.6 L357.9,66.7 L359.1,68.9 L360.3,71.3 L361.6,73.9 L362.8,76.7 L364.0,79.6 L365.2,82.6 L366.4,85.7 L367.7,89.0 L368.9,92.3 L370.1,95.7 L371.4,99.3 L372.6,102.8 L373.8,106.4 L375.0,110.1 L376.2,113.7 L377.5,117.3 L378.7,121.0 L379.9,124.6 L381.1,128.1 L382.4,131.6 L383.6,135.1 L384.8,138.4 L386.1,141.7 L387.3,144.8 L388.5,147.8 L389.7,150.7 L390.9,153.5 L392.2,156.0 L393.4,158.5 L394.6,160.7 L395.9,162.7 L397.1,164.6 L398.3,166.3 L399.5,167.7 L400.8,168.9 L402.0,170.0 L403.2,170.8 L404.4,171.3 L405.6,171.7 L406.9,171.8 L408.1,171.7 L409.3,171.3 L410.6,170.8 L411.8,170.0 L413.0,168.9 L414.2,167.7 L415.4,166.3 L416.7,164.6 L417.9,162.7 L419.1,160.7 L420.4,158.5 L421.6,156.0 L422.8,153.5 L424.0,150.7 L425.2,147.8 L426.5,144.8 L427.7,141.7 L428.9,138.4 L430.1,135.1 L431.4,131.6 L432.6,128.1 L433.8,124.6 L435.1,121.0 L436.3,117.3 L437.5,113.7 L438.7,110.1 L439.9,106.4 L441.2,102.8 L442.4,99.3 L443.6,95.7 L444.9,92.3 L446.1,89.0 L447.3,85.7 L448.5,82.6 L449.8,79.6 L451.0,76.7 L452.2,73.9 L453.4,71.3 L454.6,68.9 L455.9,66.7 L457.1,64.6 L458.3,62.8 L459.6,61.1 L460.8,59.7 L462.0,58.4 L463.2,57.4 L464.4,56.6 L465.7,56.1 L466.9,55.7 L468.1,55.6 L469.4,55.7 L470.6,56.1 L471.8,56.6 L473.0,57.4 L474.2,58.4 L475.5,59.7 L476.7,61.1 L477.9,62.8 L479.1,64.6 L480.4,66.7 L481.6,68.9 L482.8,71.3 L484.1,73.9 L485.3,76.7 L486.5,79.6 L487.7,82.6 L488.9,85.7 L490.2,89.0 L491.4,92.3 L492.6,95.7 L493.9,99.3 L495.1,102.8 L496.3,106.4 L497.5,110.1 L498.8,113.7 L500.0,117.3 L501.2,121.0 L502.4,124.6 L503.6,128.1 L504.9,131.6 L506.1,135.1 L507.3,138.4 L508.6,141.7 L509.8,144.8 L511.0,147.8 L512.2,150.7 L513.5,153.5 L514.7,156.0 L515.9,158.5 L517.1,160.7 L518.4,162.7 L519.6,164.6 L520.8,166.3 L522.0,167.7 L523.2,168.9 L524.5,170.0 L525.7,170.8 L526.9,171.3 L528.1,171.7 L529.4,171.8 L530.6,171.7 L531.8,171.3 L533.0,170.8 L534.3,170.0 L535.5,168.9 L536.7,167.7 L538.0,166.3 L539.2,164.6 L540.4,162.7 L541.6,160.7 L542.9,158.5 L544.1,156.0 L545.3,153.5 L546.5,150.7 L547.8,147.8 L549.0,144.8 L550.2,141.7 L551.4,138.4 L552.6,135.1 L553.9,131.6 L555.1,128.1 L556.3,124.6 L557.5,121.0 L558.8,117.3 L560.0,113.7" class="ln"/><line x1="70.0" y1="55.6" x2="568.0" y2="55.6" class="rd" stroke-width="0.8"/><text x="574.0" y="59.1" class="r b" text-anchor="start">σmax 20.74</text><text x="574.0" y="71.6" class="s m" text-anchor="start">2g ROAD LOAD</text><line x1="70.0" y1="113.7" x2="568.0" y2="113.7" class="hid" stroke-width="0.8"/><text x="574.0" y="117.2" class="b" text-anchor="start">σm 11.78</text><text x="574.0" y="129.7" class="s m" text-anchor="start">MEAN</text><line x1="70.0" y1="171.8" x2="568.0" y2="171.8" class="hid" stroke-width="0.8"/><text x="574.0" y="175.3" class="b" text-anchor="start">σmin 2.81</text><text x="574.0" y="187.8" class="s m" text-anchor="start">EMPTY, PARKED (260 kg TARE)</text><line x1="468.1" y1="84.7" x2="468.1" y2="56.1" class="dm"/><polygon points="468.1,56.1 469.8,61.9 466.5,61.9" fill="var(--ink-2,#3D3D3A)"/><line x1="468.1" y1="84.7" x2="468.1" y2="113.2" class="dm"/><polygon points="468.1,113.2 466.5,107.4 469.8,107.4" fill="var(--ink-2,#3D3D3A)"/><text x="476.1" y="88.7" class="" text-anchor="start">σa 8.97</text></svg><!-- /fig:cycle --></div><figcaption><b>FIG 1</b><span>The fatigue cycle. Stress at the weld, with K<sub>f</sub> = 2.7 applied, swings between the empty parked trailer and the 2g road load for more than a million cycles.</span></figcaption></figure>
+
+<figure class="wd-fig"><div class="sc"><!-- fig:am --><svg class="wd" viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alternating-mean fatigue diagram for C300 steel with the modified Goodman line from Sn 68.64 MPa to Sut 430 MPa and the yield line from 300 to 300 MPa. The operating point at a mean of 11.78 and an alternating stress of 8.97 MPa sits deep in the safe region. A detail view shows the load line from the origin reaching the Goodman line at 6.33 times the operating stress."><defs><pattern id="wa-h" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--faint,#B0AEA5)" stroke-width="0.6"/></pattern></defs><polygon points="64.0,300.0 64.0,245.1 284.2,280.2 304.0,300.0" fill="url(#wa-h)"/><line x1="64.0" y1="300.0" x2="64.0" y2="304.0" class="th"/><text x="64.0" y="315.0" class="s m" text-anchor="middle">0</text><line x1="104.0" y1="300.0" x2="104.0" y2="304.0" class="th"/><text x="104.0" y="315.0" class="s m" text-anchor="middle">50</text><line x1="144.0" y1="300.0" x2="144.0" y2="304.0" class="th"/><text x="144.0" y="315.0" class="s m" text-anchor="middle">100</text><line x1="184.0" y1="300.0" x2="184.0" y2="304.0" class="th"/><text x="184.0" y="315.0" class="s m" text-anchor="middle">150</text><line x1="224.0" y1="300.0" x2="224.0" y2="304.0" class="th"/><text x="224.0" y="315.0" class="s m" text-anchor="middle">200</text><line x1="264.0" y1="300.0" x2="264.0" y2="304.0" class="th"/><text x="264.0" y="315.0" class="s m" text-anchor="middle">250</text><line x1="304.0" y1="300.0" x2="304.0" y2="304.0" class="th"/><text x="304.0" y="315.0" class="s m" text-anchor="middle">300</text><line x1="344.0" y1="300.0" x2="344.0" y2="304.0" class="th"/><text x="344.0" y="315.0" class="s m" text-anchor="middle">350</text><line x1="384.0" y1="300.0" x2="384.0" y2="304.0" class="th"/><text x="384.0" y="315.0" class="s m" text-anchor="middle">400</text><line x1="424.0" y1="300.0" x2="424.0" y2="304.0" class="th"/><text x="424.0" y="315.0" class="s m" text-anchor="middle">450</text><line x1="60.0" y1="300.0" x2="64.0" y2="300.0" class="th"/><text x="56.0" y="303.5" class="s m" text-anchor="end">0</text><line x1="60.0" y1="260.0" x2="64.0" y2="260.0" class="th"/><text x="56.0" y="263.5" class="s m" text-anchor="end">50</text><line x1="60.0" y1="220.0" x2="64.0" y2="220.0" class="th"/><text x="56.0" y="223.5" class="s m" text-anchor="end">100</text><line x1="60.0" y1="180.0" x2="64.0" y2="180.0" class="th"/><text x="56.0" y="183.5" class="s m" text-anchor="end">150</text><line x1="60.0" y1="140.0" x2="64.0" y2="140.0" class="th"/><text x="56.0" y="143.5" class="s m" text-anchor="end">200</text><line x1="60.0" y1="100.0" x2="64.0" y2="100.0" class="th"/><text x="56.0" y="103.5" class="s m" text-anchor="end">250</text><line x1="60.0" y1="60.0" x2="64.0" y2="60.0" class="th"/><text x="56.0" y="63.5" class="s m" text-anchor="end">300</text><line x1="64.0" y1="44.0" x2="64.0" y2="300.0" class="th"/><line x1="64.0" y1="300.0" x2="432.0" y2="300.0" class="th"/><text x="244.0" y="334.0" class="s m" text-anchor="middle">MEAN STRESS σm (MPa)</text><text x="20.0" y="172.0" class="s m" text-anchor="middle" transform="rotate(-90 20.0 172.0)">ALTERNATING σa (MPa)</text><line x1="64.0" y1="245.1" x2="408.0" y2="300.0" class="ln"/><line x1="64.0" y1="60.0" x2="304.0" y2="300.0" class="hid"/><text x="70.0" y="54.0" class="s" text-anchor="start">YIELD, Sy 300</text><text x="408.0" y="292.0" class="s" text-anchor="middle">Sut 430</text><text x="153.6" y="251.4" class="s" text-anchor="start" transform="rotate(-8.9 153.6 251.4)">MODIFIED GOODMAN</text><text x="308.0" y="292.0" class="s" text-anchor="start">Sy</text><text x="160.0" y="285.6" class="s m" text-anchor="start">SAFE REGION</text><circle cx="73.4" cy="292.8" r="3" fill="var(--red,#C2412D)"/><circle cx="100.0" cy="271.2" r="41.6" class="th" stroke-dasharray="4 3"/><text x="134.0" y="239.2" class="l b" text-anchor="start">B</text><rect x="477.5" y="28.6" width="265.5" height="271.4" class="th" fill="none"/><clipPath id="wa-clip"><rect x="478" y="28.6" width="265.5" height="271.4"/></clipPath><g clip-path="url(#wa-clip)"><polygon points="478.0,300.0 478.0,97.5 743.5,139.9 743.5,300.0" fill="url(#wa-h)"/><line x1="478.0" y1="97.5" x2="743.5" y2="139.9" class="ln"/></g><line x1="478.0" y1="300.0" x2="478.0" y2="304.0" class="th"/><text x="478.0" y="315.0" class="s m" text-anchor="middle">0</text><line x1="522.2" y1="300.0" x2="522.2" y2="304.0" class="th"/><text x="522.2" y="315.0" class="s m" text-anchor="middle">15</text><line x1="566.5" y1="300.0" x2="566.5" y2="304.0" class="th"/><text x="566.5" y="315.0" class="s m" text-anchor="middle">30</text><line x1="610.8" y1="300.0" x2="610.8" y2="304.0" class="th"/><text x="610.8" y="315.0" class="s m" text-anchor="middle">45</text><line x1="655.0" y1="300.0" x2="655.0" y2="304.0" class="th"/><text x="655.0" y="315.0" class="s m" text-anchor="middle">60</text><line x1="699.2" y1="300.0" x2="699.2" y2="304.0" class="th"/><text x="699.2" y="315.0" class="s m" text-anchor="middle">75</text><line x1="743.5" y1="300.0" x2="743.5" y2="304.0" class="th"/><text x="743.5" y="315.0" class="s m" text-anchor="middle">90</text><line x1="474.0" y1="300.0" x2="478.0" y2="300.0" class="th"/><text x="470.0" y="303.5" class="s m" text-anchor="end">0</text><line x1="474.0" y1="255.8" x2="478.0" y2="255.8" class="th"/><text x="470.0" y="259.2" class="s m" text-anchor="end">15</text><line x1="474.0" y1="211.5" x2="478.0" y2="211.5" class="th"/><text x="470.0" y="215.0" class="s m" text-anchor="end">30</text><line x1="474.0" y1="167.2" x2="478.0" y2="167.2" class="th"/><text x="470.0" y="170.8" class="s m" text-anchor="end">45</text><line x1="474.0" y1="123.0" x2="478.0" y2="123.0" class="th"/><text x="470.0" y="126.5" class="s m" text-anchor="end">60</text><line x1="474.0" y1="78.8" x2="478.0" y2="78.8" class="th"/><text x="470.0" y="82.2" class="s m" text-anchor="end">75</text><line x1="474.0" y1="34.5" x2="478.0" y2="34.5" class="th"/><text x="470.0" y="38.0" class="s m" text-anchor="end">90</text><text x="478.0" y="18.6" class="l b" text-anchor="start">DETAIL B</text><text x="483.9" y="90.5" class="s" text-anchor="start">Sn 68.64</text><line x1="478.0" y1="300.0" x2="697.8" y2="132.6" class="th" stroke-dasharray="3 3"/><circle cx="512.8" cy="273.5" r="4.2" fill="var(--red,#C2412D)"/><circle cx="697.8" cy="132.6" r="3.6" fill="var(--paper,#FAF9F5)" class="ln"/><text x="483.0" y="294.0" class="b" text-anchor="start">O</text><text x="520.8" y="285.5" class="r b" text-anchor="start">A</text><text x="532.8" y="285.5" class="s r" text-anchor="start">OPERATING 11.78, 8.97</text><text x="691.8" y="124.6" class="b" text-anchor="end">B</text><text x="737.6" y="87.6" class="s" text-anchor="end">ON GOODMAN</text><text x="737.6" y="99.6" class="s m" text-anchor="end">74.5, 56.7</text><text x="489.8" y="158.4" class="" text-anchor="start">N = OB / OA</text><text x="489.8" y="174.4" class="r b" text-anchor="start">  = 6.33</text></svg><!-- /fig:am --></div><figcaption><b>FIG 2</b><span>Alternating-mean diagram for C300. The operating point A sits deep inside the modified Goodman and yield lines. Detail B reads the factor of safety as a length: the load line has to travel 6.33 times as far again before it reaches Goodman.</span></figcaption></figure>
 
 <div class="finding">
 <span class="k">Over-specification finding</span>
@@ -120,60 +167,34 @@
 <h3>Mesh convergence</h3>
 <p>A face sizing was swept across the fixed-radius blend at the critical weld toe while the rest of the model held a 5&nbsp;mm global tetrahedral mesh. Peak von Mises stress stays inside a 41.2 to 42.4&nbsp;MPa band across an order-of-magnitude refinement. The small fluctuation reflects the discrete element edges resolving the concentration rather than a drifting solution. The result is mesh-independent; the final 0.1&nbsp;mm toe mesh resolves roughly 13 elements across the concentration width.</p>
 
-<div class="chart-fig">
-<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mesh convergence plot of peak von Mises stress versus weld-toe element size">
-  <line class="ch-grid" x1="72" y1="203.3" x2="732" y2="203.3"/>
-  <line class="ch-grid" x1="72" y1="118.7" x2="732" y2="118.7"/>
-  <line class="ch-grid" x1="72" y1="34"    x2="732" y2="34"/>
-  <line class="ch-axis" x1="72" y1="34"  x2="72" y2="288"/>
-  <line class="ch-axis" x1="72" y1="288" x2="732" y2="288"/>
-  <text class="ch-lbl" x="64" y="291.5" text-anchor="end">38</text>
-  <text class="ch-lbl" x="64" y="206.8" text-anchor="end">40</text>
-  <text class="ch-lbl" x="64" y="122.2" text-anchor="end">42</text>
-  <text class="ch-lbl" x="64" y="37.5"  text-anchor="end">44</text>
-  <line class="ch-conv" x1="72" y1="139.8" x2="732" y2="139.8"/>
-  <text class="ch-acc" x="728" y="133" text-anchor="end">converged &#8776; 41.5 MPa &#183; 13 elements across toe</text>
-  <polyline class="ch-series" points="118,118.7 260,152.5 402,101.7 544,144.1 686,139.8"/>
-  <circle class="ch-dot" cx="118" cy="118.7" r="4.5"/>
-  <circle class="ch-dot" cx="260" cy="152.5" r="4.5"/>
-  <circle class="ch-dot" cx="402" cy="101.7" r="4.5"/>
-  <circle class="ch-dot" cx="544" cy="144.1" r="4.5"/>
-  <circle class="ch-dot-hl" cx="686" cy="139.8" r="6"/>
-  <text class="ch-lbl" x="118" y="306" text-anchor="middle">1.0</text>
-  <text class="ch-lbl" x="260" y="306" text-anchor="middle">0.5</text>
-  <text class="ch-lbl" x="402" y="306" text-anchor="middle">0.3</text>
-  <text class="ch-lbl" x="544" y="306" text-anchor="middle">0.2</text>
-  <text class="ch-lbl" x="686" y="306" text-anchor="middle">0.1</text>
-  <text class="ch-axtitle" x="402" y="334" text-anchor="middle">Weld-toe element size (mm) &#183; refinement increasing &#8594;</text>
-  <text class="ch-axtitle" x="20" y="161" text-anchor="middle" transform="rotate(-90 20 161)">Peak &#963; (MPa)</text>
-</svg>
-<div class="chart-cap">Mesh convergence at the critical weld toe: peak von Mises stress versus element size (y-axis truncated to 38 to 44 MPa to resolve the converged band)</div>
-</div>
+<figure class="wd-fig"><div class="sc"><!-- fig:mesh --><svg class="wd" viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mesh convergence at the critical weld toe: peak von Mises stress of 42.0, 41.2, 42.4, 41.4 and 41.5 MPa at weld-toe element sizes of 1.0, 0.5, 0.3, 0.2 and 0.1 mm, all inside a band from 41.2 to 42.4 MPa. The final 0.1 mm mesh gives 41.5 MPa with about 13 elements across the toe."><defs><pattern id="wm-h" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--faint,#B0AEA5)" stroke-width="0.6"/></pattern></defs><rect x="76" y="88.9" width="524" height="47.2" fill="url(#wm-h)"/><line x1="76.0" y1="88.9" x2="600.0" y2="88.9" class="dm"/><line x1="76.0" y1="136.1" x2="600.0" y2="136.1" class="dm"/><line x1="72.0" y1="262.0" x2="76.0" y2="262.0" class="th"/><text x="68.0" y="265.5" class="s m" text-anchor="end">38</text><line x1="72.0" y1="222.7" x2="76.0" y2="222.7" class="th"/><text x="68.0" y="226.2" class="s m" text-anchor="end">39</text><line x1="72.0" y1="183.3" x2="76.0" y2="183.3" class="th"/><text x="68.0" y="186.8" class="s m" text-anchor="end">40</text><line x1="72.0" y1="144.0" x2="76.0" y2="144.0" class="th"/><text x="68.0" y="147.5" class="s m" text-anchor="end">41</text><line x1="72.0" y1="104.7" x2="76.0" y2="104.7" class="th"/><text x="68.0" y="108.2" class="s m" text-anchor="end">42</text><line x1="72.0" y1="65.3" x2="76.0" y2="65.3" class="th"/><text x="68.0" y="68.8" class="s m" text-anchor="end">43</text><line x1="72.0" y1="26.0" x2="76.0" y2="26.0" class="th"/><text x="68.0" y="29.5" class="s m" text-anchor="end">44</text><line x1="76.0" y1="26.0" x2="76.0" y2="248.0" class="th"/><path d="M76,248 l-5,4 l10,4 l-5,4 L76,262" class="th"/><line x1="76.0" y1="262.0" x2="600.0" y2="262.0" class="th"/><line x1="126.0" y1="262.0" x2="126.0" y2="266.0" class="th"/><text x="126.0" y="278.0" class="s m" text-anchor="middle">1.0</text><line x1="253.6" y1="262.0" x2="253.6" y2="266.0" class="th"/><text x="253.6" y="278.0" class="s m" text-anchor="middle">0.5</text><line x1="347.7" y1="262.0" x2="347.7" y2="266.0" class="th"/><text x="347.7" y="278.0" class="s m" text-anchor="middle">0.3</text><line x1="422.4" y1="262.0" x2="422.4" y2="266.0" class="th"/><text x="422.4" y="278.0" class="s m" text-anchor="middle">0.2</text><line x1="550.0" y1="262.0" x2="550.0" y2="266.0" class="th"/><text x="550.0" y="278.0" class="s m" text-anchor="middle">0.1</text><text x="338.0" y="298.0" class="s m" text-anchor="middle">WELD-TOE ELEMENT SIZE (mm), LOG SCALE, FINER →</text><text x="18.0" y="144.0" class="s m" text-anchor="middle" transform="rotate(-90 18.0 144.0)">PEAK σ VM (MPa)</text><path d="M126.0,104.7 L253.6,136.1 L347.7,88.9 L422.4,128.3 L550.0,124.3" class="ln"/><rect x="122.0" y="100.7" width="8" height="8" fill="var(--paper,#FAF9F5)" class="ln"/><text x="126.0" y="93.7" class="s" text-anchor="middle">42.0</text><rect x="249.6" y="132.1" width="8" height="8" fill="var(--paper,#FAF9F5)" class="ln"/><text x="253.6" y="155.1" class="s" text-anchor="middle">41.2</text><rect x="343.7" y="84.9" width="8" height="8" fill="var(--paper,#FAF9F5)" class="ln"/><text x="347.7" y="77.9" class="s" text-anchor="middle">42.4</text><rect x="418.4" y="124.3" width="8" height="8" fill="var(--paper,#FAF9F5)" class="ln"/><text x="422.4" y="147.3" class="s" text-anchor="middle">41.4</text><rect x="545.0" y="119.3" width="10" height="10" fill="var(--red,#C2412D)"/><text x="616.0" y="92.9" class="" text-anchor="start">BAND 41.2 TO 42.4</text><text x="616.0" y="105.9" class="s m" text-anchor="start">±1.5% OVER A 10×</text><text x="616.0" y="117.9" class="s m" text-anchor="start">REFINEMENT</text><line x1="558.0" y1="124.3" x2="612.0" y2="164.3" class="rd"/><text x="616.0" y="168.3" class="r b" text-anchor="start">FINAL 0.1 mm</text><text x="616.0" y="182.3" class="r" text-anchor="start">41.5 MPa</text><text x="616.0" y="195.3" class="s r" text-anchor="start">~13 ELEMENTS</text><text x="616.0" y="207.3" class="s r" text-anchor="start">ACROSS THE TOE</text></svg><!-- /fig:mesh --></div><figcaption><b>FIG 3</b><span>Mesh convergence at the critical weld toe. Every refinement lands inside a 1.2 MPa band; the final 0.1 mm mesh gives 41.5 MPa.</span></figcaption></figure>
 
-<table class="result-table">
+<div class="table-scroll"><table class="result-table">
 <tr><th>Weld-toe element size</th><th>Peak &#963;<sub>VM</sub></th><th>Note</th></tr>
-<tr><td>1.0 mm</td><td>42.0 MPa</td><td>Coarse toe mesh.</td></tr>
-<tr><td>0.5 mm</td><td>41.2 MPa</td><td></td></tr>
-<tr><td>0.3 mm</td><td>42.4 MPa</td><td></td></tr>
-<tr><td>0.2 mm</td><td>41.4 MPa</td><td></td></tr>
-<tr><td class="hi">0.1 mm</td><td class="hi">41.5 MPa</td><td class="hi">Final mesh: 13 elements span the concentration width.</td></tr>
-</table>
+<tr><td>1.0 mm</td><td>42.0&nbsp;MPa</td><td>Coarse toe mesh.</td></tr>
+<tr><td>0.5 mm</td><td>41.2&nbsp;MPa</td><td></td></tr>
+<tr><td>0.3 mm</td><td>42.4&nbsp;MPa</td><td></td></tr>
+<tr><td>0.2 mm</td><td>41.4&nbsp;MPa</td><td></td></tr>
+<tr><td class="hi">0.1 mm</td><td class="hi">41.5&nbsp;MPa</td><td class="hi">Final mesh: 13 elements span the concentration width.</td></tr>
+</table></div>
 
 <h3>Parameter sensitivity study</h3>
 <p>Beyond mesh density, a five-stage parametric study isolated each source of stress concentration and took the model from an unphysical singularity to a physically representative result. Stage&nbsp;3 sweeps the weld-toe blend radius; stages&nbsp;4 and&nbsp;5 add the real convex weld profile and the flexible rear wall.</p>
 
-<table class="result-table">
+<figure class="wd-fig"><div class="sc"><!-- fig:path --><svg class="wd" viewBox="0 0 760 368" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parameter study from singularity to physical result: peak von Mises stress of 219 MPa with the corrected force and a sharp toe, then 160, 141, 130, 121 and 115 MPa as the blend radius grows from 0.10 to 0.30 mm, 70 MPa with the convex 4.3 mm throat and 1 mm radius, and 42 MPa with the frictionless rear wall. Reference lines mark the modified endurance limit of 68.64 MPa and the hand-calculation peak of 20.74 MPa."><defs><pattern id="wp-h" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink,#141413)" stroke-width="0.5"/></pattern><pattern id="wp-hr" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="var(--red,#C2412D)" stroke-width="0.8"/></pattern></defs><line x1="66.0" y1="290.0" x2="70.0" y2="290.0" class="th"/><text x="62.0" y="293.5" class="s m" text-anchor="end">0</text><line x1="66.0" y1="245.3" x2="70.0" y2="245.3" class="th"/><text x="62.0" y="248.8" class="s m" text-anchor="end">40</text><line x1="66.0" y1="200.7" x2="70.0" y2="200.7" class="th"/><text x="62.0" y="204.2" class="s m" text-anchor="end">80</text><line x1="66.0" y1="156.0" x2="70.0" y2="156.0" class="th"/><text x="62.0" y="159.5" class="s m" text-anchor="end">120</text><line x1="66.0" y1="111.3" x2="70.0" y2="111.3" class="th"/><text x="62.0" y="114.8" class="s m" text-anchor="end">160</text><line x1="66.0" y1="66.7" x2="70.0" y2="66.7" class="th"/><text x="62.0" y="70.2" class="s m" text-anchor="end">200</text><line x1="66.0" y1="22.0" x2="70.0" y2="22.0" class="th"/><text x="62.0" y="25.5" class="s m" text-anchor="end">240</text><line x1="70.0" y1="22.0" x2="70.0" y2="290.0" class="th"/><line x1="70.0" y1="290.0" x2="600.0" y2="290.0" class="th"/><text x="18.0" y="156.0" class="s m" text-anchor="middle" transform="rotate(-90 18.0 156.0)">PEAK σ VM (MPa)</text><rect x="86.6" y="45.5" width="33.1" height="244.5" class="th" fill="none" stroke-dasharray="4 3"/><text x="103.1" y="39.5" class="b" text-anchor="middle">219</text><text x="103.1" y="305.0" class="s" text-anchor="middle">2</text><rect x="152.8" y="111.3" width="33.1" height="178.7" fill="url(#wp-h)" class="ln"/><text x="169.4" y="105.3" class="b" text-anchor="middle">160</text><text x="169.4" y="305.0" class="s" text-anchor="middle">3a</text><rect x="219.1" y="132.5" width="33.1" height="157.5" fill="url(#wp-h)" class="ln"/><text x="235.6" y="126.5" class="b" text-anchor="middle">141</text><text x="235.6" y="305.0" class="s" text-anchor="middle">3b</text><rect x="285.3" y="144.8" width="33.1" height="145.2" fill="url(#wp-h)" class="ln"/><text x="301.9" y="138.8" class="b" text-anchor="middle">130</text><text x="301.9" y="305.0" class="s" text-anchor="middle">3c</text><rect x="351.6" y="154.9" width="33.1" height="135.1" fill="url(#wp-h)" class="ln"/><text x="368.1" y="148.9" class="b" text-anchor="middle">121</text><text x="368.1" y="305.0" class="s" text-anchor="middle">3d</text><rect x="417.8" y="161.6" width="33.1" height="128.4" fill="url(#wp-h)" class="ln"/><text x="434.4" y="155.6" class="b" text-anchor="middle">115</text><text x="434.4" y="305.0" class="s" text-anchor="middle">3e</text><rect x="484.1" y="211.8" width="33.1" height="78.2" fill="url(#wp-h)" class="ln"/><text x="500.6" y="205.8" class="b" text-anchor="middle">70</text><text x="500.6" y="305.0" class="s" text-anchor="middle">4</text><rect x="550.3" y="243.1" width="33.1" height="46.9" fill="url(#wp-hr)" class="rd"/><text x="566.9" y="237.1" class="b r" text-anchor="middle">42</text><text x="566.9" y="305.0" class="s" text-anchor="middle">5</text><path d="M86.6,313 L86.6,318 L119.7,318 L119.7,313" class="th"/><text x="103.1" y="331.0" class="s m" text-anchor="middle">SHARP TOE</text><path d="M152.8,313 L152.8,318 L450.9,318 L450.9,313" class="th"/><text x="301.9" y="331.0" class="s m" text-anchor="middle">BLEND RADIUS 0.10 → 0.30 mm</text><path d="M484.1,313 L484.1,318 L517.2,318 L517.2,313" class="th"/><text x="500.6" y="331.0" class="s m" text-anchor="middle">CONVEX</text><path d="M550.3,313 L550.3,318 L583.4,318 L583.4,313" class="th"/><text x="566.9" y="331.0" class="s r" text-anchor="middle">WALL</text><text x="103.1" y="344.0" class="s m" text-anchor="middle">UNCONVERGED</text><text x="500.6" y="344.0" class="s m" text-anchor="middle">R 1 mm</text><text x="566.9" y="344.0" class="s r" text-anchor="middle">FIXED</text><line x1="70.0" y1="213.4" x2="608.0" y2="213.4" class="hid" stroke-width="0.8"/><text x="614.0" y="216.9" class="b" text-anchor="start">Sn 68.64</text><text x="614.0" y="229.4" class="s m" text-anchor="start">MODIFIED ENDURANCE LIMIT</text><line x1="70.0" y1="266.8" x2="608.0" y2="266.8" class="hid" stroke-width="0.8"/><text x="614.0" y="270.3" class="b" text-anchor="start">HAND CALC 20.74</text><text x="614.0" y="282.8" class="s m" text-anchor="start">PEAK WITH Kf 2.7</text><text x="500.6" y="357.0" class="s m" text-anchor="middle">−45</text><text x="566.9" y="357.0" class="s r" text-anchor="middle">−28, 40%</text><text x="614.0" y="49.5" class="s m" text-anchor="start">STAGE 1 (AXIAL ONLY,</text><text x="614.0" y="61.5" class="s m" text-anchor="start">27 MPa) OMITTED:</text><text x="614.0" y="73.5" class="s m" text-anchor="start">BENDING MISSING</text></svg><!-- /fig:path --></div><figcaption><b>FIG 4</b><span>From singularity to a physical result. Peak stress falls from an unconverged 219 MPa to 42 MPa as the toe radius, weld profile and wall support become realistic. The free-wall 70 MPa sits right at the modified endurance limit.</span></figcaption></figure>
+
+<div class="table-scroll"><table class="result-table">
 <tr><th>Stage</th><th>Configuration</th><th>Peak &#963;<sub>VM</sub></th><th>Observation</th></tr>
-<tr><td class="hi">1</td><td>Pure compression (axial only)</td><td>27 MPa</td><td>Bending omitted before the force was resolved into its horizontal component.</td></tr>
-<tr><td class="hi">2</td><td>Corrected force (F<sub>y</sub> + F<sub>x</sub> resolved)</td><td>219 MPa</td><td>Geometric singularity at the sharp weld toe; unconverged.</td></tr>
-<tr><td>3a</td><td>Flat fillet, 0.10 mm blend radius</td><td>160 MPa</td><td>Baseline for the blend-radius sensitivity sweep.</td></tr>
-<tr><td>3b</td><td>Flat fillet, 0.15 mm blend radius</td><td>141 MPa</td><td>12% reduction; clear sensitivity to toe sharpness.</td></tr>
-<tr><td>3c</td><td>Flat fillet, 0.20 mm blend radius</td><td>130 MPa</td><td>19% reduction; trend establishing.</td></tr>
-<tr><td>3d</td><td>Flat fillet, 0.25 mm blend radius</td><td>121 MPa</td><td>24% reduction; rate of decrease slowing.</td></tr>
-<tr><td>3e</td><td>Flat fillet, 0.30 mm blend radius</td><td>115 MPa</td><td>28% reduction from baseline.</td></tr>
-<tr><td class="hi">4</td><td>Convex face, 4.3 mm throat, 1 mm blend radius</td><td class="hi">70 MPa</td><td class="hi">Realistic as-welded profile; 56% below the sharp baseline.</td></tr>
-<tr><td class="hi">5</td><td>Frictionless rear-wall support (final model)</td><td class="hi">42 MPa</td><td class="hi">Physically representative; constraining the 3 mm wall removes 28 MPa (40%).</td></tr>
-</table>
+<tr><td class="hi">1</td><td>Pure compression (axial only)</td><td>27&nbsp;MPa</td><td>Bending omitted before the force was resolved into its horizontal component.</td></tr>
+<tr><td class="hi">2</td><td>Corrected force (F<sub>y</sub> + F<sub>x</sub> resolved)</td><td>219&nbsp;MPa</td><td>Geometric singularity at the sharp weld toe; unconverged.</td></tr>
+<tr><td>3a</td><td>Flat fillet, 0.10 mm blend radius</td><td>160&nbsp;MPa</td><td>Baseline for the blend-radius sensitivity sweep.</td></tr>
+<tr><td>3b</td><td>Flat fillet, 0.15 mm blend radius</td><td>141&nbsp;MPa</td><td>12% reduction; clear sensitivity to toe sharpness.</td></tr>
+<tr><td>3c</td><td>Flat fillet, 0.20 mm blend radius</td><td>130&nbsp;MPa</td><td>19% reduction; trend establishing.</td></tr>
+<tr><td>3d</td><td>Flat fillet, 0.25 mm blend radius</td><td>121&nbsp;MPa</td><td>24% reduction; rate of decrease slowing.</td></tr>
+<tr><td>3e</td><td>Flat fillet, 0.30 mm blend radius</td><td>115&nbsp;MPa</td><td>28% reduction from baseline.</td></tr>
+<tr><td class="hi">4</td><td>Convex face, 4.3 mm throat, 1 mm blend radius</td><td class="hi">70&nbsp;MPa</td><td class="hi">Realistic as-welded profile; 56% below the sharp baseline.</td></tr>
+<tr><td class="hi">5</td><td>Frictionless rear-wall support (final model)</td><td class="hi">42&nbsp;MPa</td><td class="hi">Physically representative; constraining the 3 mm wall removes 28 MPa (40%).</td></tr>
+</table></div>
 
 <div class="img-grid">
 <div class="img-block"><img src="../img/projects/weld-fea-iso.png" alt="ANSYS FEA model isometric"><div class="img-caption">ANSYS model: 0.1mm fillet weld mesh, frictionless rear wall support condition</div></div>
@@ -185,14 +206,16 @@
 <h2>Three contributors to the hand calc / FEA discrepancy</h2>
 <p>The hand calculation returns a Goodman FoS of 6.33; ANSYS returns 2.86. Both predict infinite fatigue life. Reading the two methods side by side as an <em>effective stress multiplier</em> on the 7.68&nbsp;MPa nominal stress shows exactly where they diverge, and the 2.2&times; ratio between them is expected and fully explained by the three contributors below.</p>
 
-<table class="result-table">
-<tr><th>Quantity</th><th>Hand calc</th><th>ANSYS &#183; free wall</th><th>ANSYS &#183; constrained wall</th></tr>
-<tr><td>Nominal von Mises (2g dynamic)</td><td>7.68 MPa</td><td class="dim">n/a</td><td class="dim">n/a</td></tr>
-<tr><td>Peak von Mises</td><td>20.74 MPa</td><td>70 MPa</td><td>42 MPa</td></tr>
+<div class="table-scroll"><table class="result-table">
+<tr><th>Quantity</th><th>Hand calc</th><th>ANSYS, free wall</th><th>ANSYS, constrained wall</th></tr>
+<tr><td>Nominal von Mises (2g dynamic)</td><td>7.68&nbsp;MPa</td><td class="dim">n/a</td><td class="dim">n/a</td></tr>
+<tr><td>Peak von Mises</td><td>20.74&nbsp;MPa</td><td>70&nbsp;MPa</td><td>42&nbsp;MPa</td></tr>
 <tr><td>Effective stress multiplier</td><td class="hi">2.7&times; <span class="dim">applied K<sub>f</sub></span></td><td class="hi">9.1&times;</td><td class="hi">5.4&times;</td></tr>
 <tr><td>Goodman fatigue FoS</td><td class="hi">6.33</td><td class="dim">n/a</td><td class="hi">2.86</td></tr>
-<tr><td>Predicted life</td><td><span class="pass">INFINITE</span></td><td class="dim">n/a</td><td><span class="pass">INFINITE</span></td></tr>
-</table>
+<tr><td>Predicted life</td><td><span class="pass">Infinite</span></td><td class="dim">n/a</td><td><span class="pass">Infinite</span></td></tr>
+</table></div>
+
+<figure class="wd-fig"><div class="sc"><!-- fig:mult --><svg class="wd" viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Effective stress multiplier on the 7.68 MPa nominal von Mises stress: hand calculation 20.74 MPa, 2.7 times; ANSYS with the rear wall constrained 42 MPa, 5.4 times; ANSYS with a free wall 70 MPa, 9.1 times. A reference line marks the modified endurance limit of 68.64 MPa."><defs><pattern id="wx-h" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink,#141413)" stroke-width="0.5"/></pattern><pattern id="wx-hr" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="var(--red,#C2412D)" stroke-width="0.8"/></pattern></defs><text x="198.0" y="47.0" class="s" text-anchor="end">NOMINAL σ VM, 2g</text><rect x="210" y="30" width="41.3" height="26" fill="none" class="ln"/><text x="259.3" y="47.0" class="b" text-anchor="start">7.68 MPa</text><text x="318.7" y="47.0" class="m" text-anchor="start">1.0×</text><text x="198.0" y="91.0" class="s" text-anchor="end">HAND CALC, Kf 2.7</text><rect x="210" y="74" width="111.5" height="26" fill="url(#wx-h)" class="ln"/><text x="329.5" y="91.0" class="b" text-anchor="start">20.74 MPa</text><text x="395.5" y="91.0" class="m" text-anchor="start">2.7×</text><text x="198.0" y="135.0" class="s r b" text-anchor="end">ANSYS, WALL CONSTRAINED</text><rect x="210" y="118" width="225.8" height="26" fill="url(#wx-hr)" class="rd"/><text x="443.8" y="135.0" class="b r" text-anchor="start">42 MPa</text><text x="489.9" y="135.0" class="m" text-anchor="start">5.4×</text><text x="198.0" y="179.0" class="s" text-anchor="end">ANSYS, FREE WALL</text><rect x="210" y="162" width="376.2" height="26" fill="none" class="ln" stroke-dasharray="4 3"/><text x="594.2" y="179.0" class="b" text-anchor="start">70 MPa</text><text x="640.5" y="179.0" class="m" text-anchor="start">9.1×</text><line x1="210.0" y1="22.0" x2="210.0" y2="196.0" class="th"/><line x1="210.0" y1="196.0" x2="640.0" y2="196.0" class="th"/><line x1="210.0" y1="196.0" x2="210.0" y2="200.0" class="th"/><text x="210.0" y="211.0" class="s m" text-anchor="middle">0</text><line x1="263.8" y1="196.0" x2="263.8" y2="200.0" class="th"/><text x="263.8" y="211.0" class="s m" text-anchor="middle">10</text><line x1="317.5" y1="196.0" x2="317.5" y2="200.0" class="th"/><text x="317.5" y="211.0" class="s m" text-anchor="middle">20</text><line x1="371.2" y1="196.0" x2="371.2" y2="200.0" class="th"/><text x="371.2" y="211.0" class="s m" text-anchor="middle">30</text><line x1="425.0" y1="196.0" x2="425.0" y2="200.0" class="th"/><text x="425.0" y="211.0" class="s m" text-anchor="middle">40</text><line x1="478.8" y1="196.0" x2="478.8" y2="200.0" class="th"/><text x="478.8" y="211.0" class="s m" text-anchor="middle">50</text><line x1="532.5" y1="196.0" x2="532.5" y2="200.0" class="th"/><text x="532.5" y="211.0" class="s m" text-anchor="middle">60</text><line x1="586.2" y1="196.0" x2="586.2" y2="200.0" class="th"/><text x="586.2" y="211.0" class="s m" text-anchor="middle">70</text><line x1="640.0" y1="196.0" x2="640.0" y2="200.0" class="th"/><text x="640.0" y="211.0" class="s m" text-anchor="middle">80</text><text x="425.0" y="228.0" class="s m" text-anchor="middle">PEAK σ VM AT THE WELD TOE (MPa)</text><line x1="578.9" y1="18.0" x2="578.9" y2="196.0" class="hid" stroke-width="0.8"/><text x="582.9" y="16.0" class="s" text-anchor="start">Sn 68.64</text><text x="648.0" y="91.0" class="s" text-anchor="start"></text></svg><!-- /fig:mult --></div><figcaption><b>FIG 5</b><span>The same 7.68 MPa nominal stress, amplified three ways. The hand calculation applies one uniform K<sub>f</sub>; ANSYS resolves the real toe geometry and wall flexibility.</span></figcaption></figure>
 
 <p>The constrained-wall model (5.4&times;) is the closest numerical analogue to the hand calculation's rigid-support assumption: its 42&nbsp;MPa against the hand calc's 20.74&nbsp;MPa is the like-for-like comparison, while the free-wall 9.1&times; shows how much real geometry and wall flexibility the uniform K<sub>f</sub> = 2.7 cannot capture.</p>
 
@@ -208,21 +231,69 @@
 
 <div class="finding">
 <span class="k">Contributor 3: Non-uniform stress distribution</span>
-<p>The hand calculation distributes stress uniformly across the 300mm weld perimeter. ANSYS consistently shows peak stress at the weld toe corners where geometry transitions occur. This non-uniform distribution is physically realistic and cannot be captured by a Kf multiplier applied to an averaged stress value.</p>
+<p>The hand calculation distributes stress uniformly across the 300mm weld perimeter. ANSYS consistently shows peak stress at the weld toe corners where geometry transitions occur. This non-uniform distribution is physically realistic and cannot be captured by a K<sub>f</sub> multiplier applied to an averaged stress value.</p>
 </div>
+
+<h2>Assumptions and ethics</h2>
+<p>The analysis is theoretical, so each assumption carries a responsibility under the Engineers Australia Code of Ethics. I kept them conservative and stated where the uncertainty sits.</p>
+<dl class="rows">
+<div><dt>Competence</dt><dd>C300 properties are assumed, not tested. If the real steel is weaker, every factor of safety on this page moves with it.</dd></div>
+<div><dt>Public safety</dt><dd>The 2g and 3g load factors are evidence-based estimates, not measurements from this trailer. The trailer runs on public roads, so an underestimate puts other road users at risk, not just the owner.</dd></div>
+<div><dt>Service life</dt><dd>The equal ATM/4 split could be refined with the measured axle position. Corrosion and weld defects reduce the effective throat over time.</dd></div>
+<div><dt>Material use</dt><dd>A weld 2.5 times larger than it needs to be costs extra filler metal and energy on every trailer built. The steel itself is recyclable at end of life.</dd></div>
+</dl>
 
 <h2>Conclusion</h2>
 <p>Both analytical methods converge on the same conclusion: the existing 5mm fillet weld achieves infinite fatigue life with substantial margin. The hand calculation is conservative in fatigue prediction; ANSYS is conservative in stress prediction. The weld has been in service for eight years since manufacture with no visible defects or cracking at the weld toe, which is directly consistent with both methods predicting infinite life.</p>
+<p>If the trailer were being designed from scratch, the free-wall ANSYS result of 70 MPa would be the more trustworthy design stress. It is comparable to the modified endurance limit of 68.64 MPa, so the real K<sub>f</sub> should be confirmed against a measured weld profile before the margin is relied on.</p>
 <p>Recommendations for improved analysis include direct material testing to confirm C300 steel properties, further investigation of leaf spring kinematics to refine load quantification, and physical measurement of the real weld toe radius to validate ANSYS geometric assumptions.</p>
 
 <div class="action-row">
-  <a href="../img/projects/weld-report.pdf" target="_blank" class="dl-btn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
-    Download report (PDF)
-  </a>
-  <a href="../index.html#work" class="back">&larr; Back to projects</a>
+  <a href="../img/projects/weld-report.pdf" target="_blank" class="dl-btn">Download the full report (PDF, 0.7 MB)</a>
+  <a href="../index.html#work" class="back">All projects</a>
 </div>
 
 </div>
+</main>
+<!-- chrome:footer -->
+<footer class="site-foot" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p style="margin:0 0 .4rem;font-size:1.15rem;color:var(--ink)">Kalan Ferguson</p>
+        <p class="muted" style="margin:0;max-width:34ch">Mechanical Engineering (Honours), aerospace minor, QUT. Seeking 2026/27 summer internships in aerospace, defence, energy and advanced manufacturing.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a class="addr" href="mailto:kalanferguson005@gmail.com">kalanferguson005@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/kalan-ferguson-288858326/" rel="noopener">LinkedIn</a></li>
+          <li><a href="../resume.html">Resume</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="../projects/egh404-liquid-cooling.html">Liquid cooling for AI racks</a></li>
+          <li><a href="../projects/weld-fatigue.html">Weld fatigue audit</a></li>
+          <li><a href="../projects/uav-aerostructures.html">Twin-boom UAV</a></li>
+          <li><a href="../index.html#more">All projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Writing</h2>
+        <ul>
+          <li><a href="../ghostbat.html">MQ-28A Ghost Bat</a></li>
+          <li><a href="../writing.html">All writing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine">
+      <span>Academic figures reflect QUT records as of Semester 1, 2026. Writing is personal and does not represent QUT, the QUT Aerospace Society or any company.</span>
+      <span>&copy; 2026 Kalan Ferguson</span>
+    </div>
+  </div>
+</footer>
+<!-- /chrome:footer -->
 </body>
 </html>
